@@ -27,7 +27,7 @@ function digestAuthRequest(method, url, uri, username, password) {
     this.timeout = 10000; // timeout
     this.loggingOn = true; // toggle console logging
 
-    // determine if a post, so that request will send data 
+    // determine if a post, so that request will send data
     this.post = false;
     if (method.toLowerCase() === 'post' || method.toLowerCase() === 'put') {
         this.post = true;
@@ -49,9 +49,9 @@ function digestAuthRequest(method, url, uri, username, password) {
             self.makeUnauthenticatedRequest(self.data);
         } else {
             self.makeAuthenticatedRequest();
-        }       
+        }
     }
-    this.makeUnauthenticatedRequest = function(data) {      
+    this.makeUnauthenticatedRequest = function(data) {
         self.firstRequest = new XMLHttpRequest();
         self.firstRequest.open(method, url, true);
         self.firstRequest.timeout = self.timeout;
@@ -63,7 +63,7 @@ function digestAuthRequest(method, url, uri, username, password) {
         self.firstRequest.onreadystatechange = function() {
 
             // 2: received headers,  3: loading, 4: done
-            if (self.firstRequest.readyState === 2) { 
+            if (self.firstRequest.readyState === 2) {
 
                 var responseHeaders = self.firstRequest.getAllResponseHeaders();
                 responseHeaders = responseHeaders.split('\n');
@@ -75,7 +75,7 @@ function digestAuthRequest(method, url, uri, username, password) {
                         console.log(responseHeaders[i]);
                     }
                 }
-                
+
                 if (digestHeaders != null) {
                     // parse auth header and get digest auth keys
                     digestHeaders = digestHeaders.split(':')[1];
@@ -112,7 +112,7 @@ function digestAuthRequest(method, url, uri, username, password) {
                     self.log('  opaque: '+self.opaque);
                     self.log('  qop: '+self.qop);
                     // now we can make an authenticated request
-                    
+
                     self.makeAuthenticatedRequest();
                 }
             }
@@ -130,6 +130,56 @@ function digestAuthRequest(method, url, uri, username, password) {
                         }
                     } else {
                         self.successFn();
+                    }
+                } else {
+                    var responseHeaders = self.firstRequest.getAllResponseHeaders();
+                    responseHeaders = responseHeaders.split('\n');
+                    // get authenticate header
+                    var digestHeaders;
+                    for(var i = 0; i < responseHeaders.length; i++) {
+                        if (responseHeaders[i].match(/www-authenticate/i) != null) {
+                            digestHeaders = responseHeaders[i];
+                            console.log(responseHeaders[i]);
+                        }
+                    }
+
+                    if (digestHeaders != null) {
+                        // parse auth header and get digest auth keys
+                        digestHeaders = digestHeaders.split(':')[1];
+                        digestHeaders = digestHeaders.split(',');
+                        self.scheme = digestHeaders[0].split(/\s/)[1];
+                        for (var i = 0; i < digestHeaders.length; i++) {
+                            var equalIndex = digestHeaders[i].indexOf('='),
+                                key = digestHeaders[i].substring(0, equalIndex),
+                                val = digestHeaders[i].substring(equalIndex + 1);
+                            // find realm
+                            if (key.match(/realm/i) != null) {
+                                self.realm = val;
+                            }
+                            // find nonce
+                            if (key.match(/nonce/i) != null) {
+                                self.nonce = val;
+                            }
+                            // find opaque
+                            if (key.match(/opaque/i) != null) {
+                                self.opaque = val;
+                            }
+                            // find QOP
+                            if (key.match(/qop/i) != null) {
+                                self.qop = val;
+                            }
+                        }
+                        // client generated keys
+                        self.cnonce = self.generateCnonce();
+                        self.nc++;
+                        // if logging, show headers received:
+                        self.log('received headers:');
+                        self.log('  realm: '+self.realm);
+                        self.log('  nonce: '+self.nonce);
+                        self.log('  opaque: '+self.opaque);
+                        self.log('  qop: '+self.qop);
+                        // now we can make an authenticated request
+                        self.makeAuthenticatedRequest();
                     }
                 }
             }
@@ -176,13 +226,13 @@ function digestAuthRequest(method, url, uri, username, password) {
         if (self.post) {
             self.authenticatedRequest.setRequestHeader('Content-type', 'application/json');
         }
-        self.authenticatedRequest.onload = function() {     
+        self.authenticatedRequest.onload = function() {
             // success
             if (self.authenticatedRequest.status >= 200 && self.authenticatedRequest.status < 400) {
                 // increment nonce count
                 self.nc++;
                 // return data
-                if (self.authenticatedRequest.responseText !== 'undefined') {                   
+                if (self.authenticatedRequest.responseText !== 'undefined') {
                     if (self.authenticatedRequest.responseText.length > 0) {
                         // If JSON, parse and return object
                         if (self.isJson(self.authenticatedRequest.responseText)) {
@@ -202,7 +252,7 @@ function digestAuthRequest(method, url, uri, username, password) {
             }
         }
         // handle errors
-        self.authenticatedRequest.onerror = function() { 
+        self.authenticatedRequest.onerror = function() {
             self.log('Error ('+self.authenticatedRequest.status+') on authenticated request to '+url);
             self.nonce = null;
             self.errorFn(self.authenticatedRequest.status);

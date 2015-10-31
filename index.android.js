@@ -22,26 +22,15 @@ var RNMenu = React.createClass({
     var url = 'http://104.155.205.124/auth/login?posGuid=abc';
     var uri = '/auth/login?posGuid=abc';
 
-    var req = new digestAuthRequest('GET', url, uri, '7737', '7737');
-    var self = this;
+    var req = new digestAuthRequest('POST', url, uri, '7737', '7737');
     // make the request
-    req
-      .request(function(data) {
+    req.request(function(data) {
         console.log('Data retrieved successfully');
-        self.setState({text:data});
-
-      }, function(errorCode) {
-        console.log('no dice: ' + errorCode);
-
-      });
-
-    fetch(url).then((response) => {
-      console.log(response.headers.get('Content-Type'))
-      console.log(response.headers.get('Date'))
-      console.log(response.status)
-      console.log(response.statusText)
-      return response.text();
-    });
+        console.log(data);
+        console.log('Above is the retrieved');
+    },function(errorCode) {
+        console.log('no dice: '+errorCode);
+    }, {});
   },
   render: function() {
     return (
