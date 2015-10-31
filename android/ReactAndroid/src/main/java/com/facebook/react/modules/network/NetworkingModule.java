@@ -180,7 +180,6 @@ public final class NetworkingModule extends ReactContextBaseJavaModule {
             if (mShuttingDown) {
               return;
             }
-            // TODO(5472580) handle headers properly
             String responseBody;
             try {
               responseBody = response.body().string();
@@ -189,7 +188,22 @@ public final class NetworkingModule extends ReactContextBaseJavaModule {
               callback.invoke(0, null, e.getMessage());
               return;
             }
-            callback.invoke(response.code(), null, responseBody);
+
+            WritableMap responseHeaders = Arguments.createMap();
+            Headers headers = response.headers();
+            for (int i = 0; i < headers.size(); i++) {
+              String headerName = headers.name(i);
+              // multiple values for the same header
+              if (responseHeaders.hasKey(headerName)) {
+                responseHeaders.putString(
+                  headerName,
+                  responseHeaders.getString(headerName) + ", " + headers.value(i));
+              } else {
+                responseHeaders.putString(headerName, headers.value(i));
+              }
+            }
+
+            callback.invoke(response.code(), responseHeaders, responseBody);
           }
         });
   }
