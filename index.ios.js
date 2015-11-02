@@ -11,20 +11,39 @@ var {
   Text,
   View,
 } = React;
-
+var digestAuthRequest = require('./digestAuthRequest');
 var RNMenu = React.createClass({
+  getInitialState: function() {
+    return {
+      text: 'start!!'
+    }
+  },
+  componentDidMount: function() {
+    var url = 'http://104.155.205.124/auth/login?posGuid=abc';
+    var uri = '/auth/login?posGuid=abc';
+    var self = this;
+    var req = new digestAuthRequest('GET', url, uri, '7737', '7737');
+    // make the request
+    req.request(function(data) {
+        console.log('Data retrieved successfully');
+        console.log(data);
+        self.setState({text: JSON.stringify(data)});
+        console.log('Above is the retrieved');
+    },function(errorCode) {
+        console.log('no dice: '+errorCode);
+    }, {});
+  },
   render: function() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          {this.state.text}
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+          To get started, edit index.android.js
         </Text>
         <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+          Shake or press menu button for dev menu
         </Text>
       </View>
     );
