@@ -6,11 +6,15 @@ var AuthActions = require('../Actions/AuthActions');
 class EnvStore {
   constructor() {
     this.bindListeners({
-      handleTokenUpdate: AuthActions.tokenUpdated
+      handleTokenUpdate : AuthActions.tokenUpdated,
+      handleLastSyncUpdate : AuthActions.lastSyncUpdated
     });
     this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NDY2MTIzNTI2OTMsInBvc0d1aWQiOiJhYmMifQ.5T_242WhAPekQ9h8Appo0RRUjbyl8fzsCvp1GExJ9Hs"
     this.lastSync = "Sat, 10 Oct 2015 11:04:06 GMT"
     this.socketStatus = "disconnected"
+    this.exportPublicMethods({
+      getAll: this.getAll
+    });
   }
 
   handleTokenUpdate(data) {
@@ -30,6 +34,19 @@ class EnvStore {
     console.log(JSON.stringify(data));
     console.log(this.token);
   }
+
+  handleLastSyncUpdate(lastSync) {
+    console.log("lastSync updated!!!!!");
+    this.lastSync = lastSync;
+  }
+
+  getAll() {
+    return {
+      token: this.getState().token,
+      lastSync: this.getState().lastSync,
+      socketStatus: this.getState().socketStatus
+    }
+  }
 }
 
-module.exports = alt.createStore(EnvStore, 'EnvStore')
+module.exports = alt.createStore(EnvStore, 'EnvStore');

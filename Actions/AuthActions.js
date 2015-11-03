@@ -3,7 +3,8 @@ var alt = require('../alt')
 class AuthActions {
   constructor() {
     this.generateActions(
-      'tokenUpdated'
+      'tokenUpdated',
+      'lastSyncUpdated'
     );
   }
 }

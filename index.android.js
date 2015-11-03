@@ -13,10 +13,12 @@ var {
 } = React;
 
 var SocketService = require('./API/SocketService');
+var requestForGroupsItems = require('./API/GroupsItemsService');
 var requestForToken = require('./API/AuthService');
 var SystemActions = require('./Actions/SystemActions');
 var ConfigStore = require('./Stores/ConfigStore');
 var EnvStore = require('./Stores/EnvStore');
+var GroupsItemsStore = require('./Stores/GroupsItemsStore');
 var RNMenu = React.createClass({
   getInitialState: function() {
     return {
@@ -39,7 +41,7 @@ var RNMenu = React.createClass({
     // },function(errorCode) {
     //     console.log('no dice: '+errorCode);
     // }, {});
-    requestForToken();
+    requestForGroupsItems();
   },
   render: function() {
     return (
