@@ -23,7 +23,7 @@ var RNMenu = React.createClass({
   },
   componentDidMount: function() {
     var self = this;
-    var url = 'http://104.155.205.124/auth/login?posGuid=abc';
+    var url = 'http://104.155asdas.205.124/auth/login?posGuid=abc';
     var uri = '/auth/login?posGuid=abc';
 
     var req = new digestAuthRequest('GET', url, uri, '7737', '7737');
@@ -31,26 +31,26 @@ var RNMenu = React.createClass({
     req.request(function(data) {
         console.log('Data retrieved successfully');
         console.log(data);
-        //self.setState({text: JSON.stringify(data)});
+        self.setState({text: JSON.stringify(data)});
         console.log('Above is the retrieved');
     },function(errorCode) {
         console.log('no dice: '+errorCode);
     }, {});
-
-    var socket = io.connect('http://104.155.205.124', {query: "posGuid=ghi"});
-    socket.on('connect', function(){ console.log("connected!");});
-    socket.on('connect_error', function(data){ console.log("connect error:", JSON.stringify(data));});
-    socket.on('permission', function(data){console.log ("permission event occurred: " + JSON.stringify(data))});
-    socket.on('order', function(data){console.log ("order event occurred: " + JSON.stringify(data))});
-    socket.on('orderitem', function(data){console.log ("orderItem event occurred: " + JSON.stringify(data))});
-    //socket.get('/pos', function(resData, jwres) {console.log("ResData: " + resData);})
-    // var permissionGetReq = '/order?webToken=' + webToken;
-    // socket.emit('post', {"url": permissionGetReq}, function (res) { console.log('response from post: ' + JSON.stringify(res));});
-    socket.on('connection', function(socket) {
-    socket.conn.on('heartbeat', function() {
-      console.log('heartbeat');
-    });
-});
+    //
+    // var socket = io.connect('http://104.155.205.124', {query: "posGuid=ghi"});
+    // socket.on('connect', function(){ console.log("connected!");});
+    // socket.on('connect_error', function(data){ console.log("connect error:", JSON.stringify(data));});
+    // socket.on('permission', function(data){console.log ("permission event occurred: " + JSON.stringify(data))});
+    // socket.on('order', function(data){console.log ("order event occurred: " + JSON.stringify(data))});
+    // socket.on('orderitem', function(data){console.log ("orderItem event occurred: " + JSON.stringify(data))});
+    // //socket.get('/pos', function(resData, jwres) {console.log("ResData: " + resData);})
+    // // var permissionGetReq = '/order?webToken=' + webToken;
+    // // socket.emit('post', {"url": permissionGetReq}, function (res) { console.log('response from post: ' + JSON.stringify(res));});
+    // socket.on('connection', function(socket) {
+    //     socket.conn.on('heartbeat', function() {
+    //       console.log('heartbeat');
+    //     });
+    // });
 
   },
   render: function() {
