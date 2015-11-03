@@ -5,7 +5,7 @@ class ConfigStore {
     // TODO: listen to action
     //this.bindActions(TodoActionCreators)
     this.host = "http://104.155.205.124"
-    this.guid = "abc"
+    this.guid = "ghi"
     this.username ="7737"
     this.password ="7737"
     this.tableId = ""
@@ -16,11 +16,11 @@ class ConfigStore {
 
   getAll() {
     return {
-      host: this.host,
-      guid: this.guid,
-      username: this.username,
-      password: this.password,
-      tableId: this.tableId
+      host: this.getState().host,
+      guid: this.getState().guid,
+      username: this.getState().username,
+      password: this.getState().password,
+      tableId: this.getState().tableId
     }
   }
 }

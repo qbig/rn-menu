@@ -2,7 +2,6 @@ window.navigator.userAgent = 'react-native'
 var io = require('socket.io-client/socket.io');
 
 var ConfigStore = require('../Stores/ConfigStore');
-var EnvStore = require('../Stores/EnvStore');
 var SystemActions = require('../Actions/SystemActions');
 var OrderActions = require('../Actions/OrderActions');
 
@@ -10,14 +9,12 @@ var SocketService = (function() {
   var socket;
   return {
     init: function() {
-      // this.host = "http://104.155.205.124"
-      // this.guid = "abc"
-      // this.username ="7737"
-      // this.password ="7737"
-      // this.tableId = ""
+      //{host, guid, username, password, tableId}
+      //"http://104.155.205.124", "abc", "7737", "7737", ""
 
-      socket = io.connect("http://104.155.205.124", {
-        query: "posGuid=" +  "ghi"
+      var configInfo = ConfigStore.getAll();
+      socket = io.connect(configInfo.host, {
+        query: "posGuid=" +  configInfo.guid
       });
       socket.on('connect', function() {
         SystemActions.socketConnected();
@@ -61,6 +58,7 @@ var SocketService = (function() {
         console.log("order event occurred: " + JSON.stringify(data));
       });
       socket.on('orderitem', function(data) {
+        OrderActions.orderUpdated(data);
         console.log("orderItem event occurred: " + JSON.stringify(data));
       });
 

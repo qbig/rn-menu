@@ -13,6 +13,7 @@ var {
 } = React;
 
 var SocketService = require('./API/SocketService');
+var requestForToken = require('./API/AuthService');
 var SystemActions = require('./Actions/SystemActions');
 var ConfigStore = require('./Stores/ConfigStore');
 var EnvStore = require('./Stores/EnvStore');
@@ -38,7 +39,7 @@ var RNMenu = React.createClass({
     // },function(errorCode) {
     //     console.log('no dice: '+errorCode);
     // }, {});
-    SocketService.init();
+    requestForToken();
   },
   render: function() {
     return (
