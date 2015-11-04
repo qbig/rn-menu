@@ -13,11 +13,20 @@ var {
 } = React;
 
 var SocketService = require('./API/SocketService');
-var requestForGroupsItems = require('./API/GroupsItemsService');
-var requestForToken = require('./API/AuthService');
+var GroupsItemsService = require('./API/GroupsItemsService');
+var AuthService = require('./API/AuthService');
+var TableService = require('./API/TableService');
+var ProdAttributeService = require('./API/ProdAttributeService');
+var OrderService = require('./API/OrderService');
+var ModifierService = require('./API/ModifierService');
+
 var SystemActions = require('./Actions/SystemActions');
 var ConfigStore = require('./Stores/ConfigStore');
 var EnvStore = require('./Stores/EnvStore');
+var ModifierStore = require('./Stores/ModifierStore');
+var OrdersStore = require('./Stores/OrdersStore');
+var ProdAttributeStore = require('./Stores/ProdAttributeStore');
+var TablesStore = require('./Stores/TablesStore');
 var GroupsItemsStore = require('./Stores/GroupsItemsStore');
 var RNMenu = React.createClass({
   getInitialState: function() {
@@ -41,7 +50,13 @@ var RNMenu = React.createClass({
     // },function(errorCode) {
     //     console.log('no dice: '+errorCode);
     // }, {});
-    requestForGroupsItems();
+    // SocketService.init();
+    // GroupsItemsService.requestForGroupsItems();
+    // AuthService.requestForToken();
+    // TableService.requestForTables();
+    // ProdAttributeService.requestForProdAttribute();
+    // OrderService.requestForCurrentOrder();
+    // ModifierService.requestForModifiers();
   },
   render: function() {
     return (

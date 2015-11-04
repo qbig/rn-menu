@@ -2,22 +2,14 @@
 
 import alt from '../alt';
 
-export class ProdAttributeActions {
-  prodAttributeLoaded(data) {
-    this.dispatch(data)
-  }
-
-  prodAttributeCreated(data) {
-    this.dispatch(data)
-  }
-
-  prodAttributeUpdated(data) {
-    this.dispatch(data)
-  }
-
-  prodAttributeUpdated(data) {
-    this.dispatch(data)
+class ProdAttributeActions {
+  constructor() {
+    this.generateActions(
+      'prodAttributeLoaded',
+      'prodAttributeCreated',
+      'prodAttributeUpdated'
+    )
   }
 }
 
-export default alt.createActions(ProdAttributeActions);
+module.exports = alt.createActions(ProdAttributeActions);

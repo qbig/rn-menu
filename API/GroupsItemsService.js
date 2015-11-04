@@ -25,23 +25,27 @@ var authInfo = {
   }
 };
 
-var response;
-function requestForGroupsItems() {
-  response = fetch(configInfo.host + '/provisioning/product/groups', authInfo)
-    .then(function(res) {
-      AuthActions.lastSyncUpdated(res.headers.get("Last-Modified"));
-      console.log(res)
-      GroupsItemsActions.groupsItemsUpdated(res);
-      return res.json();
-    })
-    .then(function(resJson) {
-      console.log("resJson:!!!")
-      //console.log(resJson)
-      GroupsItemsActions.groupsItemsUpdated(resJson);
-      console.log("resJson: done !!!")
-    }).catch(function(e){
-      console.log(e);
-    });
-}
+var GroupsItemsService = (function() {
+  return {
+    requestForGroupsItems : function() {
+      return fetch(configInfo.host + '/provisioning/product/groups', authInfo)
+        .then(function(res) {
+          AuthActions.lastSyncUpdated(res.headers.get("Last-Modified"));
+          console.log(res)
+          GroupsItemsActions.groupsItemsUpdated(res);
+          return res.json();
+        })
+        .then(function(resJson) {
+          console.log("GroupsItemsService: resJson:!!!")
+          //console.log(resJson)
+          GroupsItemsActions.groupsItemsUpdated(resJson);
+          console.log("resJson: done !!!")
+        }).catch(function(e){
+          console.log(e);
+        });
+    }
+  };
+})();
 
-module.exports = requestForGroupsItems;
+
+module.exports = GroupsItemsService;

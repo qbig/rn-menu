@@ -14,7 +14,7 @@ var SocketService = (function() {
 
       var configInfo = ConfigStore.getAll();
       socket = io.connect(configInfo.host, {
-        query: "posGuid=" +  configInfo.guid
+        query: "posGuid=" +  "ghi" //configInfo.guid
       });
       socket.on('connect', function() {
         SystemActions.socketConnected();

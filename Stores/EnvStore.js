@@ -31,12 +31,13 @@ class EnvStore {
     //   is_manager: true
     // }
     this.token = data.webToken;
+    console.log("EnvStore: token updated!!!!!");
     console.log(JSON.stringify(data));
     console.log(this.token);
   }
 
   handleLastSyncUpdate(lastSync) {
-    console.log("lastSync updated!!!!!");
+    console.log("EnvStore: lastSync updated!!!!!");
     this.lastSync = lastSync;
   }
 

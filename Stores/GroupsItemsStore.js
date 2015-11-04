@@ -13,7 +13,8 @@ class GroupsItemsStore {
 
   handleGroupsItems(data) {
     this.groupsItems = data;
-    console.log(handleGroupsItems);
+    console.log('GroupsItemsStore : groupsItems updated !!!')
+    console.log(this.groupsItems);
   }
 }
 
