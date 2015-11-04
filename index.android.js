@@ -56,6 +56,8 @@ var RNMenu = React.createClass({
     // TableService.requestForTables();
     // ProdAttributeService.requestForProdAttribute();
     // OrderService.requestForCurrentOrder();
+    // OrderService.createNewEmptyOrder();
+    OrderService.updateCurrentOrder();
     // ModifierService.requestForModifiers();
   },
   render: function() {

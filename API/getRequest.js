@@ -24,7 +24,14 @@ var authInfo = {
 };
 
 var response;
-function getRequest(uri) {
+function getRequest(uri, method, data) {
+  if (method) {
+    authInfo.method = method;
+  }
+  if (data) {
+    authInfo.body = JSON.stringify(data)
+    console.log(authInfo.body);
+  }
   return fetch(configInfo.host + uri, authInfo)
     .then(function(res) {
       return res.json();

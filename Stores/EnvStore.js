@@ -9,7 +9,7 @@ class EnvStore {
       handleTokenUpdate : AuthActions.tokenUpdated,
       handleLastSyncUpdate : AuthActions.lastSyncUpdated
     });
-    this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NDY2MTIzNTI2OTMsInBvc0d1aWQiOiJhYmMifQ.5T_242WhAPekQ9h8Appo0RRUjbyl8fzsCvp1GExJ9Hs"
+    this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NDY3MDM4MTU2NTEsInBvc0d1aWQiOiJhYmMifQ.Ipot2yiYvWNjHt2YVH2X3BDkfkJ4v_XBQLyDwOGSj7E"
     this.lastSync = "Sat, 10 Oct 2015 11:04:06 GMT"
     this.socketStatus = "disconnected"
     this.exportPublicMethods({
