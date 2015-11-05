@@ -53,7 +53,7 @@ var TopModal = React.createClass({
   },
   render: function() {
     return (
-      <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset}]}]}>
+      <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset }]}]}>
         <View style = {styles.alertView}>
           <View style= {{flex:1,paddingTop:20,justifyContent: 'center',
             alignItems: 'center'}}>
@@ -612,6 +612,7 @@ var App = React.createClass({
               <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" />
               <View style={styles.row1}/>
             </ScrollView>
+
             <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
               <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
                 <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>

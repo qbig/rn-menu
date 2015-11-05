@@ -13,7 +13,9 @@ var {
   Image,
   ListView,
   TouchableHighlight,
-  Navigator
+  Navigator,
+  Animated,
+  Easing
 } = React;
 
 var SocketService = require('../API/SocketService');
@@ -34,27 +36,68 @@ var TablesStore = require('../Stores/TablesStore');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 
 var SplashScreen = require('./SplashScreen');
-
-var hashCode = function(str)
-{
-  var hash = 15;
-  for (var ii = str.length - 1; ii >= 0; ii--) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(ii);
-  }
-  return hash;
-};
+var okayImage = require('image!icn_tick');
+var loadingImage = require('image!icn_sync');
+import Portal from 'react-native/Libraries/Portal/Portal';
 
 var Root = React.createClass({
-  getInitialState: function()
-  {
-    return{
-      navigationBarHidden:false
-    };
+  getInitialState: function() {
+      return {
+        ang: new Animated.Value(0),
+      };
+  },
+  _animate : function () {
+    this.state.ang.setValue(0);
+    Animated.timing(
+      this.state.ang,
+      {
+        toValue: 360,
+        duration: 5000,
+        easing: Easing.linear
+      }
+    ).start(this._animate);
   },
 
-  _pressData: ({}: {[key: number]: boolean}),
+  componentWillMount: function() {
+    const tag = Portal.allocateTag();
+    this._animate();
+    setTimeout( ()=> {
 
-  componentWillMount: function() { this._pressData = {}; },
+      Portal.showModal(tag, this._modalComponent());
+
+    }, 0);
+
+    setTimeout( ()=> {
+
+      Portal.closeModal(tag);
+
+    }, 5000);
+  },
+
+  _modalComponent: function() {
+    return (
+      <View activeOpacity={0.8} style={styles.modal}>
+        <View style={styles.modalsContainer}>
+          <Animated.Image
+            activeOpacity={0.8}
+            source={loadingImage}
+            style={{
+              width:80,
+              height:80,
+              resizeMode: 'contain',
+              backgroundColor: 'transparent',
+              transform: [
+                {rotate: this.state.ang.interpolate({
+                  inputRange: [0, 360],
+                  outputRange: ['0deg', '360deg']
+                  })},
+              ]
+            }} />
+          <Text style={styles.modalText}>  LOADING . . .</Text>
+        </View>
+      </View>);
+  },
+
   componentDidMount : function() {
     // var digestAuthRequest = require('./digestAuthRequest');
     // var self = this;
@@ -81,27 +124,6 @@ var Root = React.createClass({
     // OrderService.updateCurrentOrder();
     // ModifierService.requestForModifiers();
   },
-  _pressRow: function(rowID: number) {
-
-  },
-
-  _renderRow: function(rowData: string, sectionID: number, rowID: number) {
-    var rowHash = Math.abs(hashCode(rowData));
-    var imgSource = {};
-    return (
-      <TouchableHighlight onPress={() => this._pressRow(rowID)}>
-        <View>
-          <View style={styles.row}>
-            <Image style={styles.thumb} source={imgSource} />
-            <Text style={styles.text}>
-              {rowData}
-            </Text>
-          </View>
-          <View style={styles.separator} />
-        </View>
-      </TouchableHighlight>
-    );
-  },
 
   render: function() {
     return (
@@ -121,6 +143,23 @@ var Root = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  modal: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,.8)',
+    borderRadius: 10
+  },
+  modalsContainer: {
+    margin: 10,
+    padding: 10,
+    backgroundColor: 'white',
+    alignItems: 'center',
+  },
+  modalText: {
+    padding: 10,
+    fontSize: 15
+  },
   menubutton: {
     alignItems: 'flex-start'
   },

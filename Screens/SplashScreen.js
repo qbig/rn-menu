@@ -36,7 +36,7 @@ var SplashScreen = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this._onViewPress}>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.3)'} onPress={this._onViewPress}>
           <Image style={styles.cover} source={require('image!trans')} />
         </TouchableHighlight>
       </View>
