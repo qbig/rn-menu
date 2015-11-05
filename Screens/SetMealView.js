@@ -15,7 +15,6 @@ var
   TouchableHighlight,
   ScrollView,
   TextInput,
-  AlertIOS,
   TouchableOpacity,
   Navigator,
   Animated,

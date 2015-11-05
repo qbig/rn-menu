@@ -13,12 +13,9 @@ var {
   Image,
   ListView,
   TouchableHighlight,
-
 } = React;
-import type { NavigationContext } from 'NavigationContext';
 
-var MainVC = require('./MainView');
-var hashCode = function(str)
+var MainView = require('./MainView');
 
 var ds;
 var SplashScreen = React.createClass({
@@ -32,7 +29,7 @@ var SplashScreen = React.createClass({
   _onViewPress: function() {
     this.props.navigator.push({
       title: "",
-      component: MainVC
+      component: MainView
     });
   },
 

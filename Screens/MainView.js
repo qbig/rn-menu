@@ -21,8 +21,8 @@ import type {
 }
 from 'NavigationContext';
 var screen = require('Dimensions').get('window');
-var itemListVC = require('./ItemList');
-var orderListView = require('./OrderList');
+var ItemList = require('./ItemList');
+var OrderList = require('./OrderList');
 
 
 var hashCode = function(str) {
@@ -84,7 +84,7 @@ var MainView = React.createClass({
   _onViewOrderPress: function() {
     this.props.navigator.push({
       title: "",
-      component: orderListView
+      component: OrderList
     });
   },
 
@@ -92,7 +92,7 @@ var MainView = React.createClass({
 
     this.props.navigator.push({
       title: "",
-      component: itemListVC
+      component: ItemList
     });
   },
 
@@ -108,7 +108,7 @@ var MainView = React.createClass({
            <View style={styles.navBar}>
               <Text style={styles.navBarText}> MENU </Text>
            </View>
-           
+
            <View style={styles.separator} />
 
            <View style={styles.container}>
