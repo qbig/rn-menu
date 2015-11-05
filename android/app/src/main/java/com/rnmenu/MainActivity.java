@@ -20,7 +20,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReactRootView = new ReactRootView(this);
-
+        mReactRootView.setBackground(getResources().getDrawable(R.drawable.splashscreen));
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setBundleAssetName("index.android.bundle")
