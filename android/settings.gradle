@@ -1,3 +1,4 @@
 rootProject.name = 'RNMenu'
 
 include ':app', ':ReactAndroid'
+project (':ReactAndroid').projectDir = new File('/Users/qiaoliang89/Documents/react-native/ReactAndroid')

@@ -14,7 +14,7 @@ var {
   ListView,
   TouchableHighlight,
   ScrollView,
-
+  BackAndroid,
 } = React;
 import type {
   NavigationContext
@@ -23,15 +23,15 @@ from 'NavigationContext';
 var screen = require('Dimensions').get('window');
 var ItemList = require('./ItemList');
 var OrderList = require('./OrderList');
-
-
-var hashCode = function(str) {
-  var hash = 15;
-  for (var ii = str.length - 1; ii >= 0; ii--) {
-    hash = ((hash << 5) - hash) + str.charCodeAt(ii);
+var _navigator;
+BackAndroid.addEventListener('hardwareBackPress', function() {
+  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+    _navigator.pop();
+    return true;
   }
-  return hash;
-};
+  return false;
+});
+
 var ds;
 
 var MainView = React.createClass({
@@ -78,7 +78,9 @@ var MainView = React.createClass({
   componentWillMount: function() {
     this._pressData = {};
   },
-
+  componentDidMount: function() {
+    _navigator = this.props.navigator;
+  },
   _onPressButton: function() {},
 
   _onViewOrderPress: function() {
