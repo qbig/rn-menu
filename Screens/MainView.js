@@ -23,6 +23,7 @@ from 'NavigationContext';
 var screen = require('Dimensions').get('window');
 var ItemList = require('./ItemList');
 var OrderList = require('./OrderList');
+var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', function() {
   // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
@@ -33,51 +34,14 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   return false;
 });
 
-var ds;
-
 var MainView = React.createClass({
-  _handleBackButtonPress: function() {
-    this.props.navigator.pop();
-  },
-  _handleNextButtonPress: function() {
-    this.props.navigator.push(nextRoute);
-  },
   getInitialState: function() {
-    ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
     return {
-
-      dataSource: ds.cloneWithRows([{
-        leftItemImage: '',
-        leftItemName: 'PROMOTIONS',
-        rightItemImage: '',
-        rightItemName: 'RICE'
-      }, {
-        leftItemImage: '',
-        leftItemName: 'SET MEALS',
-        rightItemImage: '',
-        rightItemName: 'CONGEE & SOUP'
-      }, {
-        leftItemImage: '',
-        leftItemName: 'MEATS',
-        rightItemImage: '',
-        rightItemName: 'CHEF RECOMMENDATIONS'
-      }, {
-        leftItemImage: '',
-        leftItemName: 'HOR FUN & NOODLES',
-        rightItemImage: '',
-        rightItemName: 'BEVERAGES'
-      }]),
+      groupsItems : GroupsItemsStore.getState().groupsItems
     };
   },
 
-  _pressData: ({}: {
-    [key: number]: boolean
-  }),
-
   componentWillMount: function() {
-    this._pressData = {};
   },
   componentDidMount: function() {
     _navigator = this.props.navigator;
@@ -92,7 +56,6 @@ var MainView = React.createClass({
   },
 
   menuItemClicked: function() {
-
     this.props.navigator.push({
       title: "",
       component: ItemList
@@ -101,6 +64,21 @@ var MainView = React.createClass({
 
   handleScroll: function(event: Object) {},
   render: function() {
+    var items = this.state.groupsItems.map((item)=>{
+      return (
+        <View  style={styles.item}>
+           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
+             <View>
+               <Image style={styles.thumb} source={require('image!one')} >
+                 <Image style={styles.thumb} source={require('image!overlay1')} >
+                 <View style={styles.overlay1}><Text style={styles.footerText}>{item.name}</Text></View>
+                 </Image>
+               </Image>
+             </View>
+           </TouchableHighlight>
+        </View>
+      );
+    })
      return (
        <View style={styles.container}>
            <View style={styles.statusBar}>
@@ -117,107 +95,8 @@ var MainView = React.createClass({
            <View style={styles.container}>
                <ScrollView style={styles.scrollView} scrollEventThrottle={200} onScroll={this.handleScroll}>
                   <View style={styles.itemsContainer}>
-                   <View  style={styles.item}>
-          						<TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
-          							<View>
-          							 	<Image style={styles.thumb} source={require('image!one')} >
-          							 		<Image style={styles.thumb} source={require('image!overlay1')} >
-          							 		<View style={styles.overlay1}><Text style={styles.footerText}>PROMOTIONS</Text></View>
-          							 		</Image>
-
-          							 	</Image>
-          							</View>
-          						</TouchableHighlight>
-                   </View>
-                   <View style={styles.item}>
-          						 <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.menuItemClicked}>
-          						 	<View>
-          									<Image style={styles.thumb} source={require('image!two')}>
-          									<Image style={styles.thumb} source={require('image!overlay1')} >
-          										<View style={styles.overlay1}><Text style={styles.footerText}>RICE</Text></View>
-          									</Image>
-          							 	</Image>
-          							</View>
-          						 </TouchableHighlight>
-                   </View>
-
-
-
-                     <View style={styles.item}>
-                         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
-                             <View>
-        											<Image style={styles.thumb} source={require('image!three')} >
-        											<Image style={styles.thumb} source={require('image!overlay1')} >
-        												<View style={styles.overlay1}><Text style={styles.footerText}>SET MEALS</Text></View>
-        												</Image>
-        											</Image>
-        										</View>
-                         </TouchableHighlight>
-                     </View>
-
-                     <View style={styles.item}>
-                         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}    onPress={this.menuItemClicked}>
-                          <View>
-        									<Image style={styles.thumb} source={require('image!four')} >
-        										<Image style={styles.thumb} source={require('image!overlay1')} >
-        											<View style={styles.overlay1}><Text style={styles.footerText}>CONGEE & SOUP</Text></View>
-        										</Image>
-        									</Image>
-        								</View>
-                         </TouchableHighlight>
-                     </View>
-
-
-
-                   <View style={styles.item}>
-                       <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
-                          <View>
-                          		<Image style={styles.thumb} source={require('image!five')} >
-                          		<Image style={styles.thumb} source={require('image!overlay1')} >
-                          			<View style={styles.overlay1}><Text style={styles.footerText}>MEATS</Text></View>
-                          		</Image>
-                          		</Image>
-                        	</View>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={styles.item}>
-                       <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
-                          <View>
-                      		<Image style={styles.thumb} source={require('image!six')} >
-                      		<Image style={styles.thumb} source={require('image!overlay1')} >
-                      			<View style={styles.overlay1}><Text style={styles.footerText}>CHEF RECOMMENDATIONS</Text></View>
-                      			</Image>
-                      		</Image>
-                    	   </View>
-                       </TouchableHighlight>
-                   </View>
-
-
-
-                      <View style={styles.item}>
-                       <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
-                           <View>
-                        		<Image style={styles.thumb} source={require('image!seven')} >
-                        		<Image style={styles.thumb} source={require('image!overlay1')} >
-                        			<View style={styles.overlay1}><Text style={styles.footerText}>HOR FUN & NOODLES</Text></View>
-                        			</Image>
-                        		</Image>
-                        	</View>
-                        </TouchableHighlight>
-                      </View>
-
-                     <View style={styles.item}>
-                         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
-                            <View>
-                          		<Image style={styles.thumb} source={require('image!four')} >
-                          		<Image style={styles.thumb} source={require('image!overlay1')} >
-                          			<View style={styles.overlay1}><Text style={styles.footerText}>BEVERAGES</Text></View>
-                          		</Image>
-                          		</Image>
-                          	</View>
-                          </TouchableHighlight>
-                      </View>
-                    </View>
+                    {items}
+                  </View>
                </ScrollView>
             </View>
             <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
