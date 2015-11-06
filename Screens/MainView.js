@@ -116,8 +116,8 @@ var MainView = React.createClass({
 
            <View style={styles.container}>
                <ScrollView style={styles.scrollView} scrollEventThrottle={200} onScroll={this.handleScroll}>
-                 <View style={styles.row}>
-                   <View >
+                  <View style={styles.itemsContainer}>
+                   <View  style={styles.item}>
           						<TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
           							<View>
           							 	<Image style={styles.thumb} source={require('image!one')} >
@@ -129,7 +129,7 @@ var MainView = React.createClass({
           							</View>
           						</TouchableHighlight>
                    </View>
-                   <View>
+                   <View style={styles.item}>
           						 <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.menuItemClicked}>
           						 	<View>
           									<Image style={styles.thumb} source={require('image!two')}>
@@ -140,10 +140,10 @@ var MainView = React.createClass({
           							</View>
           						 </TouchableHighlight>
                    </View>
-                 </View>
 
-                 <View style={styles.row}>
-                     <View >
+
+
+                     <View style={styles.item}>
                          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
                              <View>
         											<Image style={styles.thumb} source={require('image!three')} >
@@ -155,7 +155,7 @@ var MainView = React.createClass({
                          </TouchableHighlight>
                      </View>
 
-                     <View>
+                     <View style={styles.item}>
                          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}    onPress={this.menuItemClicked}>
                           <View>
         									<Image style={styles.thumb} source={require('image!four')} >
@@ -166,10 +166,10 @@ var MainView = React.createClass({
         								</View>
                          </TouchableHighlight>
                      </View>
-               </View>
 
-               <View style={styles.row}>
-                   <View >
+
+
+                   <View style={styles.item}>
                        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
                           <View>
                           		<Image style={styles.thumb} source={require('image!five')} >
@@ -180,7 +180,7 @@ var MainView = React.createClass({
                         	</View>
                         </TouchableHighlight>
                     </View>
-                    <View>
+                    <View style={styles.item}>
                        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
                           <View>
                       		<Image style={styles.thumb} source={require('image!six')} >
@@ -191,10 +191,10 @@ var MainView = React.createClass({
                     	   </View>
                        </TouchableHighlight>
                    </View>
-                 </View>
 
-                 <View style={styles.row}>
-                      <View >
+
+
+                      <View style={styles.item}>
                        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
                            <View>
                         		<Image style={styles.thumb} source={require('image!seven')} >
@@ -206,7 +206,7 @@ var MainView = React.createClass({
                         </TouchableHighlight>
                       </View>
 
-                     <View>
+                     <View style={styles.item}>
                          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
                             <View>
                           		<Image style={styles.thumb} source={require('image!four')} >
@@ -217,7 +217,7 @@ var MainView = React.createClass({
                           	</View>
                           </TouchableHighlight>
                       </View>
-                  </View>
+                    </View>
                </ScrollView>
             </View>
             <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
@@ -232,7 +232,7 @@ var MainView = React.createClass({
 var styles = StyleSheet.create({
   scrollView: {
     height: (screen.height * 69) / 100,
-    top: 0
+    top: 0,
   },
   imageContainer: {
     flex: 1,
@@ -299,7 +299,6 @@ var styles = StyleSheet.create({
   thumb: {
     width: screen.width / 2,
     height: screen.height / 4,
-
   },
 
 
@@ -324,6 +323,15 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFAF0',
+
+  },
+  itemsContainer : {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  item: {
+    width: screen.width / 2,
+    height: screen.height / 4,
   },
 
   row: {

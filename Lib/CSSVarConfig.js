@@ -14,6 +14,10 @@ module.exports = {
   gray5:  '#F5F6F6',
 
   blue50: '#23B4D2',
+  ycyred: '#891F02',
+  ycycream: '#FFFAF0',
+  ycycream2: '#F2EDE4',
+  spgreen: '#10E790'
 
   // http://iosfonts.com/
   fontRegular: "HelveticaNeue",
