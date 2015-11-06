@@ -39,14 +39,31 @@ var SplashScreen = require('./SplashScreen');
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 import Portal from 'react-native/Libraries/Portal/Portal';
+var tag = Portal.allocateTag();
 
 var Root = React.createClass({
   getInitialState: function() {
       return {
         ang: new Animated.Value(0),
+        status: "  LOADING . . ."
       };
   },
+
+  showLoading : function () {
+
+    setTimeout(()=> {
+      Portal.showModal(tag, this._modalComponent());
+      this._animate();
+    }, 0);
+  },
+  closeLoading : function() {
+    Portal.closeModal(tag);
+  },
+
   _animate : function () {
+    if (Portal.getOpenModals().length == 0){
+      return;
+    }
     this.state.ang.setValue(0);
     Animated.timing(
       this.state.ang,
@@ -58,20 +75,52 @@ var Root = React.createClass({
     ).start(this._animate);
   },
 
+  delay : function(miliSec) {
+    return new Promise(function(resolve, reject) {
+      setTimeout(resolve, miliSec);
+    });
+  },
+
+  bootStrapData: async function bootStrapData() {
+    try {
+      SocketService.init();
+      await AuthService.requestForToken();
+      await this.delay(1000);
+      await GroupsItemsService.requestForGroupsItems();
+      await this.delay(100);
+      await TableService.requestForTables();
+      await this.delay(100);
+      await ProdAttributeService.requestForProdAttribute();
+      await this.delay(100);
+      await ModifierService.requestForModifiers();
+      await this.delay(100);
+    } catch(err) {
+      console.log("!!!!!!!!!")
+      console.log(err);
+      throw err;
+      console.log("!!!!!!!!!")
+    }
+  },
   componentWillMount: function() {
-    const tag = Portal.allocateTag();
-    this._animate();
-    setTimeout( ()=> {
+    this.showLoading();
+    this.bootStrapData()
+    .then(()=>{
+      this.closeLoading();
+    })
+    .catch((err)=>{
+      console.log(err)
+      this.setState({
+        status: "SHIT..."
+      });
+    }).then(()=>{
+      return this.delay(2000)
+    }).then(()=>{
+      this.closeLoading();
+      this.setState({
+        status: "LOADING..."
+      });
+    });
 
-      Portal.showModal(tag, this._modalComponent());
-
-    }, 0);
-
-    setTimeout( ()=> {
-
-      Portal.closeModal(tag);
-
-    }, 5000);
   },
 
   _modalComponent: function() {
@@ -93,7 +142,7 @@ var Root = React.createClass({
                   })},
               ]
             }} />
-          <Text style={styles.modalText}>  LOADING . . .</Text>
+          <Text style={styles.modalText}>{this.state.status}</Text>
         </View>
       </View>);
   },

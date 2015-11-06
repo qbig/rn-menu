@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+require('regenerator/runtime');
 var {
   AppRegistry
 } = React;
