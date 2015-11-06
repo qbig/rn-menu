@@ -24,6 +24,7 @@ var screen = require('Dimensions').get('window');
 var ItemList = require('./ItemList');
 var OrderList = require('./OrderList');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
+var OrdersStore = require('../Stores/OrdersStore');
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', function() {
   // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
@@ -61,8 +62,19 @@ var MainView = React.createClass({
       component: ItemList
     });
   },
-
-  handleScroll: function(event: Object) {},
+  _renderViewOrderButton : function () {
+    var count = OrdersStore.getOrderCount();
+    var sum = OrdersStore.getOrderSum();
+    if (count > 0) {
+      return (
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
+           <View style={styles.footer}>
+                <Text style={styles.footerText}> VIEW ORDER - {count} ITEM (${sum}) </Text>
+           </View>
+         </TouchableHighlight>
+      );
+    }
+  },
   render: function() {
     var items = this.state.groupsItems.map((item)=>{
       return (
@@ -99,11 +111,7 @@ var MainView = React.createClass({
                   </View>
                </ScrollView>
             </View>
-            <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
-               <View style={styles.footer}>
-                   	<Text style={styles.footerText}> VIEW ORDER - 1 ITEM ($7.80) </Text>
-               </View>
-             </TouchableHighlight>
+            {this._renderViewOrderButton()}
         </View>);
     },
 });
