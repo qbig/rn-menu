@@ -25,6 +25,7 @@ var ItemList = require('./ItemList');
 var OrderList = require('./OrderList');
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', function() {
+  // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
   if (_navigator && _navigator.getCurrentRoutes().length > 1) {
     _navigator.pop();
     return true;

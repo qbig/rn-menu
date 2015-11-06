@@ -2,19 +2,23 @@
 // Network Status (socketed connected?)
 var alt = require('../alt')
 var AuthActions = require('../Actions/AuthActions');
-
+var SystemActions = require('../Actions/SystemActions');
 class EnvStore {
   constructor() {
     this.bindListeners({
       handleTokenUpdate : AuthActions.tokenUpdated,
-      handleLastSyncUpdate : AuthActions.lastSyncUpdated
+      handleLastSyncUpdate : AuthActions.lastSyncUpdated,
+      handleSocketUpdate : SystemActions.socketConnected,
+      handleLoadingStart : SystemActions.loadingStart,
+      handleLoadingFinish : SystemActions.loadingFinish
     });
-    this.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NDY3MDM4MTU2NTEsInBvc0d1aWQiOiJhYmMifQ.Ipot2yiYvWNjHt2YVH2X3BDkfkJ4v_XBQLyDwOGSj7E"
-    this.lastSync = "Sat, 10 Oct 2015 11:04:06 GMT"
+    this.token = ""
+    this.lastSync = ""
     this.socketStatus = "disconnected"
     this.exportPublicMethods({
       getAll: this.getAll
     });
+    this.isLoading = false;
   }
 
   handleTokenUpdate(data) {
@@ -39,6 +43,24 @@ class EnvStore {
   handleLastSyncUpdate(lastSync) {
     console.log("EnvStore: lastSync updated!!!!!");
     this.lastSync = lastSync;
+  }
+
+  handleSocketUpdate(socket) {
+    if (socket.connected) {
+      this.socketStatus = "connected";
+    } else {
+      this.socketStatus = "disconnected";
+    }
+  }
+
+  handleLoadingStart() {
+    console.log("EnvStore isLoading")
+    this.isLoading = true;
+  }
+
+  handleLoadingFinish() {
+    console.log("EnvStore loadingFinished")
+    this.isLoading = false;
   }
 
   getAll() {

@@ -9,7 +9,9 @@ class SystemActions {
       'masterOffline',
       'masterOnline',
       'storeOpened',
-      'storeClosed'
+      'storeClosed',
+      'loadingStart',
+      'loadingFinish'
     );
   }
 }

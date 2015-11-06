@@ -6,7 +6,7 @@ var ITEM_URI = '/item';
 var OrderService = (function() {
   return {
     requestForCurrentOrder : function() {
-      getRequest(ORDER_URI + OrdersStore.getState().details.uuid)
+      return getRequest(ORDER_URI + OrdersStore.getState().details.uuid)
         .then(function(resJson) {
           OrderActions.orderUpdated(resJson);
           console.log("OrderService: requestForCurrentOrder done !!!")
@@ -16,7 +16,7 @@ var OrderService = (function() {
     },
 
     createNewEmptyOrder : ()=>{
-      getRequest(ORDER_URI, 'POST', {"pax":1, "type": "eat-in"})
+      return getRequest(ORDER_URI, 'POST', {"pax":1, "type": "eat-in"})
         .then(function(resJson) {
           OrderActions.orderCreated(resJson);
           console.log("OrderService: createNewOrder done !!!")
@@ -64,7 +64,7 @@ var OrderService = (function() {
                      }
                    ]
         }];
-      getRequest(ORDER_URI + '151022YCY0000006' + ITEM_URI, 'POST', orderInfo)
+      return getRequest(ORDER_URI + '151022YCY0000006' + ITEM_URI, 'POST', orderInfo)
         .then(function(resJson) {
           OrderActions.orderCreated(resJson);
           console.log("OrderService: createNewOrder done !!!")

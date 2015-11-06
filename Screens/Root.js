@@ -85,7 +85,7 @@ var Root = React.createClass({
     try {
       SocketService.init();
       await AuthService.requestForToken();
-      await this.delay(1000);
+      await this.delay(100);
       await GroupsItemsService.requestForGroupsItems();
       await this.delay(100);
       await TableService.requestForTables();
@@ -102,25 +102,27 @@ var Root = React.createClass({
     }
   },
   componentWillMount: function() {
-    this.showLoading();
-    this.bootStrapData()
-    .then(()=>{
-      this.closeLoading();
-    })
-    .catch((err)=>{
-      console.log(err)
-      this.setState({
-        status: "SHIT..."
+    if (EnvStore.getState().webToken == "" || EnvStore.getState().lastSync == ""){
+      this.showLoading();
+      this.bootStrapData()
+      .then(()=>{
+        this.closeLoading();
+        EnvStore.listen(this.updateLoading);
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.setState({
+          status: "SHIT..."
+        });
+      }).then(()=>{
+        return this.delay(2000)
+      }).then(()=>{
+        this.closeLoading();
+        this.setState({
+          status: "LOADING..."
+        });
       });
-    }).then(()=>{
-      return this.delay(2000)
-    }).then(()=>{
-      this.closeLoading();
-      this.setState({
-        status: "LOADING..."
-      });
-    });
-
+    }
   },
 
   _modalComponent: function() {
@@ -145,6 +147,14 @@ var Root = React.createClass({
           <Text style={styles.modalText}>{this.state.status}</Text>
         </View>
       </View>);
+  },
+
+  updateLoading: function () {
+    if (EnvStore.getState().isLoading) {
+      this.showLoading();
+    } else {
+      this.closeLoading();
+    }
   },
 
   componentDidMount : function() {
@@ -176,17 +186,17 @@ var Root = React.createClass({
 
   render: function() {
     return (
-      <Navigator
-        initialRoute={{name: '', component: SplashScreen}}
-        configureScene={() => {
-          return Navigator.SceneConfigs.FloatFromRight;
-        }}
-        renderScene={(route, navigator) => {
-          if (route.component) {
-            return React.createElement(route.component, { navigator });
-          }
-        }}
-        />
+        <Navigator
+          initialRoute={{name: '', component: SplashScreen}}
+          configureScene={() => {
+            return Navigator.SceneConfigs.FloatFromRight;
+          }}
+          renderScene={(route, navigator) => {
+            if (route.component) {
+              return React.createElement(route.component, { navigator });
+            }
+          }}
+          />
     );
   },
 });
@@ -197,13 +207,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,.8)',
-    borderRadius: 10
   },
   modalsContainer: {
     margin: 10,
     padding: 10,
     backgroundColor: 'white',
     alignItems: 'center',
+    borderRadius: 10
   },
   modalText: {
     padding: 10,

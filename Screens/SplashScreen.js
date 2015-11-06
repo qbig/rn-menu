@@ -16,21 +16,19 @@ var {
 } = React;
 
 var MainView = require('./MainView');
-
-var ds;
+var OrderService = require('../API/OrderService');
+var SystemActions = require('../Actions/SystemActions');
 var SplashScreen = React.createClass({
-
-  _handleBackButtonPress: function() {
-    this.props.navigator.pop();
-  },
-  _handleNextButtonPress: function() {
-    this.props.navigator.push(nextRoute);
-  },
   _onViewPress: function() {
-    this.props.navigator.push({
-      title: "",
-      component: MainView
-    });
+    SystemActions.loadingStart();
+    OrderService.createNewEmptyOrder()
+    .then(()=>{
+      SystemActions.loadingFinish();
+      this.props.navigator.push({
+        title: "",
+        component: MainView
+      });
+    })
   },
 
   render: function() {

@@ -17,7 +17,7 @@ var SocketService = (function() {
         query: "posGuid=" +  "ghi" //configInfo.guid
       });
       socket.on('connect', function() {
-        SystemActions.socketConnected();
+        SystemActions.socketConnected(socket);
         console.log("connected!");
       });
       socket.on('disconnect', function(data) {
