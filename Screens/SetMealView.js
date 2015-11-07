@@ -25,6 +25,12 @@ var orderListView = require('./OrderList');
 var screen = require('Dimensions').get('window');
 var ds;
 
+var TITLE_LENGTH = 20;
+function trimString(str, length) {
+  return str.length > length ?
+                      str.substring(0, length - 3) + "..." :
+                      str.substring(0, length);
+}
 
 var {
   height: deviceHeight
@@ -304,7 +310,7 @@ var SetMealView = React.createClass({
             </TouchableHighlight>
           </View>
           <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
-            <Text style={styles.navBarText}> {this.props.data.name} </Text>
+            <Text style={styles.navBarText}> {trimString(this.props.data.name,TITLE_LENGTH)} </Text>
           </View>
           <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'flex-start',}}>
 

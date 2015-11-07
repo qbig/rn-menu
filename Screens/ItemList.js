@@ -18,6 +18,13 @@ var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
 var screen = require('Dimensions').get('window');
+var TITLE_LENGTH = 20;
+
+function trimString(str, length) {
+  return str.length > length ?
+                      str.substring(0, length - 3) + "..." :
+                      str.substring(0, length);
+}
 
 var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
 var ItemList = React.createClass({
@@ -43,7 +50,7 @@ var ItemList = React.createClass({
   _pressRow: function(rowData) {
     this.props.navigator.push({
       component: SetMealView,
-      from: this.props.data.name,
+      from: trimString(this.props.data.name, TITLE_LENGTH),
       data: rowData
     });
 
@@ -148,7 +155,7 @@ var ItemList = React.createClass({
               justifyContent: 'center',
               alignItems: 'center',
             }} >
-            <Text style = {styles.navBarText} > {this.props.data.name} </Text>
+            <Text style = {styles.navBarText} > {trimString(this.props.data.name, TITLE_LENGTH)} </Text>
           </View>
           <View style = {
             {
