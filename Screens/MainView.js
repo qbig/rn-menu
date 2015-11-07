@@ -56,10 +56,12 @@ var MainView = React.createClass({
     });
   },
 
-  menuItemClicked: function() {
+  menuItemClicked: function(group) {
+    console.log(group)
     this.props.navigator.push({
       title: "",
-      component: ItemList
+      component: ItemList,
+      group: group
     });
   },
   _renderViewOrderButton : function () {
@@ -76,14 +78,14 @@ var MainView = React.createClass({
     }
   },
   render: function() {
-    var items = this.state.groupsItems.map((item)=>{
+    var groups = this.state.groupsItems.map((group)=>{
       return (
         <View  style={styles.item}>
            <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
              <View>
                <Image style={styles.thumb} source={require('image!one')} >
                  <Image style={styles.thumb} source={require('image!overlay1')} >
-                 <View style={styles.overlay1}><Text style={styles.footerText}>{item.name}</Text></View>
+                 <View style={styles.overlay1}><Text style={styles.footerText}>{group.name}</Text></View>
                  </Image>
                </Image>
              </View>
@@ -107,7 +109,7 @@ var MainView = React.createClass({
            <View style={styles.container}>
                <ScrollView style={styles.scrollView} scrollEventThrottle={200} onScroll={this.handleScroll}>
                   <View style={styles.itemsContainer}>
-                    {items}
+                    {groups}
                   </View>
                </ScrollView>
             </View>
