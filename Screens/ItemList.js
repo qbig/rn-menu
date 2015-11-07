@@ -14,15 +14,15 @@ var {
   TouchableHighlight,
   ListView,
 } = React;
-var setMealView = require('./SetMealView');
-var orderListView = require('./OrderList');
+var SetMealView = require('./SetMealView');
+var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
 var screen = require('Dimensions').get('window');
-var ds;
+
 var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
 var ItemList = React.createClass({
   getInitialState: function() {
-    ds = new ListView.DataSource({
+    var ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     return {
@@ -40,18 +40,20 @@ var ItemList = React.createClass({
   _onBackToMainView: function() {
     this.props.navigator.pop();
   },
-  _pressRow: function(rowID: number) {
+  _pressRow: function(rowData) {
     this.props.navigator.push({
-      title: "",
-      component: setMealView
+      component: SetMealView,
+      from: this.props.data.name,
+      data: rowData
     });
 
   },
 
   _onViewOrderPress: function() {
     this.props.navigator.push({
-      title: "",
-      component: orderListView
+      component: OrderList,
+      from: this.props.data.name,
+      data:''
     });
   },
 
@@ -73,7 +75,7 @@ var ItemList = React.createClass({
     return (
       <TouchableHighlight activeOpacity = {0.8}
         underlayColor = {'rgba(255,255,255,0.1)'}
-        onPress = {() => this._pressRow(rowID)}>
+        onPress = {() => this._pressRow(rowData)}>
         <View style = {styles.column} >
           <View style = {styles.row}>
             <View>
@@ -368,7 +370,6 @@ var styles = StyleSheet.create({
 
   },
   footerText: {
-
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 23,
     alignItems: 'center',

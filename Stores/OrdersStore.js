@@ -14,6 +14,7 @@ class OrdersStore {
     });
     this.orders = [];
     this.details = '';
+    this.currentItem = '';
     this.exportPublicMethods({
       getOrderCount: this.getOrderCount,
       getOrderSum: this.getOrderSum
