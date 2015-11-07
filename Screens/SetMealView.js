@@ -201,25 +201,67 @@ var SetMealView = React.createClass({
     this.props.navigator.pop();
   },
 
-
   renderScene: function(route, navigator) {
     var Component = route.component;
 
     return (<Component openModal={() => this.setState({modal: true})}/>)
   },
 
-
-  render: function() {
-    var modalBackgroundStyle = {
-      backgroundColor: this.state.transparent ? 'rgba(0, 0, 0, 0.5)' : '#f5fcff',
-    };
-
+  _renderModal: function() {
     var okBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
     var cancelBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes, discard</Text>: null;
-    var textMessage = this.state.isBackPressed ? this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to back? The item will not be saved to your order.</Text>  : null : this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>  : null;
-    var innerContainerTransparentStyle = this.state.transparent
-    ? {backgroundColor: '#fff', padding: 20}
-    : null;
+    var textMessage = this.state.isBackPressed ?
+      this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to back? The item will not be saved to your order.</Text>  : null
+      :
+      this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>  : null;
+      return (
+        <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
+          <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
+            <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
+              {textMessage}
+            </View>
+            <View  style={this.state.isAlertVisibale ? styles.alertSecondRowVisible : styles.alertSecondRowInVisible}>
+              <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
+                <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.closeAlertView}>
+                  <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
+                    {okBtn}
+                  </View>
+                </TouchableHighlight>
+              </View>
+              <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
+                <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertDiscardPressed}>
+                  <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
+                    {cancelBtn}
+                  </View>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
+        </View>
+      );
+  },
+
+  _renderActionButton: function() {
+    if (this.state.isEditMode) {
+      return (
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.openAlertView}>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}> CHANGE ORDER ITEM </Text>
+          </View>
+        </TouchableHighlight>
+      );
+    } else {
+      return (
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onViewOrderPress}>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>ADD TO ORDER</Text>
+          </View>
+        </TouchableHighlight>
+      );
+    }
+  },
+
+  render: function() {
     return (
 
       <View style={styles.container}>
@@ -541,49 +583,13 @@ var SetMealView = React.createClass({
             <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" />
             <View style={styles.row1}/>
           </ScrollView>
-
-          <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
-            <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
-              <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
-                {textMessage}
-              </View>
-              <View  style={this.state.isAlertVisibale ? styles.alertSecondRowVisible : styles.alertSecondRowInVisible}>
-                <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
-                  <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.closeAlertView}>
-                    <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
-                      {okBtn}
-                    </View>
-                  </TouchableHighlight>
-                </View>
-                <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
-                  <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertDiscardPressed}>
-                    <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
-                      {cancelBtn}
-                    </View>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </View>
+          {this._renderModal()}
         </View>
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onViewOrderPress}>
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>ADD TO ORDER</Text>
-          </View>
-        </TouchableHighlight>
-        <View style={styles.separator} />
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.openAlertView}>
-          <View style={styles.footer}>
-            <Text style={styles.footerText}> CHANGE ORDER ITEM </Text>
-          </View>
-        </TouchableHighlight>
+        {this._renderActionButton()}
       </View>
     );
   }
 });
-
-
-
 
 var styles = StyleSheet.create({
   containerForAlert: {
@@ -884,6 +890,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'#DCDCDC',
   },
+
   column3:{
     flex:1,
     height:30,
@@ -891,6 +898,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column4:{
     flex:1,
     height:30,
@@ -898,6 +906,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column5:{
     flex:1.8,
     height:30,
@@ -905,6 +914,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column6:{
     flex:2.2,
     height:30,
@@ -912,7 +922,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
 
   row: {
     flex:1,
@@ -934,7 +943,6 @@ var styles = StyleSheet.create({
     flex:1,
     height:30,
     flexDirection: 'row',
-
   },
 
   itemSepView: {
@@ -944,8 +952,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingRight: 0,
-
   },
+
   row2: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -957,7 +965,6 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-
   },
 
   text: {
@@ -981,24 +988,18 @@ var styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center'
-
   },
   footerText: {
-
-
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize:23,
     alignItems: 'center',
     color: 'white',
     textAlign :'center',
-
   },
   flexCenter: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
-
   },
   modal: {
     flex: 1,
@@ -1015,7 +1016,6 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-
     backgroundColor:'white',
   },
   overlayVisible: {
@@ -1029,7 +1029,6 @@ var styles = StyleSheet.create({
     bottom:0,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   overlayInVisible: {
     position: 'absolute',
@@ -1059,14 +1058,12 @@ var styles = StyleSheet.create({
     height:100,
     flexDirection: 'row',
     alignSelf:'center',
-
     borderRadius:10,
     width:250,
     justifyContent: 'center',
     alignItems: 'center',
   },
   alertRowInVisible: {
-
     width:0,
     height:0,
   },
@@ -1074,14 +1071,12 @@ var styles = StyleSheet.create({
     height:50,
     flexDirection: 'row',
     alignSelf:'center',
-
     borderRadius:10,
     width:250,
     justifyContent: 'center',
     alignItems: 'center',
   },
   alertSecondRowInVisible: {
-
     width:0,
     height:0,
   },
@@ -1095,7 +1090,6 @@ var styles = StyleSheet.create({
     borderRadius:10,
   },
   alertCollInVisible: {
-
     width:0,
     height:0,
   },
@@ -1106,7 +1100,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     width:125,
     borderRadius:10,
-
   },
   alertBtnInVisible: {
     backgroundColor:'white',
@@ -1114,18 +1107,15 @@ var styles = StyleSheet.create({
     height:0,
   },
   alertTextVisible: {
-
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize:14,
     color: '#891F02',
     width:200,
     textAlign:'center',
-
   },
   alertTextInVisible: {
     width:0,
     height:0,
-
   },
 });
 
