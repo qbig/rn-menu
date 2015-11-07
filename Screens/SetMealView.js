@@ -23,119 +23,48 @@ var
 } = React;
 var orderListView = require('./OrderList');
 var screen = require('Dimensions').get('window');
-var ds;
 
 var TITLE_LENGTH = 20;
 function trimString(str, length) {
   return str.length > length ?
-                      str.substring(0, length - 3) + "..." :
-                      str.substring(0, length);
+  str.substring(0, length - 3) + "..." :
+  str.substring(0, length);
 }
 
 var {
   height: deviceHeight
 } = Dimensions.get('window');
-var TopModal = React.createClass({
-  getInitialState: function() {
-    return { offset: new Animated.Value(deviceHeight) }
-  },
-  componentDidMount: function() {
-    Animated.timing(this.state.offset, {
-      duration: 0,
-      toValue: 0
-    }).start();
-  },
-  closeModal: function() {
-    Animated.timing(this.state.offset, {
-      duration: 0,
-      toValue: deviceHeight
-    }).start(this.props.closeModal);
-  },
-  okEvent: function() {
-    Animated.timing(this.state.offset, {
-      duration: 0,
-      toValue: deviceHeight
-    }).start(this.props.closeModal);
-  },
-  render: function() {
-    return (
-      <Animated.View style={[styles.modal, styles.flexCenter, {transform: [{translateY: this.state.offset }]}]}>
-        <View style = {styles.alertView}>
-          <View style= {{flex:1,paddingTop:20,justifyContent: 'center',
-            alignItems: 'center'}}>
-            <Text style={{color:'#000',fontSize:20,paddingTop:5, fontFamily: 'AvenirNextLTPro-Regular'}}>TEST MESSAGE</Text>
-          </View>
-          <View style = {{flexDirection:'row',flex:1,paddingTop:5, fontFamily: 'AvenirNextLTPro-Regular'}}>
-
-            <TouchableOpacity onPress={this.okEvent}>
-              <Text style={{color: '#000',padding:20,fontSize:18,paddingTop:5, fontFamily: 'AvenirNextLTPro-Regular'}}>Ok</Text>
-
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.closeModal}>
-              <Text style={{color: '#000',padding:20,fontSize:18,paddingTop:5, fontFamily: 'AvenirNextLTPro-Regular'}}>Cancel</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Animated.View>
-    )
-  }
-});
-var App = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.flexCenter}>
-        <TouchableOpacity onPress={this.props.openModal}>
-          <Text>Open Modal</Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }
-});
-var RouteStack = {
-  app: {
-    component: App
-  }
-}
 
 var imgArr = [require('image!item_1'),require('image!item_2'),require('image!item_3'),require('image!item_4'),require('image!item_5'),require('image!item_6'),require('image!item_7'),require('image!item_8')];
-var styles = StyleSheet.create({ contentContainer: { paddingVertical: 20 } });
-
-var onlyMultiline = {
-  onSelectionChange: true, // not supported in Open Source yet
-  onTextInput: true, // not supported in Open Source yet
-  children: true,
-};
-
-var notMultiline = {
-  onSubmitEditing: true,
-};
 
 var SetMealView = React.createClass({
-  getInitialState() { return {
-    animated: false,
-    modalVisible: false,
-    transparent: true,
+  getInitialState() {
+    return {
+      animated: false,
+      modalVisible: false,
+      transparent: true,
 
-    round1: false,
-    round2: false,
-    round3: false,
-    round4: false,
-    round5: false,
-    round6: false,
-    round7: false,
-    round8: false,
-    round9: false,
-    round10: false,
-    round11: false,
-    round12: false,
-    round13: false,
-    round14: false,
-    round18: false,
+      round1: false,
+      round2: false,
+      round3: false,
+      round4: false,
+      round5: false,
+      round6: false,
+      round7: false,
+      round8: false,
+      round9: false,
+      round10: false,
+      round11: false,
+      round12: false,
+      round13: false,
+      round14: false,
+      round18: false,
 
-    isAlertVisibale: false,
-    isBackPressed:false,
+      isAlertVisibale: false,
+      isBackPressed:false,
 
-  }; },
+    };
+  },
   _setModalVisible(visible)
   {
     this.setState({modalVisible: visible});
@@ -298,7 +227,6 @@ var SetMealView = React.createClass({
           <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
           <Text style={styles.statusBarTextRight}> CONNECTED </Text>
           <Image style={styles.icon} source={require('image!icn_connected')} />
-
         </View>
         <View style={styles.navBar}>
           <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
@@ -315,12 +243,10 @@ var SetMealView = React.createClass({
           <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'flex-start',}}>
 
           </View>
-
         </View>
         <View style={styles.separator} />
+
         <View style={styles.container}>
-
-
           <ScrollView style={styles.scrollView} scrollEventThrottle={200} onScroll={this.handleScroll}>
 
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
