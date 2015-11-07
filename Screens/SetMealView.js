@@ -324,10 +324,7 @@ var SetMealView = React.createClass({
             </View>
             <View style={styles.separator} />
 
-
-            <View style={styles.row1}>
-            </View>
-            <View style={styles.row1}>
+            <View style={styles.optionsHeader}>
               <View style={styles.columnContainer1}>
                 <View style={styles.separator} />
               </View>
@@ -337,7 +334,6 @@ var SetMealView = React.createClass({
               <View style={styles.columnContainer1}>
                 <View style={styles.separator} />
               </View>
-
             </View>
 
             <View style={styles.optionsContainer}>
@@ -414,9 +410,7 @@ var SetMealView = React.createClass({
               </TouchableHighlight>
             </View>
 
-            <View style={styles.row1}/>
-
-            <View style={styles.row1}>
+            <View style={styles.optionsHeader}>
               <View style={styles.columnContainer1}>
                 <View style={styles.separator} />
               </View>
@@ -488,11 +482,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-
             </View>
 
-            <View style={styles.row1}/>
-            <View style={styles.row1}>
+            <View style={styles.optionsHeader}>
               <View style={styles.columnContainer1}>
                 <View style={styles.separator} />
               </View>
@@ -506,7 +498,6 @@ var SetMealView = React.createClass({
             </View>
 
             <View style={styles.optionsContainer}>
-
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round12Clicked}>
                 <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round12 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
@@ -543,13 +534,12 @@ var SetMealView = React.createClass({
                 </View>
               </TouchableHighlight>
             </View>
-            
-            <View style={styles.row1}/>
+
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
             </View>
             <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" />
-            <View style={styles.row1}/>
+
           </ScrollView>
           {this._renderModal()}
         </View>
@@ -708,12 +698,12 @@ var styles = StyleSheet.create({
   },
 
   input:{
-
     fontFamily: 'AvenirNextLTPro-Regular',
     height:50,
     color:'black',
     left:10,
     width:screen.width-20,
+    marginBottom:36
   },
 
   marronText: {
@@ -809,6 +799,7 @@ var styles = StyleSheet.create({
     flex:3,
     height:10,
     flexDirection: 'column',
+    marginTop: 36
   },
   columnContainer2:{
     flex:4,
@@ -901,28 +892,9 @@ var styles = StyleSheet.create({
     backgroundColor:'#F2EDE4',
   },
 
-  row1: {
-    flex:1,
-    height:36,
-    flexDirection: 'row',
-  },
-
-  row30: {
-    flex:1,
-    height:30,
-    flexDirection: 'row',
-  },
-
   itemSepView: {
     flex:1,
     height:58,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingRight: 0,
-  },
-
-  row2: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -944,6 +916,13 @@ var styles = StyleSheet.create({
     marginRight: 45,
     marginTop: 15,
     marginBottom: 15
+  },
+
+  optionsHeader: {
+    flex:1,
+    height:36,
+    flexDirection: 'row',
+    marginTop: 36
   },
 
   homebutton: {
