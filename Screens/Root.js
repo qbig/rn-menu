@@ -193,7 +193,7 @@ var Root = React.createClass({
           }}
           renderScene={(route, navigator) => {
             if (route.component) {
-              return React.createElement(route.component, { navigator });
+              return React.createElement(route.component, {navigator: navigator ,data: route.data});
             }
           }}
           />

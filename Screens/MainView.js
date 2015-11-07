@@ -51,17 +51,16 @@ var MainView = React.createClass({
 
   _onViewOrderPress: function() {
     this.props.navigator.push({
-      title: "",
-      component: OrderList
+      component: OrderList,
+      data:group
     });
   },
 
   menuItemClicked: function(group) {
     console.log(group)
     this.props.navigator.push({
-      title: "",
       component: ItemList,
-      group: group
+      data: group
     });
   },
   _renderViewOrderButton : function () {
