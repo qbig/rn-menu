@@ -291,7 +291,6 @@ var SetMealView = React.createClass({
 
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
               <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={require('image!mainimg')} />
-
             </View>
             <View style={styles.separator1} />
             <View style={styles.row}>
@@ -302,12 +301,10 @@ var SetMealView = React.createClass({
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
                 <View style={styles.column2}>
                   <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
-
                 </View>
               </TouchableHighlight>
               <View style={styles.columnSep}/>
               <View style={styles.column3}>
-
                 <Text style={styles.blackTextBold}> 3 </Text>
               </View>
               <View style={styles.columnSep}/>
@@ -325,7 +322,6 @@ var SetMealView = React.createClass({
                 <Text style={styles.blackTextBold}> $23.40 </Text>
               </View>
             </View>
-
             <View style={styles.separator} />
 
 
@@ -344,11 +340,9 @@ var SetMealView = React.createClass({
 
             </View>
 
-            <View style={styles.row2}>
-              <View style={styles.itemSepView}/>
+            <View style={styles.optionsContainer}>
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round1Clicked}>
-                <View >
-
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round1 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round1 ? styles.textPriceWhite : styles.textPrice}>
@@ -358,9 +352,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round2Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round2 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round2 ? styles.textPriceWhite : styles.textPrice}>
@@ -369,11 +363,10 @@ var SetMealView = React.createClass({
                     </View>
                   </Image>
                 </View>
-
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round3Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round3 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round3 ? styles.textPriceWhite : styles.textPrice}>
@@ -382,16 +375,10 @@ var SetMealView = React.createClass({
                     </View>
                   </Image>
                 </View>
-
-
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
-            </View>
-            <View style={styles.row30}/>
-            <View style={styles.row2}>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.round4Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round4 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round4 ? styles.textPriceWhite : styles.textPrice}>
@@ -400,11 +387,10 @@ var SetMealView = React.createClass({
                     </View>
                   </Image>
                 </View>
-
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round5Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round5 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round5 ? styles.textPriceWhite : styles.textPrice}>
@@ -414,9 +400,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round6Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round6 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round6 ? styles.textPriceWhite : styles.textPrice}>
@@ -426,9 +412,10 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
             </View>
+
             <View style={styles.row1}/>
+
             <View style={styles.row1}>
               <View style={styles.columnContainer1}>
                 <View style={styles.separator} />
@@ -440,10 +427,10 @@ var SetMealView = React.createClass({
                 <View style={styles.separator} />
               </View>
             </View>
-            <View style={styles.row2}>
-              <View style={styles.itemSepView}/>
+
+            <View style={styles.optionsContainer}>
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round7Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round7 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round7 ? styles.textPriceWhite : styles.textPrice}>
@@ -453,9 +440,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round8Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round8 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round8 ? styles.textPriceWhite : styles.textPrice}>
@@ -465,9 +452,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round9Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round9 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round9 ? styles.textPriceWhite : styles.textPrice}>
@@ -477,14 +464,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
-            </View>
-            <View style={styles.row30}/>
-            <View style={styles.row2}>
-              <View style={styles.itemSepView}/>
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round10Clicked}>
 
-                <View >
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round10Clicked}>
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round10 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round10 ? styles.textPriceWhite : styles.textPrice}>
@@ -493,13 +475,10 @@ var SetMealView = React.createClass({
                     </View>
                   </Image>
                 </View>
-
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round11Clicked}>
-
-
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round11 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round11 ? styles.textPriceWhite : styles.textPrice}>
@@ -509,19 +488,7 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round18Clicked}>
-                <View >
-                  <Image style={styles.thumb1} source={this.state.round18 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-                    <View style={styles.overlay}>
-                      <Text style={this.state.round18 ? styles.textPriceWhite : styles.textPrice}>
-                        NOODEL IN SOUP
-                      </Text>
-                    </View>
-                  </Image>
-                </View>
-              </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
             </View>
 
             <View style={styles.row1}/>
@@ -537,10 +504,11 @@ var SetMealView = React.createClass({
                 <View style={styles.separator} />
               </View>
             </View>
-            <View style={styles.row2}>
-              <View style={styles.itemSepView}/>
+
+            <View style={styles.optionsContainer}>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round12Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round12 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round12 ? styles.textPriceWhite : styles.textPrice}>
@@ -550,9 +518,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round13Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round13 ? require('image!btn_option_selected') : require('image!btn_option_unselected')}>
                     <View style={styles.overlay}>
                       <Text style={this.state.round13 ? styles.textPriceWhite : styles.textPrice}>
@@ -562,9 +530,9 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
+
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.round14Clicked}>
-                <View >
+                <View style={styles.option}>
                   <Image style={styles.thumb1} source={this.state.round14 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
                     <View style={styles.overlay}>
                       <Text style={this.state.round14 ? styles.textPriceWhite : styles.textPrice}>
@@ -574,8 +542,8 @@ var SetMealView = React.createClass({
                   </Image>
                 </View>
               </TouchableHighlight>
-              <View style={styles.itemSepView}/>
             </View>
+            
             <View style={styles.row1}/>
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
@@ -959,6 +927,23 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingRight: 0,
+  },
+
+  optionsContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingRight: 0,
+    marginLeft: 45,
+    marginRight: 45
+  },
+
+  option: {
+    marginLeft: 45,
+    marginRight: 45,
+    marginTop: 15,
+    marginBottom: 15
   },
 
   homebutton: {
