@@ -174,7 +174,8 @@ var ItemList = React.createClass({
         <View style = {styles.lstview}>
           <ListView
               dataSource = {this.state.dataSource}
-              renderRow = {this._renderRow}/>
+              renderRow = {this._renderRow}
+              showsVerticalScrollIndicator={false}/>
         </View>
 
         {this._renderViewOrderButton()}

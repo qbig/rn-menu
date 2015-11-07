@@ -287,7 +287,7 @@ var SetMealView = React.createClass({
         <View style={styles.separator} />
 
         <View style={styles.container}>
-          <ScrollView style={styles.scrollView} scrollEventThrottle={200} onScroll={this.handleScroll}>
+          <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
 
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
               <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={require('image!mainimg')} />

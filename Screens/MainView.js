@@ -111,7 +111,7 @@ var MainView = React.createClass({
            <View style={styles.separator} />
 
            <View style={styles.container}>
-               <ScrollView style={styles.scrollView} scrollEventThrottle={200} onScroll={this.handleScroll}>
+               <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
                   <View style={styles.itemsContainer}>
                     {groups}
                   </View>
