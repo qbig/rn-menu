@@ -240,9 +240,7 @@ var SetMealView = React.createClass({
           <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
             <Text style={styles.navBarText}> {trimString(this.props.data.name,TITLE_LENGTH)} </Text>
           </View>
-          <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'flex-start',}}>
-
-          </View>
+          <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'flex-start',}}></View>
         </View>
         <View style={styles.separator} />
 

@@ -184,13 +184,11 @@ var ItemList = React.createClass({
 });
 var styles = StyleSheet.create({
   backButton: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
     color: '#8D383D',
-
   },
   overlay: {
     position: 'absolute',
@@ -370,12 +368,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
-  backbutton: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
 
-  },
   footerText: {
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 23,
