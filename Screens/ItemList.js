@@ -50,7 +50,7 @@ var ItemList = React.createClass({
   _pressRow: function(rowData) {
     this.props.navigator.push({
       component: SetMealView,
-      from: trimString(this.props.data.name, TITLE_LENGTH),
+      from: trimString(this.props.data.name, 15),
       data: rowData
     });
 
