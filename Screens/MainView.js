@@ -81,9 +81,9 @@ var MainView = React.createClass({
     var groups = this.state.groupsItems.map((group)=>{
       return (
         <View  style={styles.item}>
-           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.menuItemClicked}>
+           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(group)}}>
              <View>
-               <Image style={styles.thumb} source={require('image!one')} >
+               <Image style={styles.thumb} source={{uri:group.images[0].url}} >
                  <Image style={styles.thumb} source={require('image!overlay1')} >
                  <View style={styles.overlay1}><Text style={styles.footerText}>{group.name}</Text></View>
                  </Image>
@@ -102,6 +102,9 @@ var MainView = React.createClass({
            </View>
            <View style={styles.navBar}>
               <Text style={styles.navBarText}> MENU </Text>
+              <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn}>
+                <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
+              </TouchableHighlight>
            </View>
 
            <View style={styles.separator} />
@@ -208,11 +211,24 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: '#891F02',
   },
-
+  topGoToOrderBtn: {
+    backgroundColor:'#891F02',
+    right: 0,
+    position: 'absolute',
+    height: 60,
+    width: screen.width / 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  topGoToOrderText: {
+    color:'#F2EDE4',
+    fontWeight: 'bold',
+    width: 60,
+    fontSize: 15,
+  },
   container: {
     flex: 1,
     backgroundColor: '#FFFAF0',
-
   },
   itemsContainer : {
     flexDirection: 'row',
