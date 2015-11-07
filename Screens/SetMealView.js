@@ -155,8 +155,7 @@ var SetMealView = React.createClass({
   },
 
   _onViewOrderPress: function() {
-    if(!this.state.isAlertVisibale)
-    {
+    if(!this.state.isAlertVisibale) {
       this.props.navigator.push({
         title: "",
         component: orderListView
@@ -164,14 +163,12 @@ var SetMealView = React.createClass({
     }
   },
 
-  _onBackToMainView:function()
-  {
+  _onBackToMainView:function() {
     this.props.navigator.pop();
   },
 
   discardClicked: function() {},
-  openAlertView:function()
-  {
+  openAlertView:function() {
     this.setState({isBackPressed: false})
     if(!this.state.isAlertVisibale)
     {
@@ -179,24 +176,19 @@ var SetMealView = React.createClass({
     }
   },
 
-  btnBackPressed:function()
-  {
+  btnBackPressed:function() {
     this.setState({isBackPressed: true})
-    if(!this.state.isAlertVisibale)
-    {
+    if(!this.state.isAlertVisibale) {
       this.setState({isAlertVisibale: !this.state.isAlertVisibale});
     }
   },
 
 
-  closeAlertView:function()
-  {
+  closeAlertView:function() {
     this.setState({isAlertVisibale: !this.state.isAlertVisibale});
-
   },
 
-  alertDiscardPressed:function()
-  {
+  alertDiscardPressed:function() {
     this.setState({isAlertVisibale: !this.state.isAlertVisibale});
     this.props.navigator.pop();
   },
@@ -351,9 +343,47 @@ var SetMealView = React.createClass({
     </View>);
   },
 
+  _renderQuantityWidget() {
+    return (
+      <View style={styles.quantityAndPriceRow}>
+        <View style={styles.column1}>
+          <Text style={styles.blackText}> QUANTITY </Text>
+        </View>
+
+        <View style={styles.columnSep}/>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
+          <View style={styles.column2}>
+            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
+          </View>
+        </TouchableHighlight>
+
+        <View style={styles.columnSep}/>
+        <View style={styles.column3}>
+          <Text style={styles.blackTextBold}> 3 </Text>
+        </View>
+
+        <View style={styles.columnSep}/>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
+          <View style={styles.column4}>
+            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
+          </View>
+        </TouchableHighlight>
+
+        <View style={styles.columnSep}/>
+        <View style={styles.column5}>
+          <Text style={styles.blackText}> PRICE </Text>
+        </View>
+
+        <View style={styles.columnSep}/>
+        <View style={styles.column6}>
+          <Text style={styles.blackTextBold}> $23.40 </Text>
+        </View>
+      </View>
+    );
+  },
+
   render: function() {
     return (
-
       <View style={styles.container}>
         <View style={styles.statusBar}>
           <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
@@ -383,42 +413,13 @@ var SetMealView = React.createClass({
               <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={require('image!mainimg')} />
             </View>
             <View style={styles.separator1} />
-            <View style={styles.row}>
-              <View style={styles.column1}>
-                <Text style={styles.blackText}> QUANTITY </Text>
-              </View>
-              <View style={styles.columnSep}/>
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
-                <View style={styles.column2}>
-                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
-                </View>
-              </TouchableHighlight>
-              <View style={styles.columnSep}/>
-              <View style={styles.column3}>
-                <Text style={styles.blackTextBold}> 3 </Text>
-              </View>
-              <View style={styles.columnSep}/>
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
-                <View style={styles.column4}>
-                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
-                </View>
-              </TouchableHighlight>
-              <View style={styles.columnSep}/>
-              <View style={styles.column5}>
-                <Text style={styles.blackText}> PRICE </Text>
-              </View>
-              <View style={styles.columnSep}/>
-              <View style={styles.column6}>
-                <Text style={styles.blackTextBold}> $23.40 </Text>
-              </View>
-            </View>
+            {this._renderQuantityWidget()}
             <View style={styles.separator} />
             {this._renderSections()}
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
             </View>
             <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" />
-
           </ScrollView>
           {this._renderModal()}
         </View>
@@ -752,7 +753,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  row: {
+  quantityAndPriceRow: {
     flex:1,
     height:60,
     flexDirection: 'row',
