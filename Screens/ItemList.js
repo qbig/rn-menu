@@ -16,6 +16,7 @@ var {
 } = React;
 var setMealView = require('./SetMealView');
 var orderListView = require('./OrderList');
+var OrdersStore = require('../Stores/OrdersStore');
 var screen = require('Dimensions').get('window');
 var ds;
 var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
@@ -25,47 +26,7 @@ var ItemList = React.createClass({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     return {
-      dataSource: ds.cloneWithRows([{
-        name: 'SET MEAL 1',
-        price: '$27.80',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 2',
-        price: '$9.80',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 3',
-        price: 'SOLD OUT',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 4',
-        price: '$17.80',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 5',
-        price: '$27.80',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 6',
-        price: 'SOLD OUT',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 7',
-        price: '$9.80',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }, {
-        name: 'SET MEAL 8',
-        price: '$17.80',
-        img: 'Age:28YO',
-        desc: 'Comes with your choice of meat, hot fun/noodle, and drink'
-      }])
+      dataSource: ds.cloneWithRows(this.props.data.products)
     };
   },
 
@@ -93,6 +54,21 @@ var ItemList = React.createClass({
       component: orderListView
     });
   },
+
+  _renderViewOrderButton : function () {
+    var count = OrdersStore.getOrderCount();
+    var sum = OrdersStore.getOrderSum();
+    if (count > 0) {
+      return (
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
+           <View style={styles.footer}>
+                <Text style={styles.footerText}> VIEW ORDER - {count} ITEM (${sum}) </Text>
+           </View>
+         </TouchableHighlight>
+      );
+    }
+  },
+
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
     return (
       <TouchableHighlight activeOpacity = {0.8}
@@ -102,7 +78,7 @@ var ItemList = React.createClass({
           <View style = {styles.row}>
             <View>
               <Image style ={styles.thumb}
-                  source = {imgArr[rowID]}/>
+                  source = {{uri: rowData.images[0].url}}/>
             </View>
             <View style = {styles.column}>
             <View style = {{width: screen.width - 420}} >
@@ -121,7 +97,7 @@ var ItemList = React.createClass({
                 require('image!btn_option_unselected')
               }>
               <View style = {styles.overlay} >
-                <Text style = {styles.textPrice} > {rowData.price}
+                <Text style = {styles.textPrice} > {(rowData.price/ 100.0).toFixed(2)}
                 </Text>
               </View>
             </Image>
@@ -159,7 +135,7 @@ var ItemList = React.createClass({
                   flex: 1
               }}>
                 <Image source = {require('image!btn_back')}/>
-                <Text style = {styles.backButton}> Back </Text>
+                <Text style = {styles.backButton}> {this.props.from} </Text>
               </View>
             </TouchableHighlight>
           </View>
@@ -170,7 +146,7 @@ var ItemList = React.createClass({
               justifyContent: 'center',
               alignItems: 'center',
             }} >
-            <Text style = {styles.navBarText} > SET MEALS </Text>
+            <Text style = {styles.navBarText} > {this.props.data.name} </Text>
           </View>
           <View style = {
             {
@@ -181,6 +157,9 @@ var ItemList = React.createClass({
               alignItems: 'flex-start',
             }} >
           </View>
+          <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn}>
+            <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
+          </TouchableHighlight>
         </View>
         <View style = {styles.separator}/>
         <View style = {styles.lstview}>
@@ -189,13 +168,7 @@ var ItemList = React.createClass({
               renderRow = {this._renderRow}/>
         </View>
 
-        <TouchableHighlight activeOpacity = {0.8}
-            underlayColor = {'rgba(255,255,255,0.1)'}
-            onPress = {this._onViewOrderPress} >
-          <View style = {styles.footer} >
-              <Text style = {styles.footerText}> VIEW ORDER - 1 ITEM($7.80) </Text>
-          </View>
-        </TouchableHighlight>
+        {this._renderViewOrderButton()}
       </View>
     );
   }
@@ -316,7 +289,21 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: '#891F02',
   },
-
+  topGoToOrderBtn: {
+    backgroundColor:'#891F02',
+    right: 0,
+    position: 'absolute',
+    height: 60,
+    width: screen.width / 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  topGoToOrderText: {
+    color:'#FFFAF0',
+    fontWeight: 'bold',
+    width: 60,
+    fontSize: 15,
+  },
 
   blackText: {
     fontSize: 16,

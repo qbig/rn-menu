@@ -52,7 +52,8 @@ var MainView = React.createClass({
   _onViewOrderPress: function() {
     this.props.navigator.push({
       component: OrderList,
-      data:group
+      data:group,
+      from: "MENU"
     });
   },
 
@@ -60,7 +61,8 @@ var MainView = React.createClass({
     console.log(group)
     this.props.navigator.push({
       component: ItemList,
-      data: group
+      data: group,
+      from: "MENU"
     });
   },
   _renderViewOrderButton : function () {
@@ -220,7 +222,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   topGoToOrderText: {
-    color:'#F2EDE4',
+    color:'#FFFAF0',
     fontWeight: 'bold',
     width: 60,
     fontSize: 15,
