@@ -25,6 +25,7 @@ var TableService = require('../API/TableService');
 var ProdAttributeService = require('../API/ProdAttributeService');
 var OrderService = require('../API/OrderService');
 var ModifierService = require('../API/ModifierService');
+var StoreInfoService = require('../API/StoreInfoService');
 
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
@@ -94,6 +95,7 @@ var Root = React.createClass({
       await this.delay(10);
       await ModifierService.requestForModifiers();
       await this.delay(10);
+      await StoreInfoService.requestForStoreInfo();
     } catch(err) {
       console.log("!!!!!!!!!")
       console.log(err);

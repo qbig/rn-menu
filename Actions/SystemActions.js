@@ -11,7 +11,8 @@ class SystemActions {
       'storeOpened',
       'storeClosed',
       'loadingStart',
-      'loadingFinish'
+      'loadingFinish',
+      'storeInfoLoaded'
     );
   }
 }

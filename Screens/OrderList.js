@@ -16,16 +16,14 @@ var {
 } = React;
 var orderListSentView = require('./OrderListSent');
 var screen = require('Dimensions').get('window');
-var ds;
+
 var OrderList = React.createClass({
-      getInitialState: function() {
-    ds = new ListView.DataSource({
+  getInitialState: function() {
+    var ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
     });
     return {
-
       isAlertVisibale: false,
-      isBackPressed: false,
       dataSource: ds.cloneWithRows([{
         name: 'SET MEAL 1',
         item1: 'ROAST DUCK,\nDRY HOR FUN,\nCHINESE TEA',
@@ -82,9 +80,6 @@ var OrderList = React.createClass({
 
   _pressRow: function(rowID: number) {
     if (rowID != 2) {
-      this.setState({
-        isBackPressed: true
-      })
       if (!this.state.isAlertVisibale) {
         this.setState({
           isAlertVisibale: !this.state.isAlertVisibale
@@ -158,7 +153,7 @@ var OrderList = React.createClass({
                 <View style={styles.column}>
                   <View style={styles.rowWithOp}>
                     <Text style={styles.textTotal}>
-                      {'SUB TOTAL'}
+                      SUB TOTAL
                     </Text>
                     <Text style={styles.textTotal1}>
                       {rowData.subtotal}
@@ -166,7 +161,7 @@ var OrderList = React.createClass({
                   </View>
                   <View  style={styles.rowWithOp}>
   									 <Text style={styles.textTotal}>
-  									 {'DISCOUNT'}
+  									 DISCOUNT
   									 </Text>
   									<Text style={styles.textTotal1}>
   									 {rowData.discount}
@@ -174,7 +169,7 @@ var OrderList = React.createClass({
   								</View>
   								<View  style={styles.rowWithOp}>
   									 <Text style={styles.textTotal}>
-  									 {'SERVICE CHARGE'}
+  									 SERVICE CHARGE
   									 </Text>
   									<Text style={styles.textTotal1}>
   									 {rowData.servicecharge}
@@ -182,7 +177,7 @@ var OrderList = React.createClass({
   								</View>
   								<View  style={styles.rowWithOp}>
   									 <Text style={styles.textTotal}>
-  									 {'GST'}
+  									 GST
   									 </Text>
   									<Text style={styles.textTotal1}>
   									 {rowData.GST}
