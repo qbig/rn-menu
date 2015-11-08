@@ -100,7 +100,8 @@ var SetMealView = React.createClass({
     return {
       currentItem: OrdersStore.getState().currentItem,
       isAlertVisibale: false,
-      comment:''
+      comment:'',
+      done: false
     };
   },
 
@@ -115,12 +116,15 @@ var SetMealView = React.createClass({
   },
   componentWillUnmount: function() {
     console.log("item created !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
-    OrderActions.orderItemCreated();
+    if (this.state.done) {
+        OrderActions.orderItemCreated();
+    }
   },
 
   handleAddToOrder: function() {
     if (this.state.currentItem.isCompleted()){
       if(!this.state.isAlertVisibale) {
+        this.setState({done: true});
         this.props.navigator.pop();
       }
     } else {

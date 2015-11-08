@@ -28,12 +28,11 @@ var OrderList = React.createClass({
         name: 'SET MEAL 1',
         item1: 'ROAST DUCK,\nDRY HOR FUN,\nCHINESE TEA',
         price: '$7.80',
-        isEdit: false
+
       }, {
         name: 'SET MEAL 1',
         item1: 'ROAST CHICKEN,\nNOODLES IN SOUP,\nBARLEY',
         price: '$7.80',
-        isEdit: false
       }, {
         name: 'total',
         subtotal: '15.80',
