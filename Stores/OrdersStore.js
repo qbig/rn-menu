@@ -15,7 +15,10 @@ class OrdersStore {
       handleOrderCreate: OrderActions.orderCreated,
       handleNewItem: OrderActions.orderItemStarted,
       handleBoolClicked: OrderActions.boolClicked,
-      handleRadioClicked: OrderActions.radioClicked
+      handleRadioClicked: OrderActions.radioClicked,
+      handleCurrentItemIncrement: OrderActions.currentOrderItemIncrement,
+      handleCurrentItemDecrement: OrderActions.currentOrderItemDecrement,
+      handleCurrentItemAdded: OrderActions.orderItemCreated
     });
     this.sentItems = [];
     this.unsentItems = [];
@@ -25,6 +28,19 @@ class OrdersStore {
       getOrderCount: this.getOrderCount,
       getOrderSum: this.getOrderSum
     });
+  }
+
+  handleCurrentItemAdded() {
+    this.unsentItems.push(this.currentItem);
+    this.currentItem = '';
+  }
+
+  handleCurrentItemIncrement() {
+    this.currentItem.incre();
+  }
+
+  handleCurrentItemDecrement() {
+    this.currentItem.decre();
   }
 
   handleBoolClicked({index, name}) {
@@ -187,21 +203,13 @@ class OrdersStore {
   }
 
   getOrderCount(){
-    if (this.getState().details) {
-        return this.getState().details['order_items'].length;
-    } else {
-      return 0;
-    }
+    return this.getState().unsentItems.length;
   }
 
   getOrderSum() {
-    if (this.getState().details) {
-        return Number(this.getState().details['order_items'].reduce((prev, cur, index, arr)=>{
-          return prev + GroupsItemsStore.getProdPrice(cur['product_uuid']) + cur['modifiers'].reduce((pre, cur)=>{return pre + cur.price}, 0)
-        }, 0) / 100.0).toFixed(2);
-    } else {
-      return 0;
-    }
+    return (this.getState().unsentItems.reduce(function(prev, cur){
+      return prev + cur.getCost();
+    },0) / 100.0).toFixed(2);
   }
 }
 

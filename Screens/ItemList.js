@@ -19,6 +19,7 @@ var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
 var OrderActions = require('../Actions/OrderActions');
 var screen = require('Dimensions').get('window');
+var ListenerMixin = require('alt/mixins/ListenerMixin');
 var TITLE_LENGTH = 20;
 
 function trimString(str, length) {
@@ -29,6 +30,7 @@ function trimString(str, length) {
 
 var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
 var ItemList = React.createClass({
+  mixins: [ListenerMixin],
   getInitialState: function() {
     var ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2
@@ -37,8 +39,11 @@ var ItemList = React.createClass({
       dataSource: ds.cloneWithRows(this.props.data.products)
     };
   },
-
+  _handleOrderItemsChange: function() {
+    this.setState({dataSource: this.state.dataSource})
+  },
   componentWillMount: function() {
+    this.listenTo(OrdersStore, this._handleOrderItemsChange);
   },
   _onBackToMainView: function() {
     this.props.navigator.pop();

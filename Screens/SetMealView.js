@@ -19,7 +19,7 @@ var
   Navigator,
   Animated,
   Dimensions,
-  Modal,
+  ToastAndroid
 } = React;
 var orderListView = require('./OrderList');
 var screen = require('Dimensions').get('window');
@@ -98,12 +98,9 @@ var SetMealView = React.createClass({
   mixins: [ListenerMixin],
   getInitialState() {
     return {
-      animated: false,
-      modalVisible: false,
-      transparent: true,
       currentItem: OrdersStore.getState().currentItem,
       isAlertVisibale: false,
-      isBackPressed:false,
+      comment:''
     };
   },
 
@@ -111,29 +108,23 @@ var SetMealView = React.createClass({
     this.setState({currentItem: OrdersStore.getState().currentItem});
   },
 
-  _setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  },
-
-  okEvent:function() {
-    this.setState({modalVisible: false});
-  },
-  cancelEvent:function() {
-    this.setState({modalVisible: false});
-  },
-
   handleScroll: function(event: Object) {},
 
   componentWillMount: function() {
     this.listenTo(OrdersStore, this._handleOptionsChange);
   },
+  componentWillUnmount: function() {
+    console.log("item created !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
+    OrderActions.orderItemCreated();
+  },
 
-  _onViewOrderPress: function() {
-    if(!this.state.isAlertVisibale) {
-      this.props.navigator.push({
-        title: "",
-        component: orderListView
-      });
+  handleAddToOrder: function() {
+    if (this.state.currentItem.isCompleted()){
+      if(!this.state.isAlertVisibale) {
+        this.props.navigator.pop();
+      }
+    } else {
+      ToastAndroid.show("Pls choose your " + this.state.currentItem.getNextIncompleteModName(), ToastAndroid.LONG);
     }
   },
 
@@ -141,17 +132,13 @@ var SetMealView = React.createClass({
     this.props.navigator.pop();
   },
 
-  discardClicked: function() {},
   openAlertView:function() {
-    this.setState({isBackPressed: false})
-    if(!this.state.isAlertVisibale)
-    {
+    if(!this.state.isAlertVisibale) {
       this.setState({isAlertVisibale: !this.state.isAlertVisibale});
     }
   },
 
   btnBackPressed:function() {
-    this.setState({isBackPressed: true})
     if(!this.state.isAlertVisibale) {
       this.setState({isAlertVisibale: !this.state.isAlertVisibale});
     }
@@ -169,10 +156,7 @@ var SetMealView = React.createClass({
   _renderModal: function() {
     var okBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
     var cancelBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes, discard</Text>: null;
-    var textMessage = this.state.isBackPressed ?
-      this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to back? The item will not be saved to your order.</Text>  : null
-      :
-      this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>  : null;
+    var textMessage = <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>//this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>  : null;
       return (
         <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
           <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
@@ -211,7 +195,7 @@ var SetMealView = React.createClass({
       );
     } else {
       return (
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onViewOrderPress}>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleAddToOrder}>
           <View style={styles.footer}>
             <Text style={styles.footerText}>ADD TO ORDER</Text>
           </View>
@@ -273,7 +257,7 @@ var SetMealView = React.createClass({
         </View>
 
         <View style={styles.columnSep}/>
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemDecrement()}}>
           <View style={styles.column2}>
             <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
           </View>
@@ -281,11 +265,11 @@ var SetMealView = React.createClass({
 
         <View style={styles.columnSep}/>
         <View style={styles.column3}>
-          <Text style={styles.blackTextBold}> 3 </Text>
+          <Text style={styles.blackTextBold}> {this.state.currentItem.quantity} </Text>
         </View>
 
         <View style={styles.columnSep}/>
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} >
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemIncrement()}}>
           <View style={styles.column4}>
             <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
           </View>
@@ -298,7 +282,7 @@ var SetMealView = React.createClass({
 
         <View style={styles.columnSep}/>
         <View style={styles.column6}>
-          <Text style={styles.blackTextBold}> $23.40 </Text>
+          <Text style={styles.blackTextBold}> {Number(this.state.currentItem.getCost() /100.0).toFixed(2)} </Text>
         </View>
       </View>
     );
@@ -341,7 +325,7 @@ var SetMealView = React.createClass({
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
             </View>
-            <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" />
+            <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" onChangeText={(text) => this.setState({comment:text})} />
           </ScrollView>
           {this._renderModal()}
         </View>
@@ -875,5 +859,6 @@ var styles = StyleSheet.create({
     height:0,
   },
 });
+
 
 module.exports = SetMealView;

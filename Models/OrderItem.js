@@ -17,6 +17,7 @@ Model.prototype.setAttributes = function(options) {
 
 Model.prototype.init = function(modifierDict) {
   this.quantity = 1;
+  this.comment = "";
   var modifiersForItem = this.data.availModifiers.map(function(uuid){
     return modifierDict.find(function(elem, index ,array){
       return elem.uuid === uuid;
@@ -37,7 +38,7 @@ Model.prototype.init = function(modifierDict) {
     });
 };
 
-Model.prototype.Cost = function() {
+Model.prototype.getCost = function() {
   return this.quantity * this.getCostForSingleItem();
 }
 
@@ -64,18 +65,19 @@ Model.prototype.getJSON = function() {
     qty: this.quantity,
     modifiers: this.radioMods.concat(this.boolMods).map(function(elem){
       return elem.getAnswerJSON()
-    })
+    }),
+    notes: this.comment
   };
 };
 
 Model.prototype.getNextIncompleteModName = function() {
   var incompleteMods = this.radioMods.filter(function(elem){
-    return elem.isSelected;
+    return !elem.isSelected;
   });
-  if (!incompleteMods) {
+  if (incompleteMods.length == 0) {
     return '';
   } else {
-    return incompleteMods[0].name;
+    return incompleteMods[0].data.name;
   }
 }
 

@@ -18,7 +18,9 @@ class OrderActions {
       'orderItemUpdated',
       'orderItemDeleted',
       'radioClicked',
-      'boolClicked'
+      'boolClicked',
+      'currentOrderItemIncrement',
+      'currentOrderItemDecrement'
     );
   }
 }
