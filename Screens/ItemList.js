@@ -167,7 +167,7 @@ var ItemList = React.createClass({
               alignItems: 'flex-start',
             }} >
           </View>
-          <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn}>
+          <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
             <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
           </TouchableHighlight>
         </View>

@@ -52,7 +52,7 @@ var MainView = React.createClass({
   _onViewOrderPress: function() {
     this.props.navigator.push({
       component: OrderList,
-      data:group,
+      data:"",
       from: "MENU"
     });
   },
@@ -103,7 +103,7 @@ var MainView = React.createClass({
            </View>
            <View style={styles.navBar}>
               <Text style={styles.navBarText}> MENU </Text>
-              <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn}>
+              <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
                 <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
               </TouchableHighlight>
            </View>
