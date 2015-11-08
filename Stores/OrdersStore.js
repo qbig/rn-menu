@@ -13,7 +13,9 @@ class OrdersStore {
     this.bindListeners({
       handleOrderUpdate: OrderActions.orderUpdated,
       handleOrderCreate: OrderActions.orderCreated,
-      handleNewItem: OrderActions.orderItemStarted
+      handleNewItem: OrderActions.orderItemStarted,
+      handleBoolClicked: OrderActions.boolClicked,
+      handleRadioClicked: OrderActions.radioClicked
     });
     this.sentItems = [];
     this.unsentItems = [];
@@ -23,6 +25,14 @@ class OrdersStore {
       getOrderCount: this.getOrderCount,
       getOrderSum: this.getOrderSum
     });
+  }
+
+  handleBoolClicked({index, name}) {
+    this.currentItem.boolMods[index].select(name);
+  }
+
+  handleRadioClicked({index, name}) {
+    this.currentItem.radioMods[index].select(name);
   }
 
   handleNewItem(productInfo) {

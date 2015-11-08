@@ -16,7 +16,9 @@ class OrderActions {
       'orderItemStartedEdit',
       'orderItemDiscardEdit',
       'orderItemUpdated',
-      'orderItemDeleted'
+      'orderItemDeleted',
+      'radioClicked',
+      'boolClicked'
     );
   }
 }

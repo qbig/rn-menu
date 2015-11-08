@@ -24,6 +24,9 @@ var
 var orderListView = require('./OrderList');
 var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
+var OrderActions = require('../Actions/OrderActions');
+var ListenerMixin = require('alt/mixins/ListenerMixin');
+
 var TITLE_LENGTH = 20;
 function trimString(str, length) {
   return str.length > length ?
@@ -37,7 +40,62 @@ var {
 
 var imgArr = [require('image!item_1'),require('image!item_2'),require('image!item_3'),require('image!item_4'),require('image!item_5'),require('image!item_6'),require('image!item_7'),require('image!item_8')];
 
+var ModifierSectionView = React.createClass({
+  getInitialState: function() {
+    return {
+
+    }
+  },
+
+  render: function() {
+
+  }
+});
+
+var ModifierSectionHeader = React.createClass({
+  shouldComponentUpdate: function(){
+    return false;
+  },
+  render: function () {
+    return (<View style={styles.optionsHeader}>
+        <View style={styles.columnContainer1}>
+          <View style={styles.separator} />
+        </View>
+        <View style={styles.columnContainer2}>
+          <Text style={styles.marronHeader}> {this.props.name} </Text>
+        </View>
+        <View style={styles.columnContainer1}>
+          <View style={styles.separator} />
+        </View>
+      </View>)
+  }
+});
+
+var ModifierSectionCell = React.createClass({
+  shouldComponentUpdate: function(nextProps, nextState){
+    return nextProps.isSelected !== this.props.isSelected;
+  },
+
+  render: function () {
+    return (
+      <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{this.props.onSelect(this.props.index, this.props.name)}}>
+        <View style={styles.option}>
+          <Image style={styles.thumb1} source={this.props.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+            <View style={styles.overlay}>
+              <Text style={this.props.isSelected ? styles.textPriceWhite : styles.textPrice}>
+                {this.props.name}
+              </Text>
+            </View>
+          </Image>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+});
+
+
 var SetMealView = React.createClass({
+  mixins: [ListenerMixin],
   getInitialState() {
     return {
       animated: false,
@@ -46,9 +104,13 @@ var SetMealView = React.createClass({
       currentItem: OrdersStore.getState().currentItem,
       isAlertVisibale: false,
       isBackPressed:false,
-
     };
   },
+
+  _handleOptionsChange: function(){
+    this.setState({currentItem: OrdersStore.getState().currentItem});
+  },
+
   _setModalVisible(visible) {
     this.setState({modalVisible: visible});
   },
@@ -62,7 +124,9 @@ var SetMealView = React.createClass({
 
   handleScroll: function(event: Object) {},
 
-  componentWillMount: function() {},
+  componentWillMount: function() {
+    this.listenTo(OrdersStore, this._handleOptionsChange);
+  },
 
   _onViewOrderPress: function() {
     if(!this.state.isAlertVisibale) {
@@ -93,7 +157,6 @@ var SetMealView = React.createClass({
     }
   },
 
-
   closeAlertView:function() {
     this.setState({isAlertVisibale: !this.state.isAlertVisibale});
   },
@@ -101,12 +164,6 @@ var SetMealView = React.createClass({
   alertDiscardPressed:function() {
     this.setState({isAlertVisibale: !this.state.isAlertVisibale});
     this.props.navigator.pop();
-  },
-
-  renderScene: function(route, navigator) {
-    var Component = route.component;
-
-    return (<Component openModal={() => this.setState({modal: true})}/>)
   },
 
   _renderModal: function() {
@@ -163,35 +220,23 @@ var SetMealView = React.createClass({
     }
   },
 
-  _renderRadios: function(radioMods) {
-    return radioMods.map(function(mod){
-      return ( <View>
-        <View style={styles.optionsHeader}>
-          <View style={styles.columnContainer1}>
-            <View style={styles.separator} />
-          </View>
-          <View style={styles.columnContainer2}>
-            <Text style={styles.marronHeader}> {mod.data.name} </Text>
-          </View>
-          <View style={styles.columnContainer1}>
-            <View style={styles.separator} />
-          </View>
-        </View>
+  _handleRadioSelect(index, name) {
+    OrderActions.radioClicked({index, name});
+  },
 
+  _handleBoolSelect(index, name){
+    OrderActions.boolClicked({index, name});
+  },
+
+  _renderRadios: function(radioMods) {
+    var self = this;
+    return radioMods.map(function(mod, index){
+      return ( <View>
+        <ModifierSectionHeader name={mod.data.name} />
         <View style={styles.optionsContainer}>
           {mod.data.radioOptions.map(function(option){
             return (
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{}}>
-                <View style={styles.option}>
-                  <Image style={styles.thumb1} source={option.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-                    <View style={styles.overlay}>
-                      <Text style={option.isSelected ? styles.textPriceWhite : styles.textPrice}>
-                        {option.name}
-                      </Text>
-                    </View>
-                  </Image>
-                </View>
-              </TouchableHighlight>
+              <ModifierSectionCell name={option.name} index={index} isSelected={option.isSelected} onSelect={self._handleRadioSelect.bind(self)} />
             );
           })}
         </View>
@@ -200,33 +245,13 @@ var SetMealView = React.createClass({
   },
 
   _renderBools: function(boolMods) {
-    return ( <View>
-      <View style={styles.optionsHeader}>
-        <View style={styles.columnContainer1}>
-          <View style={styles.separator} />
-        </View>
-        <View style={styles.columnContainer2}>
-          <Text style={styles.marronHeader}> Additional Options </Text>
-        </View>
-        <View style={styles.columnContainer1}>
-          <View style={styles.separator} />
-        </View>
-      </View>
-
+    var self = this;
+    return (<View>
+      <ModifierSectionHeader name={"Additional Options"} />
       <View style={styles.optionsContainer}>
-        {boolMods.map(function(boolMod){
+        {boolMods.map(function(boolMod, index){
           return (
-            <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{}}>
-              <View style={styles.option}>
-                <Image style={styles.thumb1} source={boolMod.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-                  <View style={styles.overlay}>
-                    <Text style={boolMod.isSelected ? styles.textPriceWhite : styles.textPrice}>
-                      {boolMod.data.name}
-                    </Text>
-                  </View>
-                </Image>
-              </View>
-            </TouchableHighlight>
+            <ModifierSectionCell name={boolMod.data.name} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect.bind(self)} />
           );
         })}
       </View>
@@ -579,7 +604,7 @@ var styles = StyleSheet.create({
     marginTop: 36
   },
   columnContainer2:{
-    flex:4,
+    flex:7,
     height:50,
     flexDirection: 'column',
     backgroundColor:'transparent',
