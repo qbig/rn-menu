@@ -44,116 +44,25 @@ var SetMealView = React.createClass({
       modalVisible: false,
       transparent: true,
       currentItem: OrdersStore.getState().currentItem,
-
-      round1: false,
-      round2: false,
-      round3: false,
-      round4: false,
-      round5: false,
-      round6: false,
-      round7: false,
-      round8: false,
-      round9: false,
-      round10: false,
-      round11: false,
-      round12: false,
-      round13: false,
-      round14: false,
-      round18: false,
-
       isAlertVisibale: false,
       isBackPressed:false,
 
     };
   },
-  _setModalVisible(visible)
-  {
+  _setModalVisible(visible) {
     this.setState({modalVisible: visible});
   },
 
-  okEvent:function()
-  {
+  okEvent:function() {
     this.setState({modalVisible: false});
   },
-  cancelEvent:function()
-  {
+  cancelEvent:function() {
     this.setState({modalVisible: false});
   },
-  menuItemClicked:function()
-  {
-    this.setState({round1: !this.state.round1});
-  },
-  round1Clicked:function()
-  {
-    this.setState({round1: !this.state.round1});
-  },
-
-
-  round2Clicked:function()
-  {
-    this.setState({round2: !this.state.round2});
-  },
-  round3Clicked:function()
-  {
-    this.setState({round3: !this.state.round3});
-  },
-  round4Clicked:function()
-  {
-    this.setState({round4: !this.state.round4});
-  },
-  round5Clicked:function()
-  {
-    this.setState({round5: !this.state.round5});
-  },
-  round6Clicked:function()
-  {
-    this.setState({round6: !this.state.round6});
-  },
-  round7Clicked:function()
-  {
-    this.setState({round7: !this.state.round7});
-  },
-  round8Clicked:function()
-  {
-    this.setState({round8: !this.state.round8});
-  },
-  round9Clicked:function()
-  {
-    this.setState({round9: !this.state.round9});
-  },
-  round10Clicked:function()
-  {
-    this.setState({round10: !this.state.round10});
-  },
-  round11Clicked:function()
-  {
-    this.setState({round11: !this.state.round11});
-  },
-  round12Clicked:function()
-  {
-    this.setState({round12: !this.state.round12});
-  },
-  round13Clicked:function()
-  {
-    this.setState({round13: !this.state.round13});
-  },
-  round14Clicked:function()
-  {
-    this.setState({round14: !this.state.round14});
-  },
-  round18Clicked:function()
-  {
-    this.setState({round18: !this.state.round18});
-  },
-  _pressData: ({}: {[key: number]: boolean}),
 
   handleScroll: function(event: Object) {},
 
-  componentWillMount: function() { this._pressData = {}; },
-  goPrvPage:function()
-  {
-    this.props.navigator.pop();
-  },
+  componentWillMount: function() {},
 
   _onViewOrderPress: function() {
     if(!this.state.isAlertVisibale) {
@@ -329,93 +238,6 @@ var SetMealView = React.createClass({
         {this._renderRadios(this.state.currentItem.radioMods)}
         {this._renderBools(this.state.currentItem.boolMods)}
       </View>);
-    // return ( <View>
-    //   <View style={styles.optionsHeader}>
-    //     <View style={styles.columnContainer1}>
-    //       <View style={styles.separator} />
-    //     </View>
-    //     <View style={styles.columnContainer2}>
-    //       <Text style={styles.marronHeader}> SELECT MEAT </Text>
-    //     </View>
-    //     <View style={styles.columnContainer1}>
-    //       <View style={styles.separator} />
-    //     </View>
-    //   </View>
-    //
-    //   <View style={styles.optionsContainer}>
-    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round1Clicked}>
-    //       <View style={styles.option}>
-    //         <Image style={styles.thumb1} source={this.state.round1 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-    //           <View style={styles.overlay}>
-    //             <Text style={this.state.round1 ? styles.textPriceWhite : styles.textPrice}>
-    //               SILKY CHICKEN
-    //             </Text>
-    //           </View>
-    //         </Image>
-    //       </View>
-    //     </TouchableHighlight>
-    //
-    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round2Clicked}>
-    //       <View style={styles.option}>
-    //         <Image style={styles.thumb1} source={this.state.round2 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-    //           <View style={styles.overlay}>
-    //             <Text style={this.state.round2 ? styles.textPriceWhite : styles.textPrice}>
-    //               ROAST CHICKEN
-    //             </Text>
-    //           </View>
-    //         </Image>
-    //       </View>
-    //     </TouchableHighlight>
-    //
-    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round3Clicked}>
-    //       <View style={styles.option}>
-    //         <Image style={styles.thumb1} source={this.state.round3 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-    //           <View style={styles.overlay}>
-    //             <Text style={this.state.round3 ? styles.textPriceWhite : styles.textPrice}>
-    //               CHAR SIU
-    //             </Text>
-    //           </View>
-    //         </Image>
-    //       </View>
-    //     </TouchableHighlight>
-    //
-    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.round4Clicked}>
-    //       <View style={styles.option}>
-    //         <Image style={styles.thumb1} source={this.state.round4 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-    //           <View style={styles.overlay}>
-    //             <Text style={this.state.round4 ? styles.textPriceWhite : styles.textPrice}>
-    //               ROAST PORK
-    //             </Text>
-    //           </View>
-    //         </Image>
-    //       </View>
-    //     </TouchableHighlight>
-    //
-    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round5Clicked}>
-    //       <View style={styles.option}>
-    //         <Image style={styles.thumb1} source={this.state.round5 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-    //           <View style={styles.overlay}>
-    //             <Text style={this.state.round5 ? styles.textPriceWhite : styles.textPrice}>
-    //               BEEF BRISKET +$1
-    //             </Text>
-    //           </View>
-    //         </Image>
-    //       </View>
-    //     </TouchableHighlight>
-    //
-    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round6Clicked}>
-    //       <View style={styles.option}>
-    //         <Image style={styles.thumb1} source={this.state.round6 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-    //           <View style={styles.overlay}>
-    //             <Text style={this.state.round6 ? styles.textPriceWhite : styles.textPrice}>
-    //               ROAST DUCK +$2
-    //             </Text>
-    //           </View>
-    //         </Image>
-    //       </View>
-    //     </TouchableHighlight>
-    //   </View>
-    // </View>);
   },
 
   _renderQuantityWidget() {
