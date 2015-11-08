@@ -35,8 +35,6 @@ Model.prototype.init = function(modifierDict) {
     }).map(function(elem){
       return new Modifier(elem)
     });
-  console.log(this.radioMods)
-  console.log(this.boolMods)
 };
 
 Model.prototype.Cost = function() {

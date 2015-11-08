@@ -6,14 +6,6 @@ var {
 } = React;
 
 module.exports = {
-  gray90: '#323A3B',
-  gray50: '#828A8B',
-  gray30: '#B4B9B9',
-  gray20: '#CFD2D3',
-  gray10: '#EBECEC',
-  gray5:  '#F5F6F6',
-
-  blue50: '#23B4D2',
   ycyred: '#891F02',
   ycycream: '#FFFAF0',
   ycycream2: '#F2EDE4',

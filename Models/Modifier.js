@@ -10,6 +10,10 @@ var Model = function(options) {
 
 Model.prototype.setAttributes = function(options) {
   options = (options || {});
+  var newOptionsArr = [];
+  options.radio_options.forEach(function(opt) {
+    newOptionsArr.push({...opt})
+  });
   assign(this.data, {
     uuid: options.uuid,
     name: options.name,
@@ -17,7 +21,7 @@ Model.prototype.setAttributes = function(options) {
     price: options.price,
     type: options.type,
     required: options.required,
-    radioOptions: options.radio_options,
+    radioOptions: newOptionsArr,
   });
 };
 

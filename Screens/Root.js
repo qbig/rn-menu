@@ -85,15 +85,15 @@ var Root = React.createClass({
     try {
       SocketService.init();
       await AuthService.requestForToken();
-      await this.delay(100);
+      await this.delay(10);
       await GroupsItemsService.requestForGroupsItems();
-      await this.delay(100);
+      await this.delay(10);
       await TableService.requestForTables();
-      await this.delay(100);
+      await this.delay(10);
       await ProdAttributeService.requestForProdAttribute();
-      await this.delay(100);
+      await this.delay(10);
       await ModifierService.requestForModifiers();
-      await this.delay(100);
+      await this.delay(10);
     } catch(err) {
       console.log("!!!!!!!!!")
       console.log(err);

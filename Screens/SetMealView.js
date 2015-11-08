@@ -23,7 +23,7 @@ var
 } = React;
 var orderListView = require('./OrderList');
 var screen = require('Dimensions').get('window');
-
+var OrdersStore = require('../Stores/OrdersStore');
 var TITLE_LENGTH = 20;
 function trimString(str, length) {
   return str.length > length ?
@@ -43,6 +43,7 @@ var SetMealView = React.createClass({
       animated: false,
       modalVisible: false,
       transparent: true,
+      currentItem: OrdersStore.getState().currentItem,
 
       round1: false,
       round2: false,
@@ -253,14 +254,50 @@ var SetMealView = React.createClass({
     }
   },
 
-  _renderSections: function () {
+  _renderRadios: function(radioMods) {
+    return radioMods.map(function(mod){
+      return ( <View>
+        <View style={styles.optionsHeader}>
+          <View style={styles.columnContainer1}>
+            <View style={styles.separator} />
+          </View>
+          <View style={styles.columnContainer2}>
+            <Text style={styles.marronHeader}> {mod.data.name} </Text>
+          </View>
+          <View style={styles.columnContainer1}>
+            <View style={styles.separator} />
+          </View>
+        </View>
+
+        <View style={styles.optionsContainer}>
+          {mod.data.radioOptions.map(function(option){
+            return (
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{}}>
+                <View style={styles.option}>
+                  <Image style={styles.thumb1} source={option.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+                    <View style={styles.overlay}>
+                      <Text style={option.isSelected ? styles.textPriceWhite : styles.textPrice}>
+                        {option.name}
+                      </Text>
+                    </View>
+                  </Image>
+                </View>
+              </TouchableHighlight>
+            );
+          })}
+        </View>
+      </View>);
+    });
+  },
+
+  _renderBools: function(boolMods) {
     return ( <View>
       <View style={styles.optionsHeader}>
         <View style={styles.columnContainer1}>
           <View style={styles.separator} />
         </View>
         <View style={styles.columnContainer2}>
-          <Text style={styles.marronHeader}> SELECT MEAT </Text>
+          <Text style={styles.marronHeader}> Additional Options </Text>
         </View>
         <View style={styles.columnContainer1}>
           <View style={styles.separator} />
@@ -268,79 +305,117 @@ var SetMealView = React.createClass({
       </View>
 
       <View style={styles.optionsContainer}>
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round1Clicked}>
-          <View style={styles.option}>
-            <Image style={styles.thumb1} source={this.state.round1 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-              <View style={styles.overlay}>
-                <Text style={this.state.round1 ? styles.textPriceWhite : styles.textPrice}>
-                  SILKY CHICKEN
-                </Text>
+        {boolMods.map(function(boolMod){
+          return (
+            <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{}}>
+              <View style={styles.option}>
+                <Image style={styles.thumb1} source={boolMod.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+                  <View style={styles.overlay}>
+                    <Text style={boolMod.isSelected ? styles.textPriceWhite : styles.textPrice}>
+                      {boolMod.data.name}
+                    </Text>
+                  </View>
+                </Image>
               </View>
-            </Image>
-          </View>
-        </TouchableHighlight>
-
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round2Clicked}>
-          <View style={styles.option}>
-            <Image style={styles.thumb1} source={this.state.round2 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-              <View style={styles.overlay}>
-                <Text style={this.state.round2 ? styles.textPriceWhite : styles.textPrice}>
-                  ROAST CHICKEN
-                </Text>
-              </View>
-            </Image>
-          </View>
-        </TouchableHighlight>
-
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round3Clicked}>
-          <View style={styles.option}>
-            <Image style={styles.thumb1} source={this.state.round3 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-              <View style={styles.overlay}>
-                <Text style={this.state.round3 ? styles.textPriceWhite : styles.textPrice}>
-                  CHAR SIU
-                </Text>
-              </View>
-            </Image>
-          </View>
-        </TouchableHighlight>
-
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.round4Clicked}>
-          <View style={styles.option}>
-            <Image style={styles.thumb1} source={this.state.round4 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-              <View style={styles.overlay}>
-                <Text style={this.state.round4 ? styles.textPriceWhite : styles.textPrice}>
-                  ROAST PORK
-                </Text>
-              </View>
-            </Image>
-          </View>
-        </TouchableHighlight>
-
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round5Clicked}>
-          <View style={styles.option}>
-            <Image style={styles.thumb1} source={this.state.round5 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-              <View style={styles.overlay}>
-                <Text style={this.state.round5 ? styles.textPriceWhite : styles.textPrice}>
-                  BEEF BRISKET +$1
-                </Text>
-              </View>
-            </Image>
-          </View>
-        </TouchableHighlight>
-
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round6Clicked}>
-          <View style={styles.option}>
-            <Image style={styles.thumb1} source={this.state.round6 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
-              <View style={styles.overlay}>
-                <Text style={this.state.round6 ? styles.textPriceWhite : styles.textPrice}>
-                  ROAST DUCK +$2
-                </Text>
-              </View>
-            </Image>
-          </View>
-        </TouchableHighlight>
+            </TouchableHighlight>
+          );
+        })}
       </View>
     </View>);
+  },
+
+  _renderSections: function () {
+      return (<View>
+        {this._renderRadios(this.state.currentItem.radioMods)}
+        {this._renderBools(this.state.currentItem.boolMods)}
+      </View>);
+    // return ( <View>
+    //   <View style={styles.optionsHeader}>
+    //     <View style={styles.columnContainer1}>
+    //       <View style={styles.separator} />
+    //     </View>
+    //     <View style={styles.columnContainer2}>
+    //       <Text style={styles.marronHeader}> SELECT MEAT </Text>
+    //     </View>
+    //     <View style={styles.columnContainer1}>
+    //       <View style={styles.separator} />
+    //     </View>
+    //   </View>
+    //
+    //   <View style={styles.optionsContainer}>
+    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round1Clicked}>
+    //       <View style={styles.option}>
+    //         <Image style={styles.thumb1} source={this.state.round1 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+    //           <View style={styles.overlay}>
+    //             <Text style={this.state.round1 ? styles.textPriceWhite : styles.textPrice}>
+    //               SILKY CHICKEN
+    //             </Text>
+    //           </View>
+    //         </Image>
+    //       </View>
+    //     </TouchableHighlight>
+    //
+    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round2Clicked}>
+    //       <View style={styles.option}>
+    //         <Image style={styles.thumb1} source={this.state.round2 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+    //           <View style={styles.overlay}>
+    //             <Text style={this.state.round2 ? styles.textPriceWhite : styles.textPrice}>
+    //               ROAST CHICKEN
+    //             </Text>
+    //           </View>
+    //         </Image>
+    //       </View>
+    //     </TouchableHighlight>
+    //
+    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round3Clicked}>
+    //       <View style={styles.option}>
+    //         <Image style={styles.thumb1} source={this.state.round3 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+    //           <View style={styles.overlay}>
+    //             <Text style={this.state.round3 ? styles.textPriceWhite : styles.textPrice}>
+    //               CHAR SIU
+    //             </Text>
+    //           </View>
+    //         </Image>
+    //       </View>
+    //     </TouchableHighlight>
+    //
+    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this.round4Clicked}>
+    //       <View style={styles.option}>
+    //         <Image style={styles.thumb1} source={this.state.round4 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+    //           <View style={styles.overlay}>
+    //             <Text style={this.state.round4 ? styles.textPriceWhite : styles.textPrice}>
+    //               ROAST PORK
+    //             </Text>
+    //           </View>
+    //         </Image>
+    //       </View>
+    //     </TouchableHighlight>
+    //
+    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round5Clicked}>
+    //       <View style={styles.option}>
+    //         <Image style={styles.thumb1} source={this.state.round5 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+    //           <View style={styles.overlay}>
+    //             <Text style={this.state.round5 ? styles.textPriceWhite : styles.textPrice}>
+    //               BEEF BRISKET +$1
+    //             </Text>
+    //           </View>
+    //         </Image>
+    //       </View>
+    //     </TouchableHighlight>
+    //
+    //     <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.round6Clicked}>
+    //       <View style={styles.option}>
+    //         <Image style={styles.thumb1} source={this.state.round6 ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+    //           <View style={styles.overlay}>
+    //             <Text style={this.state.round6 ? styles.textPriceWhite : styles.textPrice}>
+    //               ROAST DUCK +$2
+    //             </Text>
+    //           </View>
+    //         </Image>
+    //       </View>
+    //     </TouchableHighlight>
+    //   </View>
+    // </View>);
   },
 
   _renderQuantityWidget() {
