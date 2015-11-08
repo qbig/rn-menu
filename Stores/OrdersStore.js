@@ -203,7 +203,9 @@ class OrdersStore {
   }
 
   getOrderCount(){
-    return this.getState().unsentItems.length;
+    return this.getState().unsentItems.reduce(function(prev, cur){
+      return prev + cur.quantity
+    }, 0);
   }
 
   getOrderSum() {
