@@ -3,7 +3,7 @@ var Modifier = require('./Modifier');
 var Model = function(productInfo, modifierDict) {
   this.data = {};
   this.setAttributes(productInfo);
-  init(modifierDict);
+  this.init(modifierDict);
 };
 
 Model.prototype.setAttributes = function(options) {
@@ -17,11 +17,12 @@ Model.prototype.setAttributes = function(options) {
 
 Model.prototype.init = function(modifierDict) {
   this.quantity = 1;
-  var modifiersForItem = availModifiers.map(function(uuid){
+  var modifiersForItem = this.data.availModifiers.map(function(uuid){
     return modifierDict.find(function(elem, index ,array){
-      elem.uuid === uuid;
+      return elem.uuid === uuid;
     });
   });
+
   this.radioMods = modifiersForItem
     .filter(function(elem){
       return elem.type === "radio"
@@ -34,6 +35,8 @@ Model.prototype.init = function(modifierDict) {
     }).map(function(elem){
       return new Modifier(elem)
     });
+  console.log(this.radioMods)
+  console.log(this.boolMods)
 };
 
 Model.prototype.Cost = function() {
@@ -54,12 +57,12 @@ Model.prototype.getCostForSingleItem = function() {
   return this.radioMods.concat(this.boolMods)
     .reduce(function(prev, cur){
       return prev + cur.getCost()
-    }, 0) + this.price;
+    }, 0) + this.data.price;
 }
 
 Model.prototype.getJSON = function() {
   return {
-    product_uuid: this.uuid,
+    product_uuid: this.data.uuid,
     qty: this.quantity,
     modifiers: this.radioMods.concat(this.boolMods).map(function(elem){
       return elem.getAnswerJSON()

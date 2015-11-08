@@ -5,7 +5,7 @@ var RADIO = "radio"
 var Model = function(options) {
   this.data = {};
   this.setAttributes(options);
-  init();
+  this.init();
 };
 
 Model.prototype.setAttributes = function(options) {
@@ -22,34 +22,34 @@ Model.prototype.setAttributes = function(options) {
 };
 
 Model.prototype.init = function() {
-  this.isSelected = fasle;
+  this.isSelected = false;
   this.selectedRadioOptionName = '';
   this.cost = 0;
-  if (this.type === BOOLEAN) {}
+  if (this.data.type === BOOLEAN) {}
 
-  if (this.type === RADIO) {
-    this.radioOptions.forEach(function(option){
+  if (this.data.type === RADIO) {
+    this.data.radioOptions.forEach(function(option){
       option.isSelected = false;
     });
   }
 }
 
 Model.prototype.select = function(name) {
-  if (this.type === BOOLEAN) {
+  if (this.data.type === BOOLEAN) {
     this.isSelected = !this.isSelected;
     if (this.isSelected) {
-      this.selectedRadioOptionName = this.name;
-      this.cost = this.price;
+      this.selectedRadioOptionName = this.data.name;
+      this.cost = this.data.price;
     } else {
       this.selectedRadioOptionName = '';
       this.cost = 0
     }
   }
 
-  if (this.type === RADIO) {
+  if (this.data.type === RADIO) {
     this.isSelected = true;
     this.selectedRadioOptionName = name;
-    this.radioOptions.forEach(function(option) {
+    this.data.radioOptions.forEach(function(option) {
       if (option.name === name) {
         option.isSelected = true;
         this.cost = option.price
@@ -70,15 +70,15 @@ Model.prototype.getCost = function() {
 }
 
 Model.prototype.getAnswerJSON = function() {
-  if (this.type === BOOLEAN) {
+  if (this.data.type === BOOLEAN) {
     return {
-      uuid: this.uuid,
+      uuid: this.data.uuid,
       is_selected: this.isSelected
     };
   }
-  if (this.type === RADIO) {
+  if (this.data.type === RADIO) {
     return {
-      uuid: this.uuid,
+      uuid: this.data.uuid,
       selected_radio_option_name: this.selectedRadioOptionName
     }
   }

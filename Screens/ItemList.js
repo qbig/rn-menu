@@ -17,6 +17,7 @@ var {
 var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
+var OrderActions = require('../Actions/OrderActions');
 var screen = require('Dimensions').get('window');
 var TITLE_LENGTH = 20;
 
@@ -37,23 +38,18 @@ var ItemList = React.createClass({
     };
   },
 
-  _pressData: ({}: {
-    [key: number]: boolean
-  }),
-
   componentWillMount: function() {
-    this._pressData = {};
   },
   _onBackToMainView: function() {
     this.props.navigator.pop();
   },
   _pressRow: function(rowData) {
+    OrderActions.orderItemStarted(rowData);
     this.props.navigator.push({
       component: SetMealView,
       from: trimString(this.props.data.name, 15),
       data: rowData
     });
-
   },
 
   _onViewOrderPress: function() {

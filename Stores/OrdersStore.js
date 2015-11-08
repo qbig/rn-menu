@@ -6,19 +6,29 @@
 var alt = require('../alt')
 var OrderActions = require('../Actions/OrderActions');
 var GroupsItemsStore = require('./GroupsItemsStore');
+var OrderItemModel = require('../Models/OrderItem');
+var ModifierStore = require('./ModifierStore');
 class OrdersStore {
   constructor() {
     this.bindListeners({
       handleOrderUpdate: OrderActions.orderUpdated,
-      handleOrderCreate: OrderActions.orderCreated
+      handleOrderCreate: OrderActions.orderCreated,
+      handleNewItem: OrderActions.orderItemStarted
     });
-    this.orders = [];
+    this.sentItems = [];
+    this.unsentItems = [];
     this.details = '';
     this.currentItem = '';
     this.exportPublicMethods({
       getOrderCount: this.getOrderCount,
       getOrderSum: this.getOrderSum
     });
+  }
+
+  handleNewItem(productInfo) {
+    this.currentItem = new OrderItemModel(productInfo, ModifierStore.getState().modifiers);
+    console.log("new item creation started")
+    console.log(this.currentItem);
   }
 
   handleOrderUpdate(data) {
