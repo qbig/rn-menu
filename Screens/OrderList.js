@@ -36,12 +36,38 @@ var ds = new ListView.DataSource({
 var OrderList = React.createClass({
   mixins: [ListenerMixin],
   getInitialState: function() {
-
     return {
       isAlertVisibale: false,
       orders: OrdersStore.getState(),
-      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems.concat({name:'total'}))
+      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
+      viewOrder: true
     };
+  },
+
+  isEmpty: function () {
+    if (this.state.viewOrder) {
+      return this.state.orders.unsentItems.length === 0;
+    } else {
+      return this.state.orders.sentItems.length === 0;
+    }
+  },
+
+  togglePressed: function() {
+    if (this.state.viewOrder) {
+      this.setState({
+        isAlertVisibale: false,
+        orders: OrdersStore.getState(),
+        dataSource: ds.cloneWithRows(OrdersStore.getState().sentItems.concat({name:'total'})),
+        viewOrder: false
+      });
+    } else {
+      this.setState({
+        isAlertVisibale: false,
+        orders: OrdersStore.getState(),
+        dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
+        viewOrder: true
+      });
+    }
   },
 
   alertNoPressed: function() {
@@ -134,7 +160,7 @@ var OrderList = React.createClass({
                 <View style={styles.column5}>
                   <Text style={styles.blackText}> PRICE </Text>
                 </View>
-                <View style={styles.columnSep}/>
+
                 <View style={styles.column6}>
                   <Text style={styles.blackTextBold}> ${Number(rowData.getCost()/100.0).toFixed(2)} </Text>
                 </View>
@@ -182,6 +208,33 @@ var OrderList = React.createClass({
       }
     },
 
+    _renderEmptyView() {
+      return (
+        <View style={styles.emptyViewContainer}>
+          <View style={styles.emptyInfo}>
+            <Text style={styles.emptyText}>ORDER SENT! THANK YOU.</Text>
+          </View>
+          <TouchableHighlight style={styles.emptyBtn}>
+            <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.emptyBtn}>
+            <Text style={styles.emptyText}>VIEW BILL</Text>
+          </TouchableHighlight>
+        </View>
+      );
+    },
+
+    _renderListView() {
+      return (
+        <View style={styles.listView}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow}
+            />
+        </View>
+      );
+    },
+
     render: function() {
       var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
       var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
@@ -207,19 +260,12 @@ var OrderList = React.createClass({
              </View>
              <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
                <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
-                 style={styles.toggleBtn} onPress={this._onViewOrderPress}>
-                  <Text style={styles.toggleBtnText}>VIEW BILL</Text>
+                 style={styles.toggleBtn} onPress={this.togglePressed}>
+                  <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW ORDER' : 'VIEW BILL'}</Text>
                 </TouchableHighlight>
               </View>
            </View>
-
-           <View style={styles.lstview}>
-             <ListView
-               dataSource={this.state.dataSource}
-               renderRow={this._renderRow}
-               />
-           </View>
-
+           {this.isEmpty() ? this._renderEmptyView() : this._renderListView()}
            <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
              <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
                <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
@@ -244,11 +290,11 @@ var OrderList = React.createClass({
              </View>
            </View>
 
-           <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
+           {this.isEmpty() ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
              <View style={styles.footer}>
                <Text style={styles.footerText}>SEND ORDER</Text>
              </View>
-           </TouchableHighlight>
+           </TouchableHighlight>}
            <View style={styles.separator} />
       </View>
     );
@@ -280,12 +326,38 @@ var styles = StyleSheet.create({
     textAlign: 'left',
     color: '#8D383D',
   },
-  lstview: {
+  listView: {
     flex: 1,
     alignItems: 'flex-start',
     paddingBottom: 0,
     paddingLeft: 0
   },
+  emptyViewContainer: {
+    flex:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: 'AvenirNextLTPro-Regular',
+    fontSize: 23,
+    alignItems: 'center',
+    color: '#891F02',
+  },
+
+  emptyBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F2EDE4',
+    height:60,
+    width: screen.width,
+    borderBottomWidth:0.7,
+    borderColor: 'gray'
+  },
+
+  emptyInfo: {
+    height:60
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#FFFAF0',
@@ -412,22 +484,11 @@ var styles = StyleSheet.create({
   },
 
   navBarText: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     fontSize: 23,
     alignItems: 'center',
     color: '#891F02',
   },
-
-
-  /*: {
-      fontSize:14,
-      textAlign:'center',
-       color: 'black',
-       fontWeight: '400',
-
-
-  },*/
 
   menubutton: {
     flex: 0,
