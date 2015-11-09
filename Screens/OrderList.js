@@ -17,6 +17,8 @@ var {
 var orderListSentView = require('./OrderListSent');
 var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
+var ListenerMixin = require('alt/mixins/ListenerMixin');
+var ConfigStore = require('../Stores/ConfigStore');
 /*
 1. populate with actual order data
 2. add order/bill toggle button
@@ -27,14 +29,17 @@ var OrdersStore = require('../Stores/OrdersStore');
 7. add 'viewing' bill state (after 'toggle')
 8. add 'viewing' empty bill state (same)
 */
+var ds = new ListView.DataSource({
+  rowHasChanged: (r1, r2) => r1 !== r2
+});
 
 var OrderList = React.createClass({
+  mixins: [ListenerMixin],
   getInitialState: function() {
-    var ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+
     return {
       isAlertVisibale: false,
+      orders: OrdersStore.getState(),
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems.concat({name:'total'}))
       // [{
       //   name: 'SET MEAL 1',
@@ -61,8 +66,16 @@ var OrderList = React.createClass({
     });
     this.props.navigator.pop();
   },
+  _handleOptionsChange: function(){
+    this.setState({
+      orders: OrdersStore.getState(),
+      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems.concat({name:'total'}))
+    });
+  },
 
-  componentWillMount: function() {},
+  componentWillMount: function() {
+    this.listenTo(OrdersStore, this._handleOptionsChange);
+  },
 
   _onBackToMainView: function() {
     this.props.navigator.pop();
@@ -86,6 +99,7 @@ var OrderList = React.createClass({
   },
 
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
+    var storeInfo = ConfigStore.getState().storeInfo;
     var cellView;
     if (rowData.name != 'total') {
       return (
@@ -147,7 +161,7 @@ var OrderList = React.createClass({
                 <View style={styles.column}>
                   <View style={styles.rowWithOp}>
                     <Text style={styles.textTotal}>SUB TOTAL</Text>
-                    <Text style={styles.textTotal1}>15.80</Text>
+                    <Text style={styles.textTotal1}>{OrdersStore.getOrderSum()}</Text>
                   </View>
                   <View  style={styles.rowWithOp}>
   									 <Text style={styles.textTotal}>DISCOUNT</Text>
@@ -155,11 +169,11 @@ var OrderList = React.createClass({
   								</View>
   								<View  style={styles.rowWithOp}>
   									 <Text style={styles.textTotal}>SERVICE CHARGE</Text>
-  									<Text style={styles.textTotal1}>1.58</Text>
+  									<Text style={styles.textTotal1}>{Number(storeInfo.service_charge * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
   								</View>
   								<View  style={styles.rowWithOp}>
   									 <Text style={styles.textTotal}>GST</Text>
-                     <Text style={styles.textTotal1}>1.10</Text>
+                     <Text style={styles.textTotal1}>{Number(storeInfo.tax * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
   								</View>
                 </View>
               </View>
@@ -168,7 +182,7 @@ var OrderList = React.createClass({
                   <Text style={styles.redText}>CURRENT TOTAL</Text>
                 </View>
                 <View style={styles.totalColumn2}>
-                  <Text style={styles.redText}>$18.48</Text>
+                  <Text style={styles.redText}>${Number((storeInfo.tax+storeInfo.service_charge+100) * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
                 </View>
               </View>
               <View style={styles.separator} />
