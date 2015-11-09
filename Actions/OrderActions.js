@@ -20,7 +20,9 @@ class OrderActions {
       'radioClicked',
       'boolClicked',
       'currentOrderItemIncrement',
-      'currentOrderItemDecrement'
+      'currentOrderItemDecrement',
+      'unsentOrderItemIncrement',
+      'unsentOrderItemDecrement',
     );
   }
 }

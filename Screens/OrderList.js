@@ -14,17 +14,19 @@ var {
   TouchableHighlight,
   ListView,
 } = React;
-var orderListSentView = require('./OrderListSent');
+
 var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 var ConfigStore = require('../Stores/ConfigStore');
-var SplashScreen = require('./SplashScreen');
-var MainView = require('./MainView');
+var OrderService = require('../API/OrderService');
+var OrderActions = require('../Actions/OrderActions');
+var SystemActions = require('../Actions/SystemActions');
 /*
-1. populate with actual order data
 4. view margin padding adjustment
-7. add 'viewing' bill state (after 'toggle')
+1. populate with actual order data (DONE)
+-- send order (DONE)
+7. add 'viewing' bill state (after 'toggle')(DONE)
 2. add order/bill toggle button (DONE)
 3. make the view 'toggle' (DONE)
 5. add 'order sent' state(after clicking "send" btn) (DONE)
@@ -90,7 +92,7 @@ var OrderList = React.createClass({
   _handleOptionsChange: function(){
     this.setState({
       orders: OrdersStore.getState(),
-      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems.concat({name:'total'}))
+      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems)
     });
   },
 
@@ -103,19 +105,36 @@ var OrderList = React.createClass({
   },
 
   sendOrderPress: function() {
-    this.props.navigator.push({
-      title: "",
-      component: orderListSentView
-    });
+    var self = this;
+    SystemActions.loadingStart();
+    OrderService.updateCurrentOrder()
+      .then(function(){
+        SystemActions.loadingFinish();
+        self.setState({showSentOrder:true});
+      }).catch(function(){
+        SystemActions.loadingFinish();
+      })
   },
 
   _pressRow: function(rowID: number) {
-    if (rowID != 2) {
+    if (this.state.viewOrder) {
       if (!this.state.isAlertVisibale) {
         this.setState({
           isAlertVisibale: !this.state.isAlertVisibale
         });
       }
+    }
+  },
+
+  handleDecrement: function(rowID) {
+    if(this.state.viewOrder) {
+        OrderActions.unsentOrderItemDecrement(rowID);
+    }
+  },
+
+  handleIncrement: function(rowID) {
+    if (this.state.viewOrder) {
+        OrderActions.unsentOrderItemIncrement(rowID);
     }
   },
 
@@ -150,22 +169,24 @@ var OrderList = React.createClass({
   							<Text style={styles.blackText}> QUANTITY </Text>
   						</View>
 							<View style={styles.columnSep}/>
-								<TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={this.menuItemClicked}>
-									<View style={styles.column2}>
-										<Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
-									</View>
-								</TouchableHighlight>
-                <View style={styles.columnSep}/>
-                <View style={styles.column3}>
-                  <Text style={styles.blackTextBold}> {rowData.quantity} </Text>
-                </View>
-                <View style={styles.columnSep}/>
-                <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={this.menuItemClicked}>
-                  <View style={styles.column4}>
-                    <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
-                  </View>
-                </TouchableHighlight>
-                <View style={styles.columnSep}/>
+
+    								<TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID)}}>
+    									<View style={styles.column2}>
+    										<Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
+    									</View>
+    								</TouchableHighlight>
+                    <View style={styles.columnSep}/>
+                    <View style={styles.column3}>
+                      <Text style={styles.blackTextBold}> {rowData.quantity} </Text>
+                    </View>
+                    <View style={styles.columnSep}/>
+                    <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleIncrement(rowID)}}>
+                      <View style={styles.column2}>
+                        <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
+                      </View>
+                    </TouchableHighlight>
+                    <View style={styles.columnSep}/>
+
                 <View style={styles.column5}>
                   <Text style={styles.blackText}> PRICE </Text>
                 </View>
@@ -180,7 +201,7 @@ var OrderList = React.createClass({
         );
       } else {
         return (
-          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={() => this._pressRow(rowID)}>
+          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}>
             <View style={styles.column}>
               <View style={styles.row}>
                 <View style={styles.column}>

@@ -26,7 +26,11 @@ var OrderService = (function() {
     },
 
     updateCurrentOrder : ()=>{
-      var orderInfo = [{
+      var orderInfo = OrdersStore.getState();
+      var orderJsonArr = orderInfo.unsentItems.map(function(item){
+        return item.getJSON();
+      });
+/*      var orderInfo = [{
                    "product_uuid":167,
                    "qty": 1,
                    "modifiers":[{
@@ -64,10 +68,11 @@ var OrderService = (function() {
                      }
                    ]
         }];
-      return getRequest(ORDER_URI + '151022YCY0000006' + ITEM_URI, 'POST', orderInfo)
+*/
+      return getRequest(ORDER_URI + orderInfo.details.uuid + ITEM_URI, 'POST', orderJsonArr)
         .then(function(resJson) {
-          OrderActions.orderCreated(resJson);
-          console.log("OrderService: createNewOrder done !!!")
+          OrderActions.orderUpdated(resJson);
+          console.log("OrderService: updateCurrentOrder done !!!")
         }).catch(function(e){
           console.log(e);
         });

@@ -18,7 +18,10 @@ class OrdersStore {
       handleRadioClicked: OrderActions.radioClicked,
       handleCurrentItemIncrement: OrderActions.currentOrderItemIncrement,
       handleCurrentItemDecrement: OrderActions.currentOrderItemDecrement,
-      handleCurrentItemAdded: OrderActions.orderItemCreated
+      handleCurrentItemAdded: OrderActions.orderItemCreated,
+      handleSendOrderSuccess: OrderActions.orderUpdated,
+      handleUnsentItemIncrement: OrderActions.unsentOrderItemIncrement,
+      handleUnsentItemDecrement: OrderActions.unsentOrderItemDecrement
     });
     this.sentItems = [];
     this.unsentItems = [];
@@ -26,8 +29,26 @@ class OrdersStore {
     this.currentItem = '';
     this.exportPublicMethods({
       getOrderCount: this.getOrderCount,
-      getOrderSum: this.getOrderSum
+      getOrderSum: this.getOrderSum,
+      getUnsentOrderSum: this.getUnsentOrderSum
     });
+  }
+
+  handleUnsentItemIncrement(index) {
+    this.unsentItems[index].incre();
+  }
+
+  handleUnsentItemDecrement(index) {
+    if (this.unsentItems[index].quantity > 1) {
+      this.unsentItems[index].decre()
+    } else {
+      this.unsentItems.splice(index, 1)
+    }
+  }
+
+  handleSendOrderSuccess(successInfo) {
+    this.sentItems = this.sentItems.concat(this.unsentItems);
+    this.unsentItems = [];
   }
 
   handleCurrentItemAdded(comment) {
@@ -210,6 +231,12 @@ class OrdersStore {
   }
 
   getOrderSum() {
+    return (this.getState().sentItems.reduce(function(prev, cur){
+      return prev + cur.getCost();
+    },0) / 100.0).toFixed(2);
+  }
+
+  getUnsentOrderSum() {
     return (this.getState().unsentItems.reduce(function(prev, cur){
       return prev + cur.getCost();
     },0) / 100.0).toFixed(2);

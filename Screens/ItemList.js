@@ -67,7 +67,7 @@ var ItemList = React.createClass({
 
   _renderViewOrderButton : function () {
     var count = OrdersStore.getOrderCount();
-    var sum = OrdersStore.getOrderSum();
+    var sum = OrdersStore.getUnsentOrderSum();
     if (count > 0) {
       return (
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
