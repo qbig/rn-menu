@@ -396,7 +396,7 @@ var styles = StyleSheet.create({
 
   emptyInfo: {
     height:60,
-    width:300,
+    width:310,
     marginBottom: 30
   },
 
