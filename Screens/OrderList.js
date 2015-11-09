@@ -16,6 +16,17 @@ var {
 } = React;
 var orderListSentView = require('./OrderListSent');
 var screen = require('Dimensions').get('window');
+var OrdersStore = require('../Stores/OrdersStore');
+/*
+1. populate with actual order data
+2. add order/bill toggle button
+3. make the view 'toggle'
+4. view margin padding adjustment
+5. add 'order sent' state(after clicking "send" btn)
+6. add 'item empty' state (similar as 5. only text is diff, refer to -> trello) (after clicking 'go to/view orders')
+7. add 'viewing' bill state (after 'toggle')
+8. add 'viewing' empty bill state (same)
+*/
 
 var OrderList = React.createClass({
   getInitialState: function() {
@@ -24,22 +35,17 @@ var OrderList = React.createClass({
     });
     return {
       isAlertVisibale: false,
-      dataSource: ds.cloneWithRows([{
-        name: 'SET MEAL 1',
-        item1: 'ROAST DUCK,\nDRY HOR FUN,\nCHINESE TEA',
-        price: '$7.80',
-
-      }, {
-        name: 'SET MEAL 1',
-        item1: 'ROAST CHICKEN,\nNOODLES IN SOUP,\nBARLEY',
-        price: '$7.80',
-      }, {
-        name: 'total',
-        subtotal: '15.80',
-        discount: '0.00',
-        servicecharge: '1.58',
-        GST: '1.10'
-      }])
+      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems.concat({name:'total'}))
+      // [{
+      //   name: 'SET MEAL 1',
+      //   item1: 'ROAST DUCK,\nDRY HOR FUN,\nCHINESE TEA',
+      //   price: '$7.80',
+      //
+      // }, {
+      //   name: 'SET MEAL 1',
+      //   item1: 'ROAST CHICKEN,\nNOODLES IN SOUP,\nBARLEY',
+      //   price: '$7.80',
+      // },]
     };
   },
 
@@ -47,7 +53,6 @@ var OrderList = React.createClass({
     this.setState({
       isAlertVisibale: !this.state.isAlertVisibale
     });
-
   },
 
   alertYesPressed: function() {
@@ -57,18 +62,11 @@ var OrderList = React.createClass({
     this.props.navigator.pop();
   },
 
-  _pressData: ({}: {
-    [key: number]: boolean
-  }),
+  componentWillMount: function() {},
 
-
-  componentWillMount: function() {
-    this._pressData = {};
-  },
   _onBackToMainView: function() {
     this.props.navigator.pop();
   },
-
 
   sendOrderPress: function() {
     this.props.navigator.push({
@@ -85,10 +83,7 @@ var OrderList = React.createClass({
         });
       }
     }
-
   },
-
-
 
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
     var cellView;
@@ -98,18 +93,19 @@ var OrderList = React.createClass({
         	<View style={styles.column}>
          	  <View style={styles.row}>
            		<View style={styles.columnInner}>
-  							<View >
+  							<View>
   								<Text style={styles.text}>
-  								 {rowData.name}
+  								 {rowData.data.name}
   								 </Text>
   							</View>
-  							 <View >
-  								<Text style={styles.textDesc} numberOfLines={3}>
-  								 {rowData.item1}
+                <View>
+  								<Text style={styles.textDesc}>
+  								 {rowData.getModsStrWithComment()}
   								 </Text>
   							</View>
               </View>
             </View>
+
             <View style={styles.rowSepView}>
   						<View style={styles.column1}>
   							<Text style={styles.blackText}> QUANTITY </Text>
@@ -122,7 +118,7 @@ var OrderList = React.createClass({
 								</TouchableHighlight>
                 <View style={styles.columnSep}/>
                 <View style={styles.column3}>
-                  <Text style={styles.blackTextBold}> 3 </Text>
+                  <Text style={styles.blackTextBold}> {rowData.quantity} </Text>
                 </View>
                 <View style={styles.columnSep}/>
                 <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={this.menuItemClicked}>
@@ -136,7 +132,7 @@ var OrderList = React.createClass({
                 </View>
                 <View style={styles.columnSep}/>
                 <View style={styles.column6}>
-                  <Text style={styles.blackTextBold}> $23.40 </Text>
+                  <Text style={styles.blackTextBold}> ${Number(rowData.getCost()/100.0).toFixed(2)} </Text>
                 </View>
               </View>
               <View style={styles.separator} />
@@ -145,51 +141,34 @@ var OrderList = React.createClass({
         );
       } else {
         return (
-
           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={() => this._pressRow(rowID)}>
             <View style={styles.column}>
               <View style={styles.row}>
                 <View style={styles.column}>
                   <View style={styles.rowWithOp}>
-                    <Text style={styles.textTotal}>
-                      SUB TOTAL
-                    </Text>
-                    <Text style={styles.textTotal1}>
-                      {rowData.subtotal}
-                    </Text>
+                    <Text style={styles.textTotal}>SUB TOTAL</Text>
+                    <Text style={styles.textTotal1}>15.80</Text>
                   </View>
                   <View  style={styles.rowWithOp}>
-  									 <Text style={styles.textTotal}>
-  									 DISCOUNT
-  									 </Text>
-  									<Text style={styles.textTotal1}>
-  									 {rowData.discount}
-  									 </Text>
+  									 <Text style={styles.textTotal}>DISCOUNT</Text>
+  									<Text style={styles.textTotal1}>0.00</Text>
   								</View>
   								<View  style={styles.rowWithOp}>
-  									 <Text style={styles.textTotal}>
-  									 SERVICE CHARGE
-  									 </Text>
-  									<Text style={styles.textTotal1}>
-  									 {rowData.servicecharge}
-  									 </Text>
+  									 <Text style={styles.textTotal}>SERVICE CHARGE</Text>
+  									<Text style={styles.textTotal1}>1.58</Text>
   								</View>
   								<View  style={styles.rowWithOp}>
-  									 <Text style={styles.textTotal}>
-  									 GST
-  									 </Text>
-  									<Text style={styles.textTotal1}>
-  									 {rowData.GST}
-  									 </Text>
+  									 <Text style={styles.textTotal}>GST</Text>
+                     <Text style={styles.textTotal1}>1.10</Text>
   								</View>
                 </View>
               </View>
               <View style={styles.rowSepView}>
                 <View style={styles.totalColumn1}>
-                  <Text style={styles.redText}>  {'CURRENT TOTAL'} </Text>
+                  <Text style={styles.redText}>CURRENT TOTAL</Text>
                 </View>
                 <View style={styles.totalColumn2}>
-                  <Text style={styles.redText}>  {'$18.48'} </Text>
+                  <Text style={styles.redText}>$18.48</Text>
                 </View>
               </View>
               <View style={styles.separator} />
@@ -209,7 +188,6 @@ var OrderList = React.createClass({
              <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
              <Text style={styles.statusBarTextRight}> CONNECTED </Text>
              <Image style={styles.icon} source={require('image!icn_connected')} />
-
            </View>
            <View style={styles.navBar}>
              <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
@@ -314,13 +292,11 @@ var styles = StyleSheet.create({
   column: {
     flex: 1,
     width: screen.width,
-    height: 175,
     flexDirection: 'column',
   },
   columnInner: {
     flex: 1,
     width: screen.width,
-    height: 80,
     flexDirection: 'column',
   },
   columnInnerRight: {
@@ -338,7 +314,6 @@ var styles = StyleSheet.create({
   },
   row: {
     flex: 1,
-    height: 110,
     flexDirection: 'row',
     alignItems: 'flex-start',
     paddingRight: 0,
@@ -581,7 +556,6 @@ var styles = StyleSheet.create({
   },
 
   textDesc: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 16,

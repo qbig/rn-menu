@@ -115,9 +115,9 @@ var SetMealView = React.createClass({
     this.listenTo(OrdersStore, this._handleOptionsChange);
   },
   componentWillUnmount: function() {
-    console.log("item created !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
     if (this.state.done) {
-        OrderActions.orderItemCreated();
+        console.log("item created !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
+        OrderActions.orderItemCreated(this.state.comment);
     }
   },
 
@@ -224,7 +224,7 @@ var SetMealView = React.createClass({
         <View style={styles.optionsContainer}>
           {mod.data.radioOptions.map(function(option){
             return (
-              <ModifierSectionCell name={option.name} index={index} isSelected={option.isSelected} onSelect={self._handleRadioSelect.bind(self)} />
+              <ModifierSectionCell name={option.name} index={index} isSelected={option.isSelected} onSelect={self._handleRadioSelect} />
             );
           })}
         </View>
@@ -239,7 +239,7 @@ var SetMealView = React.createClass({
       <View style={styles.optionsContainer}>
         {boolMods.map(function(boolMod, index){
           return (
-            <ModifierSectionCell name={boolMod.data.name} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect.bind(self)} />
+            <ModifierSectionCell name={boolMod.data.name} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect} />
           );
         })}
       </View>

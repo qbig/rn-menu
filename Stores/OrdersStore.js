@@ -30,7 +30,8 @@ class OrdersStore {
     });
   }
 
-  handleCurrentItemAdded() {
+  handleCurrentItemAdded(comment) {
+    this.currentItem.comment = comment;
     this.unsentItems.push(this.currentItem);
     this.currentItem = '';
   }

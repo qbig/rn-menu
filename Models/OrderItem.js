@@ -9,6 +9,7 @@ var Model = function(productInfo, modifierDict) {
 Model.prototype.setAttributes = function(options) {
   options = (options || {});
   assign(this.data, {
+    name: options.name,
     uuid: options.uuid,
     price: options.price,
     availModifiers: options.avail_modifiers,
@@ -37,6 +38,35 @@ Model.prototype.init = function(modifierDict) {
       return new Modifier(elem)
     });
 };
+
+Model.prototype.getModsStr = function() {
+  return this.radioMods.concat(this.boolMods).reduce(function(prev, cur){
+    if (prev ==="") {
+      return cur.selectedRadioOptionName
+    } else {
+      if (cur.selectedRadioOptionName !== "") {
+        return prev + "\n" + cur.selectedRadioOptionName
+      } else {
+        return prev
+      }
+    }
+  },"");
+}
+
+Model.prototype.getModsStrWithComment = function () {
+  var modsStr = this.getModsStr();
+  console.log(modsStr)
+  console.log("comment:" + this.comment)
+  if (modsStr === "" ){
+    return this.comment
+  } else {
+    if (this.comment === "") {
+      return modsStr
+    } else {
+      return modsStr + "\n" + this.comment
+    }
+  }
+}
 
 Model.prototype.getCost = function() {
   return this.quantity * this.getCostForSingleItem();
