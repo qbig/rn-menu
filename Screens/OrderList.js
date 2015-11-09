@@ -20,8 +20,8 @@ var OrdersStore = require('../Stores/OrdersStore');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 var ConfigStore = require('../Stores/ConfigStore');
 /*
-1. populate with actual order data
-2. add order/bill toggle button
+1. populate with actual order data (DONE)
+2. add order/bill toggle button (START)
 3. make the view 'toggle'
 4. view margin padding adjustment
 5. add 'order sent' state(after clicking "send" btn)
@@ -41,16 +41,6 @@ var OrderList = React.createClass({
       isAlertVisibale: false,
       orders: OrdersStore.getState(),
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems.concat({name:'total'}))
-      // [{
-      //   name: 'SET MEAL 1',
-      //   item1: 'ROAST DUCK,\nDRY HOR FUN,\nCHINESE TEA',
-      //   price: '$7.80',
-      //
-      // }, {
-      //   name: 'SET MEAL 1',
-      //   item1: 'ROAST CHICKEN,\nNOODLES IN SOUP,\nBARLEY',
-      //   price: '$7.80',
-      // },]
     };
   },
 
@@ -215,7 +205,12 @@ var OrderList = React.createClass({
              <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
                <Text style={styles.navBarText}> ORDER LIST </Text>
              </View>
-             <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', top:10, alignItems: 'flex-start',}}></View>
+             <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
+               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+                 style={styles.toggleBtn} onPress={this._onViewOrderPress}>
+                  <Text style={styles.toggleBtnText}>VIEW BILL</Text>
+                </TouchableHighlight>
+              </View>
            </View>
 
            <View style={styles.lstview}>
@@ -260,14 +255,30 @@ var OrderList = React.createClass({
   }
 });
 var styles = StyleSheet.create({
+  toggleBtn: {
+    margin: 10,
+    marginRight:0,
+    width:90,
+    height:45,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderRadius: 3,
+    borderColor: '#8D383D',
+    borderWidth: 1.2,
+  },
+  toggleBtnText: {
+    color: '#8D383D',
+    width: 50,
+    textAlign: 'center',
+  },
   backButton: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
     color: '#8D383D',
-
   },
   lstview: {
     flex: 1,
