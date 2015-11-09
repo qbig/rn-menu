@@ -19,15 +19,17 @@ var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 var ConfigStore = require('../Stores/ConfigStore');
+var SplashScreen = require('./SplashScreen');
+var MainView = require('./MainView');
 /*
-1. populate with actual order data (DONE)
-2. add order/bill toggle button (START)
-3. make the view 'toggle'
+1. populate with actual order data
 4. view margin padding adjustment
-5. add 'order sent' state(after clicking "send" btn)
-6. add 'item empty' state (similar as 5. only text is diff, refer to -> trello) (after clicking 'go to/view orders')
 7. add 'viewing' bill state (after 'toggle')
-8. add 'viewing' empty bill state (same)
+2. add order/bill toggle button (DONE)
+3. make the view 'toggle' (DONE)
+5. add 'order sent' state(after clicking "send" btn) (DONE)
+6. add 'item empty' state (similar as 5. only text is diff, refer to -> trello) (after clicking 'go to/view orders') (DONE)
+8. add 'viewing' empty bill state (same) (DONE)
 */
 var ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2
@@ -40,7 +42,8 @@ var OrderList = React.createClass({
       isAlertVisibale: false,
       orders: OrdersStore.getState(),
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
-      viewOrder: true
+      viewOrder: true,
+      showSentOrder: false
     };
   },
 
@@ -58,14 +61,16 @@ var OrderList = React.createClass({
         isAlertVisibale: false,
         orders: OrdersStore.getState(),
         dataSource: ds.cloneWithRows(OrdersStore.getState().sentItems.concat({name:'total'})),
-        viewOrder: false
+        viewOrder: false,
+        showSentOrder: false
       });
     } else {
       this.setState({
         isAlertVisibale: false,
         orders: OrdersStore.getState(),
         dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
-        viewOrder: true
+        viewOrder: true,
+        showSentOrder: false
       });
     }
   },
@@ -112,6 +117,10 @@ var OrderList = React.createClass({
         });
       }
     }
+  },
+
+  backToMain: function() {
+    this.props.navigator.popToRoute(this.props.navigator.getCurrentRoutes()[1])
   },
 
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
@@ -209,17 +218,27 @@ var OrderList = React.createClass({
     },
 
     _renderEmptyView() {
+      var message= '';
+      if (this.state.viewOrder) {
+        if (this.state.showSentOrder) {
+          message = "ORDER SENT! THANK YOU."
+        } else {
+          message = "YOUR ORDER LIST IS EMPTY."
+        }
+      } else {
+        message = "THERE ARE NO ITEMS IN YOUR BILL."
+      }
       return (
         <View style={styles.emptyViewContainer}>
           <View style={styles.emptyInfo}>
-            <Text style={styles.emptyText}>ORDER SENT! THANK YOU.</Text>
+            <Text style={[styles.emptyText, {textAlign: 'center'}]}>{message}</Text>
           </View>
-          <TouchableHighlight style={styles.emptyBtn}>
+          <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.backToMain}>
             <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.emptyBtn}>
+          {this.state.viewOrder ? <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.togglePressed} >
             <Text style={styles.emptyText}>VIEW BILL</Text>
-          </TouchableHighlight>
+          </TouchableHighlight> : null}
         </View>
       );
     },
@@ -256,12 +275,12 @@ var OrderList = React.createClass({
                </TouchableHighlight>
              </View>
              <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
-               <Text style={styles.navBarText}> ORDER LIST </Text>
+               <Text style={styles.navBarText}>{this.state.viewOrder ? 'ORDER LIST' : 'BILL TOTAL'} </Text>
              </View>
              <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
                <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
                  style={styles.toggleBtn} onPress={this.togglePressed}>
-                  <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW ORDER' : 'VIEW BILL'}</Text>
+                  <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
                 </TouchableHighlight>
               </View>
            </View>
@@ -350,12 +369,14 @@ var styles = StyleSheet.create({
     backgroundColor: '#F2EDE4',
     height:60,
     width: screen.width,
-    borderBottomWidth:0.7,
-    borderColor: 'gray'
+    borderBottomWidth:2.7,
+    borderColor: '#CCA697'
   },
 
   emptyInfo: {
-    height:60
+    height:60,
+    width:300,
+    marginBottom: 30
   },
 
   container: {
