@@ -10,7 +10,8 @@ class EnvStore {
       handleLastSyncUpdate : AuthActions.lastSyncUpdated,
       handleSocketUpdate : SystemActions.socketConnected,
       handleLoadingStart : SystemActions.loadingStart,
-      handleLoadingFinish : SystemActions.loadingFinish
+      handleLoadingFinish : SystemActions.loadingFinish,
+      handleConfigStart : SystemActions.configStart
     });
     this.token = ""
     this.lastSync = ""
@@ -19,6 +20,11 @@ class EnvStore {
       getAll: this.getAll
     });
     this.isLoading = false;
+    this.configStart = false;
+  }
+
+  handleConfigStart() {
+    console.log('handleConfigStart!!!!')
   }
 
   handleTokenUpdate(data) {

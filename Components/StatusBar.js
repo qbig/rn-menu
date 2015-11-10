@@ -9,15 +9,41 @@ var {
   TouchableHighlight
 } = React;
 
+var EnvStore = require('../Stores/EnvStore');
+var ConfigStore = require('../Stores/ConfigStore');
+var ListenerMixin = require('alt/mixins/ListenerMixin');
+var SystemActions = require('../Actions/SystemActions');
 var StatusBar = React.createClass({
+  mixins: [ListenerMixin],
+
+  getInitialState: function() {
+    return {
+      connected: EnvStore.getState().socketStatus === 'connected',
+      tableId: ConfigStore.getState().tableId
+    };
+  },
+
+  _handleConnectionChange: function() {
+    this.setState({connected: EnvStore.getState().socketStatus === 'connected'})
+  },
+
+  _handleTableChange: function() {
+    this.setState({tabletId: ConfigStore.getState().tabletId})
+  },
+
+  componentWillMount: function() {
+    this.listenTo(EnvStore, this._handleConnectionChange);
+    this.listenTo(ConfigStore, this._handleTableChange);
+  },
+
   render: function() {
     return (
       <View style={styles.statusBar}>
-        <TouchableHighlight delayLongPress={5000} onLongPress={()=>{console.log("long pressed !!!!!!!!!")}}>
-          <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
+        <TouchableHighlight delayLongPress={5000} onLongPress={()=>{SystemActions.configStart()}}>
+          <Text style={styles.statusBarTextLeft}> TABLE {this.state.tableId} </Text>
         </TouchableHighlight>
-        <Text style={styles.statusBarTextRight}> CONNECTED </Text>
-        <Image style={styles.icon} source={require('image!icn_connected')} />
+        <Text style={styles.statusBarTextRight}>{this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
+        <Image style={[styles.icon, !this.state.connected&&{opacity:0}]} source={require('image!icn_connected')} />
       </View>
     );
   }

@@ -12,7 +12,8 @@ class SystemActions {
       'storeClosed',
       'loadingStart',
       'loadingFinish',
-      'storeInfoLoaded'
+      'storeInfoLoaded',
+      'configStart'
     );
   }
 }

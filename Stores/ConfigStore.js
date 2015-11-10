@@ -8,7 +8,7 @@ class ConfigStore {
     this.guid = "abc"
     this.username ="7737"
     this.password ="7737"
-    this.tableId = ""
+    this.tableId = "70"
     this.storeInfo = ""
     this.exportPublicMethods({
       getAll: this.getAll
