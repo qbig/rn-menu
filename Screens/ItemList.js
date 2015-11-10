@@ -14,6 +14,7 @@ var {
   TouchableHighlight,
   ListView,
 } = React;
+var StatusBar = require('../Components/StatusBar');
 var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
@@ -119,11 +120,7 @@ var ItemList = React.createClass({
   render: function() {
     return (
       <View style = {styles.container}>
-        <View style = {styles.statusBar} >
-          <Text style = {styles.statusBarTextLeft} > TABLE 1 </Text>
-          <Text style = {styles.statusBarTextRight} > CONNECTED </Text>
-          <Image style = {styles.icon} source = {require('image!icn_connected')}/>
-        </View>
+        <StatusBar />
         <View style = {styles.navBar}>
           <View style = {
               {

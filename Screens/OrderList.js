@@ -16,6 +16,7 @@ var {
 } = React;
 
 var screen = require('Dimensions').get('window');
+var StatusBar = require('../Components/StatusBar');
 var OrdersStore = require('../Stores/OrdersStore');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 var ConfigStore = require('../Stores/ConfigStore');
@@ -87,7 +88,7 @@ var OrderList = React.createClass({
       data: this.state.orders.unsentItems[this.state.editRowIndex].data
     });
   },
-  
+
   _handleOrdersChange: function(){
     this.setState({
       orders: OrdersStore.getState(),
@@ -291,11 +292,7 @@ render: function() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.statusBar}>
-        <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
-        <Text style={styles.statusBarTextRight}> CONNECTED </Text>
-        <Image style={styles.icon} source={require('image!icn_connected')} />
-      </View>
+      <StatusBar />
       <View style={styles.navBar}>
         <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>

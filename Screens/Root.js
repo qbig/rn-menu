@@ -57,7 +57,6 @@ var Root = React.createClass({
   },
 
   showLoading : function () {
-
     setTimeout(()=> {
       Portal.showModal(tag, this._modalComponent());
       this._animate();

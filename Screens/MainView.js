@@ -21,6 +21,7 @@ import type {
 }
 from 'NavigationContext';
 var screen = require('Dimensions').get('window');
+var StatusBar = require('../Components/StatusBar');
 var ItemList = require('./ItemList');
 var OrderList = require('./OrderList');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
@@ -96,11 +97,7 @@ var MainView = React.createClass({
     })
      return (
        <View style={styles.container}>
-           <View style={styles.statusBar}>
-              <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
-              <Text style={styles.statusBarTextRight}> CONNECTED </Text>
-              <Image style={styles.icon} source={require('image!icn_connected')} />
-           </View>
+           <StatusBar />
            <View style={styles.navBar}>
               <Text style={styles.navBarText}> MENU </Text>
               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
