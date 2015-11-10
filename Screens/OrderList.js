@@ -296,7 +296,7 @@ render: function() {
       <View style={styles.navBar}>
         <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
-            <View style={{flexDirection: 'row', flex:1}}>
+            <View style={styles.backButtonContainer}>
               <Image source={require('image!btn_back')}  />
               <Text style={styles.backButton}> {this.props.from} </Text>
             </View>

@@ -42,6 +42,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: 'white',
     paddingLeft: 15,
+    marginLeft: 25
   },
 
   statusBarTextRight: {
@@ -55,9 +56,9 @@ var styles = StyleSheet.create({
   },
 
   icon: {
-    width: 15,
-    height: 15,
-    marginRight: 10,
+    width: 27,
+    height: 27,
+    marginRight: 25,
   },
 
 });
