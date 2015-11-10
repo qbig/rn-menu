@@ -127,6 +127,7 @@ var styles = StyleSheet.create({
     height: (screen.height * 69) / 100,
     top: 0,
   },
+
   imageContainer: {
     flex: 1,
     width: (screen.width * 33.33) / 100,
@@ -145,28 +146,27 @@ var styles = StyleSheet.create({
     paddingBottom: 0,
     paddingLeft: 0
   },
+
   separator: {
     height: 1,
     alignItems: 'flex-end',
     backgroundColor: '#8D383D'
   },
+
   overlay1: {
     position: 'absolute',
     bottom: 20,
     width: screen.width / 2,
-
   },
-  overlay1Text: {
 
+  overlay1Text: {
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 16,
     color: '#891F02',
     fontWeight: '500',
-
   },
 
   statusBarTextLeft: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 14,
@@ -174,8 +174,8 @@ var styles = StyleSheet.create({
     color: '#10E790',
     paddingLeft: 15,
   },
-  statusBarTextRight: {
 
+  statusBarTextRight: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 14,
@@ -184,16 +184,17 @@ var styles = StyleSheet.create({
     paddingRight: 4,
     textAlign: 'right',
   },
+
   icon: {
     width: 15,
     height: 15,
     marginRight: 10,
   },
+
   thumb: {
     width: screen.width / 2,
     height: screen.height / 4,
   },
-
 
   navBar: {
     height: 60,
@@ -256,7 +257,6 @@ var styles = StyleSheet.create({
     paddingLeft: 0
   },
   footerText: {
-
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 23,
     alignItems: 'center',
@@ -264,4 +264,5 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
 module.exports = MainView;

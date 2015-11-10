@@ -234,16 +234,18 @@ var SetMealView = React.createClass({
 
   _renderBools: function(boolMods) {
     var self = this;
-    return (<View>
-      <ModifierSectionHeader name={"Additional Options"} />
-      <View style={styles.optionsContainer}>
-        {boolMods.map(function(boolMod, index){
-          return (
-            <ModifierSectionCell name={boolMod.data.name} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect} />
-          );
-        })}
-      </View>
-    </View>);
+    if (boolMods.length > 0) {
+      return (<View>
+        <ModifierSectionHeader name={"Additional Options"} />
+        <View style={styles.optionsContainer}>
+          {boolMods.map(function(boolMod, index){
+            return (
+              <ModifierSectionCell name={boolMod.data.name} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect} />
+            );
+          })}
+        </View>
+      </View>);
+    }
   },
 
   _renderSections: function () {

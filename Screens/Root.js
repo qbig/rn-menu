@@ -159,32 +159,7 @@ var Root = React.createClass({
     }
   },
 
-  componentDidMount : function() {
-    // var digestAuthRequest = require('./digestAuthRequest');
-    // var self = this;
-    // var url = 'http://104.155.205.124/auth/login?posGuid=abc';
-    // var uri = '/auth/login?posGuid=abc';
-    //
-    // var req = new digestAuthRequest('GET', url, uri, '7737', '7737');
-    // // make the request
-    // req.request(function(data) {
-    //     console.log('Data retrieved successfully');
-    //     console.log(data);
-    //     //self.setState({text: JSON.stringify(data)});
-    //     console.log('Above is the retrieved');
-    // },function(errorCode) {
-    //     console.log('no dice: '+errorCode);
-    // }, {});
-    // SocketService.init();
-    // GroupsItemsService.requestForGroupsItems();
-    // AuthService.requestForToken();
-    // TableService.requestForTables();
-    // ProdAttributeService.requestForProdAttribute();
-    // OrderService.requestForCurrentOrder();
-    // OrderService.createNewEmptyOrder();
-    // OrderService.updateCurrentOrder();
-    // ModifierService.requestForModifiers();
-  },
+  componentDidMount : function() {},
 
   render: function() {
     return (

@@ -420,13 +420,11 @@ var styles = StyleSheet.create({
     paddingLeft: 0
   },
   footerText: {
-
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 23,
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',
-
   },
   column: {
     flex: 1,
@@ -449,7 +447,6 @@ var styles = StyleSheet.create({
   borderCS: {
     flex: 1,
     borderRightColor: 'red',
-
   },
   row: {
     flex: 1,
@@ -459,10 +456,8 @@ var styles = StyleSheet.create({
     paddingTop: 7,
   },
   rowWithOp: {
-
     height: 23,
     flexDirection: 'row',
-
   },
   rowWithOption: {
     flex: 1,
@@ -540,7 +535,6 @@ var styles = StyleSheet.create({
     marginLeft: 0
   },
 
-
   headerImage: {
     flex: 1,
     alignSelf: 'auto',
@@ -553,7 +547,6 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-
   },
   itemName: {
     flex: 1,
@@ -575,7 +568,6 @@ var styles = StyleSheet.create({
     lineHeight: 25
   },
   textAmountTotal: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 16,
@@ -588,7 +580,6 @@ var styles = StyleSheet.create({
     paddingBottom: 5,
   },
   textPrice: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 16,
@@ -599,8 +590,8 @@ var styles = StyleSheet.create({
     width: screen.width / 4,
     paddingBottom: 5,
   },
-  textAmount: {
 
+  textAmount: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 16,
@@ -613,23 +604,22 @@ var styles = StyleSheet.create({
   },
 
   textTotalLabel: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 3,
     fontSize: 16,
     textAlign: 'right',
     color: '#BBB8B0',
   },
-  textTotalValue: {
 
+  textTotalValue: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 16,
     textAlign: 'center',
     color: '#BBB8B0',
   },
-  backbutton: {
 
+  backbutton: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 2,
     justifyContent: 'center',
@@ -644,6 +634,7 @@ var styles = StyleSheet.create({
     paddingRight: 0,
     backgroundColor: '#F2EDE4',
   },
+
   column1: {
     flex: 2.5,
     height: 60,
@@ -651,6 +642,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column2: {
     flex: 1,
     height: 60,
@@ -658,6 +650,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column3: {
     flex: 1,
     height: 60,
@@ -665,6 +658,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column4: {
     flex: 1,
     height: 60,
@@ -672,6 +666,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column5: {
     flex: 1.8,
     height: 60,
@@ -679,6 +674,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   column6: {
     flex: 2.5,
     height: 60,
@@ -689,7 +685,6 @@ var styles = StyleSheet.create({
   },
 
   blackText: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     fontSize: 16,
     textAlign: 'center',
@@ -697,7 +692,6 @@ var styles = StyleSheet.create({
   },
 
   blackTextBold: {
-
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 24,
     textAlign: 'center',
@@ -713,6 +707,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#DCDCDC',
   },
+
   totalColumn1: {
     flex: 3.0,
     height: 60,
@@ -720,6 +715,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
+
   totalColumn2: {
     flex: 1,
     height: 60,
@@ -729,20 +725,18 @@ var styles = StyleSheet.create({
   },
 
   redText: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     fontSize: 16,
     textAlign: 'center',
     color: '#8D383D',
   },
 
-
   flexCenter: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
+
   modal: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,.8)',
@@ -754,15 +748,13 @@ var styles = StyleSheet.create({
     height: screen.height,
     width: screen.width,
   },
+
   alertView: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-
     backgroundColor: 'white',
   },
-
-
 
   overlayVisible: {
     position: 'absolute',
@@ -775,8 +767,8 @@ var styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
-
   },
+
   overlayInVisible: {
     position: 'absolute',
     backgroundColor: 'rgba(0,0,0,0.2)',
@@ -796,42 +788,42 @@ var styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+
   alertBodyInVisible: {
     backgroundColor: 'white',
     width: 0,
     height: 0,
   },
+
   alertRowVisible: {
     height: 100,
     flexDirection: 'row',
     alignSelf: 'center',
-
     borderRadius: 10,
     width: 250,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  alertRowInVisible: {
 
+  alertRowInVisible: {
     width: 0,
     height: 0,
   },
+
   alertSecondRowVisible: {
     height: 50,
     flexDirection: 'row',
     alignSelf: 'center',
-
     borderRadius: 10,
     width: 250,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  alertSecondRowInVisible: {
 
+  alertSecondRowInVisible: {
     width: 0,
     height: 0,
   },
-
 
   alertCollVisible: {
     flex: 1,
@@ -842,11 +834,12 @@ var styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
   },
-  alertCollInVisible: {
 
+  alertCollInVisible: {
     width: 0,
     height: 0,
   },
+
   alertBtnVisible: {
     height: 50,
     flex: 1,
@@ -854,15 +847,15 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     width: 125,
     borderRadius: 10,
-
   },
+
   alertBtnInVisible: {
     backgroundColor: 'white',
     width: 0,
     height: 0,
   },
-  alertTextVisible: {
 
+  alertTextVisible: {
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 16,
     color: '#891F02',
@@ -870,10 +863,11 @@ var styles = StyleSheet.create({
     textAlign: 'center',
 
   },
+
   alertTextInVisible: {
     width: 0,
     height: 0,
-
   },
+
 });
 module.exports = OrderList;

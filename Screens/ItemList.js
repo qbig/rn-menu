@@ -88,7 +88,7 @@ var ItemList = React.createClass({
           <View style = {styles.row}>
             <View>
               <Image style ={styles.thumb}
-                  source = {{uri: rowData.images[0].url}}/>
+                  source = {rowData.images.length > 0 ? {uri:  rowData.images[0].url} : imgArr[0]}/>
             </View>
             <View style = {styles.column}>
             <View style = {{width: screen.width - 420}} >
@@ -180,6 +180,7 @@ var ItemList = React.createClass({
     );
   }
 });
+
 var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
@@ -195,6 +196,7 @@ var styles = StyleSheet.create({
     color: '#8D383D',
     marginLeft:8
   },
+
   overlay: {
     position: 'absolute',
     width: 100,
@@ -202,13 +204,16 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   lstview: {
     flex: 1,
   },
+
   container: {
     flex: 1,
     backgroundColor: '#FFFAF0',
   },
+
   thumb1: {
     top: 15,
     right: 15,
@@ -216,13 +221,14 @@ var styles = StyleSheet.create({
     height: 100,
     alignItems: 'center',
   },
+
   thumb: {
     width: 290,
     height: 220,
     paddingLeft: 10,
     alignItems: 'center',
-
   },
+
   footer: {
     height: 60,
     justifyContent: 'center',
@@ -232,11 +238,13 @@ var styles = StyleSheet.create({
     paddingBottom: 0,
     paddingLeft: 0
   },
+
   column: {
     flex: 1,
     height: 220,
     flexDirection: 'column',
   },
+
   row: {
     flex: 1,
     height: 70,
@@ -244,11 +252,13 @@ var styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingRight: 0,
   },
+
   separator: {
     height: 1,
     alignItems: 'flex-end',
     backgroundColor: '#8D383D'
   },
+
   statusBar: {
     flex: 0,
     height: 36,
@@ -261,7 +271,6 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextLeft: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 14,
@@ -269,8 +278,8 @@ var styles = StyleSheet.create({
     color: '#10E790',
     paddingLeft: 15,
   },
-  statusBarTextRight: {
 
+  statusBarTextRight: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 14,
@@ -279,11 +288,13 @@ var styles = StyleSheet.create({
     paddingRight: 4,
     textAlign: 'right',
   },
+
   icon: {
     width: 15,
     height: 15,
     marginRight: 10,
   },
+
   navBar: {
     height: 60,
     justifyContent: 'center',
@@ -295,12 +306,12 @@ var styles = StyleSheet.create({
   },
 
   navBarText: {
-
     fontFamily: 'AvenirNextLTPro-Regular',
     fontSize: 23,
     alignItems: 'center',
     color: '#891F02',
   },
+
   topGoToOrderBtn: {
     backgroundColor:'#891F02',
     right: 0,
@@ -310,6 +321,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
+
   topGoToOrderText: {
     color:'#FFFAF0',
     fontWeight: 'bold',
@@ -322,9 +334,8 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
     fontWeight: '400',
-
-
   },
+
   menubutton: {
     flex: 0,
     justifyContent: 'center',
@@ -332,7 +343,6 @@ var styles = StyleSheet.create({
     paddingLeft: 0,
     marginLeft: 0
   },
-
 
   headerImage: {
     flex: 1,
@@ -346,8 +356,8 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-
   },
+
   text: {
     flex: 1,
     fontSize: 24,
@@ -357,8 +367,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: '#802628'
   },
-  textDesc: {
 
+  textDesc: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 17,
@@ -367,8 +377,8 @@ var styles = StyleSheet.create({
     marginTop: 5,
     color: 'black',
   },
-  textPrice: {
 
+  textPrice: {
     fontFamily: 'AvenirNextLTPro-Regular',
     textAlign: 'center',
     fontSize: 16,
