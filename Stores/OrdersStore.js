@@ -8,6 +8,7 @@ var OrderActions = require('../Actions/OrderActions');
 var GroupsItemsStore = require('./GroupsItemsStore');
 var OrderItemModel = require('../Models/OrderItem');
 var ModifierStore = require('./ModifierStore');
+
 class OrdersStore {
   constructor() {
     this.bindListeners({
@@ -21,7 +22,9 @@ class OrdersStore {
       handleCurrentItemAdded: OrderActions.orderItemCreated,
       handleSendOrderSuccess: OrderActions.orderUpdated,
       handleUnsentItemIncrement: OrderActions.unsentOrderItemIncrement,
-      handleUnsentItemDecrement: OrderActions.unsentOrderItemDecrement
+      handleUnsentItemDecrement: OrderActions.unsentOrderItemDecrement,
+      handleUnsentItemStartedEdit: OrderActions.orderItemStartedEdit,
+      handleUnsentItemCompletedEdit: OrderActions.orderItemCompletedEdit
     });
     this.sentItems = [];
     this.unsentItems = [];
@@ -32,6 +35,17 @@ class OrdersStore {
       getOrderSum: this.getOrderSum,
       getUnsentOrderSum: this.getUnsentOrderSum
     });
+  }
+
+  handleUnsentItemCompletedEdit(comment) {
+    this.currentItem.comment = comment;
+    this.unsentItems[this.currentItem.index] = this.currentItem;
+    this.currentItem = '';
+  }
+
+  handleUnsentItemStartedEdit(index) {
+    this.currentItem = this.unsentItems[index].getClone();
+    this.currentItem.index = index; // for later, to replace the original
   }
 
   handleUnsentItemIncrement(index) {

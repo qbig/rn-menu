@@ -51,7 +51,7 @@ var MainView = React.createClass({
 
   _onViewOrderPress: function() {
     this.props.navigator.push({
-      component: OrderList,
+      title: 'OrderList',
       data:"",
       from: "FULL MENU"
     });
@@ -60,7 +60,7 @@ var MainView = React.createClass({
   menuItemClicked: function(group) {
     console.log(group)
     this.props.navigator.push({
-      component: ItemList,
+      title: 'ItemList',
       data: group,
       from: "FULL MENU"
     });

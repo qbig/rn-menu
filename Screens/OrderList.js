@@ -37,7 +37,8 @@ var OrderList = React.createClass({
       orders: OrdersStore.getState(),
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
       viewOrder: true,
-      showSentOrder: false
+      showSentOrder: false,
+      editRowIndex: -1
     };
   },
 
@@ -79,8 +80,14 @@ var OrderList = React.createClass({
     this.setState({
       isAlertVisibale: !this.state.isAlertVisibale
     });
-    this.props.navigator.pop();
+    OrderActions.orderItemStartedEdit(this.state.editRowIndex);
+    this.props.navigator.push({
+      title: 'SetMealView',
+      from: 'ORDER LIST',
+      data: this.state.orders.unsentItems[this.state.editRowIndex].data
+    });
   },
+  
   _handleOrdersChange: function(){
     this.setState({
       orders: OrdersStore.getState(),
@@ -114,7 +121,8 @@ var OrderList = React.createClass({
     if (this.state.viewOrder) {
       if (!this.state.isAlertVisibale) {
         this.setState({
-          isAlertVisibale: !this.state.isAlertVisibale
+          isAlertVisibale: !this.state.isAlertVisibale,
+          editRowIndex:  rowID
         });
       }
     }
@@ -278,7 +286,9 @@ _renderListView() {
 render: function() {
   var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
   var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
-  var textMessage = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Would you like to edit meal?</Text>  : null ;
+  var textMessage = this.state.isAlertVisibale ?
+  <Text style={styles.alertTextVisible}>Would you like to edit {this.state.editRowIndex === -1 ? 'meal' : this.state.orders.unsentItems[this.state.editRowIndex].data.name}?</Text>  : null ;
+
   return (
     <View style={styles.container}>
       <View style={styles.statusBar}>

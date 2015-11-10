@@ -15,7 +15,7 @@ class OrderActions {
       'orderItemTappedEdit',
       'orderItemStartedEdit',
       'orderItemDiscardEdit',
-      'orderItemUpdated',
+      'orderItemCompletedEdit',
       'orderItemDeleted',
       'radioClicked',
       'boolClicked',

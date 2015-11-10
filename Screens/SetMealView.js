@@ -100,8 +100,9 @@ var SetMealView = React.createClass({
     return {
       currentItem: OrdersStore.getState().currentItem,
       isAlertVisibale: false,
-      comment:'',
-      done: false
+      comment:OrdersStore.getState().currentItem.comment,
+      done: false,
+      isEditMode: this.props.from === 'ORDER LIST'
     };
   },
 
@@ -116,12 +117,17 @@ var SetMealView = React.createClass({
   },
   componentWillUnmount: function() {
     if (this.state.done) {
+      if (this.state.isEditMode) {
+        console.log("item edited !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
+        OrderActions.orderItemCompletedEdit(this.state.comment);
+      } else {
         console.log("item created !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
         OrderActions.orderItemCreated(this.state.comment);
+      }
     }
   },
 
-  handleAddToOrder: function() {
+  handleEditComplete: function() {
     if (this.state.currentItem.isCompleted()){
       if(!this.state.isAlertVisibale) {
         this.setState({done: true});
@@ -191,7 +197,7 @@ var SetMealView = React.createClass({
   _renderActionButton: function() {
     if (this.state.isEditMode) {
       return (
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.openAlertView}>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleEditComplete}>
           <View style={styles.footer}>
             <Text style={styles.footerText}> CHANGE ORDER ITEM </Text>
           </View>
@@ -199,7 +205,7 @@ var SetMealView = React.createClass({
       );
     } else {
       return (
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleAddToOrder}>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleEditComplete}>
           <View style={styles.footer}>
             <Text style={styles.footerText}>ADD TO ORDER</Text>
           </View>
@@ -331,7 +337,7 @@ var SetMealView = React.createClass({
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
             </View>
-            <TextInput style={styles.input} placeholder="Add a comment here" placeholderTextColor="#999" onChangeText={(text) => this.setState({comment:text})} />
+            <TextInput style={styles.input} value={this.state.comment} placeholder="Add a comment here" placeholderTextColor="#999" onChangeText={(text) => this.setState({comment:text})} />
           </ScrollView>
           {this._renderModal()}
         </View>

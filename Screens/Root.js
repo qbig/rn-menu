@@ -18,6 +18,13 @@ var {
   Easing
 } = React;
 
+var SplashScreen = require('./SplashScreen');
+var MainView = require('./MainView');
+var ItemList = require('./ItemList');
+var SetMealView = require('./SetMealView')
+var OrderList = require('./OrderList');
+
+
 var SocketService = require('../API/SocketService');
 var GroupsItemsService = require('../API/GroupsItemsService');
 var AuthService = require('../API/AuthService');
@@ -36,7 +43,6 @@ var ProdAttributeStore = require('../Stores/ProdAttributeStore');
 var TablesStore = require('../Stores/TablesStore');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 
-var SplashScreen = require('./SplashScreen');
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 import Portal from 'react-native/Libraries/Portal/Portal';
@@ -164,13 +170,25 @@ var Root = React.createClass({
   render: function() {
     return (
         <Navigator
-          initialRoute={{name: '', component: SplashScreen}}
+          initialRoute={{data: '', from:'', title: 'SplashScreen'}}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;
           }}
           renderScene={(route, navigator) => {
-            if (route.component) {
-              return React.createElement(route.component, {navigator: navigator ,data: route.data, from:route.from});
+            if (route.title === "SplashScreen") {
+              return <SplashScreen navigator={navigator} data={route.data} from={route.from} />
+            }
+            if (route.title === "MainView") {
+              return <MainView navigator={navigator} data={route.data} from={route.from} />
+            }
+            if (route.title === "ItemList") {
+              return <ItemList navigator={navigator} data={route.data} from={route.from} />
+            }
+            if (route.title === "SetMealView") {
+              return <SetMealView navigator={navigator} data={route.data} from={route.from} />
+            }
+            if (route.title === "OrderList") {
+              return <OrderList navigator={navigator} data={route.data} from={route.from} />
             }
           }}
           />

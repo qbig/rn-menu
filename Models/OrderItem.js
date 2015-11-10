@@ -1,4 +1,5 @@
 var assign = require('../Lib/assignDefined');
+var deepAssign = require('deep-assign');
 var Modifier = require('./Modifier');
 var Model = function(productInfo, modifierDict) {
   this.data = {};
@@ -17,9 +18,15 @@ Model.prototype.setAttributes = function(options) {
   });
 };
 
+Model.prototype.getClone = function() {
+  var result = Object.create(this);
+  return deepAssign(result, this);
+}
+
 Model.prototype.init = function(modifierDict) {
   this.quantity = 1;
   this.comment = "";
+  console.log(this.data.availModifiers)
   var modifiersForItem = this.data.availModifiers.map(function(uuid){
     return modifierDict.find(function(elem, index ,array){
       return elem.uuid === uuid;

@@ -25,8 +25,9 @@ var SplashScreen = React.createClass({
     .then(()=>{
       SystemActions.loadingFinish();
       this.props.navigator.push({
-        title: "",
-        component: MainView
+        'title': 'MainView',
+        'from':'',
+        'data':''
       });
     })
   },

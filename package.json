@@ -8,6 +8,7 @@
   "dependencies": {
     "@exponent/react-native-navigator": "^0.2.6",
     "alt": "^0.17.8",
+    "deep-assign": "^2.0.0",
     "invariant": "^2.1.2",
     "object-assign": "^4.0.1",
     "react-native": "^0.14.0-rc",

@@ -51,7 +51,7 @@ var ItemList = React.createClass({
   _pressRow: function(rowData) {
     OrderActions.orderItemStarted(rowData);
     this.props.navigator.push({
-      component: SetMealView,
+      title: 'SetMealView',
       from: trimString(this.props.data.name, 15),
       data: rowData
     });
@@ -59,7 +59,7 @@ var ItemList = React.createClass({
 
   _onViewOrderPress: function() {
     this.props.navigator.push({
-      component: OrderList,
+      title: 'OrderList',
       from: trimString(this.props.data.name, 15),
       data:''
     });
