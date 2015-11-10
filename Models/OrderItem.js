@@ -45,7 +45,7 @@ Model.prototype.getModsStr = function() {
       return cur.selectedRadioOptionName
     } else {
       if (cur.selectedRadioOptionName !== "") {
-        return prev + "\n" + cur.selectedRadioOptionName
+        return prev + ",\n" + cur.selectedRadioOptionName
       } else {
         return prev
       }
@@ -63,7 +63,7 @@ Model.prototype.getModsStrWithComment = function () {
     if (this.comment === "") {
       return modsStr
     } else {
-      return modsStr + "\n" + this.comment
+      return modsStr + ",\n" + this.comment
     }
   }
 }

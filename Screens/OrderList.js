@@ -1,7 +1,7 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+* Sample React Native App
+* https://github.com/facebook/react-native
+*/
 'use strict';
 
 var React = require('react-native');
@@ -23,15 +23,7 @@ var OrderService = require('../API/OrderService');
 var OrderActions = require('../Actions/OrderActions');
 var SystemActions = require('../Actions/SystemActions');
 /*
-4. view margin padding adjustment
-1. populate with actual order data (DONE)
--- send order (DONE)
-7. add 'viewing' bill state (after 'toggle')(DONE)
-2. add order/bill toggle button (DONE)
-3. make the view 'toggle' (DONE)
-5. add 'order sent' state(after clicking "send" btn) (DONE)
-6. add 'item empty' state (similar as 5. only text is diff, refer to -> trello) (after clicking 'go to/view orders') (DONE)
-8. add 'viewing' empty bill state (same) (DONE)
+1. view margin padding adjustment
 */
 var ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2
@@ -89,7 +81,7 @@ var OrderList = React.createClass({
     });
     this.props.navigator.pop();
   },
-  _handleOptionsChange: function(){
+  _handleOrdersChange: function(){
     this.setState({
       orders: OrdersStore.getState(),
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems)
@@ -97,7 +89,7 @@ var OrderList = React.createClass({
   },
 
   componentWillMount: function() {
-    this.listenTo(OrdersStore, this._handleOptionsChange);
+    this.listenTo(OrdersStore, this._handleOrdersChange);
   },
 
   _onBackToMainView: function() {
@@ -108,12 +100,12 @@ var OrderList = React.createClass({
     var self = this;
     SystemActions.loadingStart();
     OrderService.updateCurrentOrder()
-      .then(function(){
-        SystemActions.loadingFinish();
-        self.setState({showSentOrder:true});
-      }).catch(function(){
-        SystemActions.loadingFinish();
-      })
+    .then(function(){
+      SystemActions.loadingFinish();
+      self.setState({showSentOrder:true});
+    }).catch(function(){
+      SystemActions.loadingFinish();
+    })
   },
 
   _pressRow: function(rowID: number) {
@@ -128,13 +120,13 @@ var OrderList = React.createClass({
 
   handleDecrement: function(rowID) {
     if(this.state.viewOrder) {
-        OrderActions.unsentOrderItemDecrement(rowID);
+      OrderActions.unsentOrderItemDecrement(rowID);
     }
   },
 
   handleIncrement: function(rowID) {
     if (this.state.viewOrder) {
-        OrderActions.unsentOrderItemIncrement(rowID);
+      OrderActions.unsentOrderItemIncrement(rowID);
     }
   },
 
@@ -147,198 +139,198 @@ var OrderList = React.createClass({
     var cellView;
     if (rowData.name != 'total') {
       return (
-         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={() => this._pressRow(rowID)}>
-        	<View style={styles.column}>
-         	  <View style={styles.row}>
-           		<View style={styles.columnInner}>
-  							<View>
-  								<Text style={styles.text}>
-  								 {rowData.data.name}
-  								 </Text>
-  							</View>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={() => this._pressRow(rowID)}>
+          <View style={styles.column}>
+            <View style={styles.row}>
+              <View style={styles.columnInner}>
                 <View>
-  								<Text style={styles.textDesc}>
-  								 {rowData.getModsStrWithComment()}
-  								 </Text>
-  							</View>
+                  <Text style={styles.itemName}>
+                    {rowData.data.name}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={styles.itemDesc}>
+                    {rowData.getModsStrWithComment()}
+                  </Text>
+                </View>
               </View>
             </View>
 
             <View style={styles.rowSepView}>
-  						<View style={styles.column1}>
-  							<Text style={styles.blackText}> QUANTITY </Text>
-  						</View>
-							<View style={styles.columnSep}/>
-
-    								<TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID)}}>
-    									<View style={styles.column2}>
-    										<Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
-    									</View>
-    								</TouchableHighlight>
-                    <View style={styles.columnSep}/>
-                    <View style={styles.column3}>
-                      <Text style={styles.blackTextBold}> {rowData.quantity} </Text>
-                    </View>
-                    <View style={styles.columnSep}/>
-                    <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleIncrement(rowID)}}>
-                      <View style={styles.column2}>
-                        <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
-                      </View>
-                    </TouchableHighlight>
-                    <View style={styles.columnSep}/>
-
-                <View style={styles.column5}>
-                  <Text style={styles.blackText}> PRICE </Text>
-                </View>
-
-                <View style={styles.column6}>
-                  <Text style={styles.blackTextBold}> ${Number(rowData.getCost()/100.0).toFixed(2)} </Text>
-                </View>
+              <View style={styles.column1}>
+                <Text style={styles.blackText}> QUANTITY </Text>
               </View>
-              <View style={styles.separator} />
+              <View style={styles.columnSep}/>
+
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID)}}>
+                <View style={styles.column2}>
+                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
+                </View>
+              </TouchableHighlight>
+              <View style={styles.columnSep}/>
+              <View style={styles.column3}>
+                <Text style={styles.blackTextBold}> {rowData.quantity} </Text>
+              </View>
+              <View style={styles.columnSep}/>
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleIncrement(rowID)}}>
+                <View style={styles.column2}>
+                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
+                </View>
+              </TouchableHighlight>
+              <View style={styles.columnSep}/>
+
+              <View style={styles.column5}>
+                <Text style={styles.blackText}> PRICE </Text>
+              </View>
+
+              <View style={styles.column6}>
+                <Text style={styles.blackTextBold}> ${Number(rowData.getCost()/100.0).toFixed(2)} </Text>
+              </View>
             </View>
-          </TouchableHighlight>
-        );
-      } else {
-        return (
-          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}>
-            <View style={styles.column}>
-              <View style={styles.row}>
-                <View style={styles.column}>
-                  <View style={styles.rowWithOp}>
-                    <Text style={styles.textTotal}>SUB TOTAL</Text>
-                    <Text style={styles.textTotal1}>{OrdersStore.getOrderSum()}</Text>
-                  </View>
-                  <View  style={styles.rowWithOp}>
-  									 <Text style={styles.textTotal}>DISCOUNT</Text>
-  									<Text style={styles.textTotal1}>0.00</Text>
-  								</View>
-  								<View  style={styles.rowWithOp}>
-  									 <Text style={styles.textTotal}>SERVICE CHARGE</Text>
-  									<Text style={styles.textTotal1}>{Number(storeInfo.service_charge * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
-  								</View>
-  								<View  style={styles.rowWithOp}>
-  									 <Text style={styles.textTotal}>GST</Text>
-                     <Text style={styles.textTotal1}>{Number(storeInfo.tax * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
-  								</View>
-                </View>
-              </View>
-              <View style={styles.rowSepView}>
-                <View style={styles.totalColumn1}>
-                  <Text style={styles.redText}>CURRENT TOTAL</Text>
-                </View>
-                <View style={styles.totalColumn2}>
-                  <Text style={styles.redText}>${Number((storeInfo.tax+storeInfo.service_charge+100) * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
-                </View>
-              </View>
-              <View style={styles.separator} />
-            </View>
-          </TouchableHighlight>
-        );
-      }
-    },
-
-    _renderEmptyView() {
-      var message= '';
-      if (this.state.viewOrder) {
-        if (this.state.showSentOrder) {
-          message = "ORDER SENT! THANK YOU."
-        } else {
-          message = "YOUR ORDER LIST IS EMPTY."
-        }
-      } else {
-        message = "THERE ARE NO ITEMS IN YOUR BILL."
-      }
-      return (
-        <View style={styles.emptyViewContainer}>
-          <View style={styles.emptyInfo}>
-            <Text style={[styles.emptyText, {textAlign: 'center'}]}>{message}</Text>
+            <View style={styles.separator} />
           </View>
-          <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.backToMain}>
-            <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
-          </TouchableHighlight>
-          {this.state.viewOrder ? <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.togglePressed} >
-            <Text style={styles.emptyText}>VIEW BILL</Text>
-          </TouchableHighlight> : null}
-        </View>
+        </TouchableHighlight>
       );
-    },
-
-    _renderListView() {
+    } else {
       return (
-        <View style={styles.listView}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow}
-            />
-        </View>
-      );
-    },
-
-    render: function() {
-      var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
-      var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
-      var textMessage = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Would you like to edit meal?</Text>  : null ;
-      return (
-         <View style={styles.container}>
-           <View style={styles.statusBar}>
-             <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
-             <Text style={styles.statusBarTextRight}> CONNECTED </Text>
-             <Image style={styles.icon} source={require('image!icn_connected')} />
-           </View>
-           <View style={styles.navBar}>
-             <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
-               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
-                 <View style={{flexDirection: 'row', flex:1}}>
-                   <Image source={require('image!btn_back')}  />
-                   <Text style={styles.backButton}>Back</Text>
-                 </View>
-               </TouchableHighlight>
-             </View>
-             <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
-               <Text style={styles.navBarText}>{this.state.viewOrder ? 'ORDER LIST' : 'BILL TOTAL'} </Text>
-             </View>
-             <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
-               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
-                 style={styles.toggleBtn} onPress={this.togglePressed}>
-                  <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
-                </TouchableHighlight>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}>
+          <View style={styles.column}>
+            <View style={styles.row}>
+              <View style={styles.column}>
+                <View style={styles.rowWithOp}>
+                  <Text style={styles.textTotalLabel}>SUB TOTAL</Text>
+                  <Text style={styles.textTotalValue}>{OrdersStore.getOrderSum()}</Text>
+                </View>
+                <View  style={styles.rowWithOp}>
+                  <Text style={styles.textTotalLabel}>DISCOUNT</Text>
+                  <Text style={styles.textTotalValue}>0.00</Text>
+                </View>
+                <View  style={styles.rowWithOp}>
+                  <Text style={styles.textTotalLabel}>SERVICE CHARGE</Text>
+                  <Text style={styles.textTotalValue}>{Number(storeInfo.service_charge * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+                </View>
+                <View  style={styles.rowWithOp}>
+                  <Text style={styles.textTotalLabel}>GST</Text>
+                  <Text style={styles.textTotalValue}>{Number(storeInfo.tax * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+                </View>
               </View>
-           </View>
-           {this.isEmpty() ? this._renderEmptyView() : this._renderListView()}
-           <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
-             <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
-               <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
-                 {textMessage}
-               </View>
-               <View  style={this.state.isAlertVisibale ? styles.alertSecondRowVisible : styles.alertSecondRowInVisible}>
-                 <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
-                   <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertYesPressed}>
-                     <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
-                       {yesBtn}
-                     </View>
-                   </TouchableHighlight>
-                 </View>
-                 <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
-                   <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertNoPressed}>
-                     <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
-                       {noBtn}
-                     </View>
-                   </TouchableHighlight>
-                 </View>
-               </View>
-             </View>
-           </View>
+            </View>
+            <View style={styles.rowSepView}>
+              <View style={styles.totalColumn1}>
+                <Text style={styles.redText}>CURRENT TOTAL</Text>
+              </View>
+              <View style={styles.totalColumn2}>
+                <Text style={styles.redText}>${Number((storeInfo.tax+storeInfo.service_charge+100) * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+              </View>
+            </View>
+            <View style={styles.separator} />
+          </View>
+        </TouchableHighlight>
+      );
+    }
+  },
 
-           {this.isEmpty() ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
-             <View style={styles.footer}>
-               <Text style={styles.footerText}>SEND ORDER</Text>
-             </View>
-           </TouchableHighlight>}
-           <View style={styles.separator} />
+  _renderEmptyView() {
+    var message= '';
+    if (this.state.viewOrder) {
+      if (this.state.showSentOrder) {
+        message = "ORDER SENT! THANK YOU."
+      } else {
+        message = "YOUR ORDER LIST IS EMPTY."
+      }
+    } else {
+      message = "THERE ARE NO ITEMS IN YOUR BILL."
+    }
+    return (
+      <View style={styles.emptyViewContainer}>
+        <View style={styles.emptyInfo}>
+          <Text style={[styles.emptyText, {textAlign: 'center'}]}>{message}</Text>
+        </View>
+        <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.backToMain}>
+          <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
+        </TouchableHighlight>
+        {this.state.viewOrder ? <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.togglePressed} >
+        <Text style={styles.emptyText}>VIEW BILL</Text>
+      </TouchableHighlight> : null}
+    </View>
+  );
+},
+
+_renderListView() {
+  return (
+    <View style={styles.listView}>
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this._renderRow}
+        />
+    </View>
+  );
+},
+
+render: function() {
+  var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
+  var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
+  var textMessage = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Would you like to edit meal?</Text>  : null ;
+  return (
+    <View style={styles.container}>
+      <View style={styles.statusBar}>
+        <Text style={styles.statusBarTextLeft}> TABLE 1 </Text>
+        <Text style={styles.statusBarTextRight}> CONNECTED </Text>
+        <Image style={styles.icon} source={require('image!icn_connected')} />
       </View>
-    );
-  }
+      <View style={styles.navBar}>
+        <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
+          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
+            <View style={{flexDirection: 'row', flex:1}}>
+              <Image source={require('image!btn_back')}  />
+              <Text style={styles.backButton}>Back</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+        <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
+          <Text style={styles.navBarText}>{this.state.viewOrder ? 'ORDER LIST' : 'BILL TOTAL'} </Text>
+        </View>
+        <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
+          <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+            style={styles.toggleBtn} onPress={this.togglePressed}>
+            <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+      {this.isEmpty() ? this._renderEmptyView() : this._renderListView()}
+      <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
+        <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
+          <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
+            {textMessage}
+          </View>
+          <View  style={this.state.isAlertVisibale ? styles.alertSecondRowVisible : styles.alertSecondRowInVisible}>
+            <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertYesPressed}>
+                <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
+                  {yesBtn}
+                </View>
+              </TouchableHighlight>
+            </View>
+            <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertNoPressed}>
+                <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
+                  {noBtn}
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {this.isEmpty() ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>SEND ORDER</Text>
+      </View>
+    </TouchableHighlight>}
+    <View style={styles.separator} />
+  </View>
+);
+}
 });
 var styles = StyleSheet.create({
   toggleBtn: {
@@ -555,47 +547,24 @@ var styles = StyleSheet.create({
     alignItems: 'center'
 
   },
-  text: {
-
+  itemName: {
     flex: 1,
     fontSize: 24,
     paddingLeft: 10,
-    marginLeft: 10,
+    marginLeft: 40,
+    marginTop: 15,
     alignItems: 'center',
     color: '#802628'
   },
-  textO: {
+  itemDesc: {
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 16,
-    alignItems: 'center',
-    color: 'black',
-    textAlign: 'center',
-    backgroundColor: '#F2EDE4',
-
-    paddingBottom: 5,
-
-  },
-  imgCS: {
-    padding: 5,
-    height: 22,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F2EDE4'
-  },
-  textCT: {
-
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 2,
-    fontSize: 16,
-    alignItems: 'flex-start',
-    color: '#802628',
-    textAlign: 'center',
-    backgroundColor: '#F2EDE4',
-    width: screen.width,
-    paddingLeft: 5,
-    paddingBottom: 5,
+    paddingLeft: 10,
+    marginLeft: 40,
+    marginTop: 15,
+    marginBottom: 25,
+    lineHeight: 25
   },
   textAmountTotal: {
 
@@ -608,18 +577,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#F2EDE4',
     width: screen.width / 2,
     paddingRight: 25,
-    paddingBottom: 5,
-  },
-  textQ: {
-
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 16,
-    alignItems: 'center',
-    color: 'black',
-    textAlign: 'center',
-    backgroundColor: '#F2EDE4',
-    width: screen.width / 3,
     paddingBottom: 5,
   },
   textPrice: {
@@ -646,52 +603,8 @@ var styles = StyleSheet.create({
     width: screen.width / 4,
     paddingBottom: 5,
   },
-  textQ1: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 16,
-    alignItems: 'center',
-    color: '#802628',
-    textAlign: 'center',
-    backgroundColor: '#F2EDE4',
-    width: screen.width / 15,
-    paddingBottom: 5,
-  },
-  textQ2: {
-
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 16,
-    alignItems: 'center',
-    color: 'black',
-    textAlign: 'center',
-    backgroundColor: '#F2EDE4',
-    width: screen.width / 15,
-    paddingBottom: 5,
-  },
-  textQ3: {
-
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 16,
-    alignItems: 'center',
-    color: '#802628',
-    textAlign: 'center',
-    backgroundColor: '#F2EDE4',
-    width: screen.width / 15,
-    paddingBottom: 5,
-  },
-
-  textDesc: {
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 16,
-    paddingLeft: 10,
-    marginLeft: 10,
-    color: '#BBB8B0',
-  },
-  textTotal: {
+  textTotalLabel: {
 
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 3,
@@ -699,7 +612,7 @@ var styles = StyleSheet.create({
     textAlign: 'right',
     color: '#BBB8B0',
   },
-  textTotal1: {
+  textTotalValue: {
 
     fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
@@ -724,8 +637,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#F2EDE4',
   },
   column1: {
-
-    flex: 3.0,
+    flex: 2.5,
     height: 60,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -760,11 +672,12 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   column6: {
-    flex: 2.2,
+    flex: 2.5,
     height: 60,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight:5
   },
 
   blackText: {
@@ -778,7 +691,7 @@ var styles = StyleSheet.create({
   blackTextBold: {
 
     fontFamily: 'AvenirNextLTPro-Demi',
-    fontSize: 16,
+    fontSize: 24,
     textAlign: 'center',
     color: 'black',
   },
