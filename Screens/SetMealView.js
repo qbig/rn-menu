@@ -303,7 +303,7 @@ var SetMealView = React.createClass({
         <View style={styles.navBar}>
           <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
             <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.btnBackPressed}>
-              <View style={{flexDirection: 'row', flex:1}}>
+              <View style={styles.backButtonContainer}>
                 <Image source={require('image!btn_back')}  />
                 <Text style={styles.backButton}>{this.props.from}</Text>
               </View>
@@ -347,14 +347,22 @@ var styles = StyleSheet.create({
   innerContainer: {
     borderRadius: 10,
   },
-  backButton:{
 
-    fontFamily: 'AvenirNextLTPro-Regular',
-    paddingLeft:8,
-    alignItems: 'flex-start',
-    textAlign :'left',
-    color: '#8D383D',
+  backButtonContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    marginLeft:20
   },
+
+  backButton: {
+    fontFamily: 'AvenirNextLTPro-Regular',
+    paddingLeft: 10,
+    alignItems: 'flex-start',
+    textAlign: 'left',
+    color: '#8D383D',
+    marginLeft:8
+  },
+
   thumb1: {
     width: 80,
     height: 80,

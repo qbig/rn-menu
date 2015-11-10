@@ -53,7 +53,7 @@ var MainView = React.createClass({
     this.props.navigator.push({
       component: OrderList,
       data:"",
-      from: "MENU"
+      from: "FULL MENU"
     });
   },
 
@@ -62,7 +62,7 @@ var MainView = React.createClass({
     this.props.navigator.push({
       component: ItemList,
       data: group,
-      from: "MENU"
+      from: "FULL MENU"
     });
   },
   _renderViewOrderButton : function () {

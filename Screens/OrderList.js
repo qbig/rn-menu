@@ -283,7 +283,7 @@ render: function() {
           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
             <View style={{flexDirection: 'row', flex:1}}>
               <Image source={require('image!btn_back')}  />
-              <Text style={styles.backButton}>Back</Text>
+              <Text style={styles.backButton}> {this.props.from} </Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -351,12 +351,20 @@ var styles = StyleSheet.create({
     width: 50,
     textAlign: 'center',
   },
+
+  backButtonContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    marginLeft:20
+  },
+
   backButton: {
     fontFamily: 'AvenirNextLTPro-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
     color: '#8D383D',
+    marginLeft:8
   },
   listView: {
     flex: 1,

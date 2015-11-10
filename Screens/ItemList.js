@@ -60,7 +60,7 @@ var ItemList = React.createClass({
   _onViewOrderPress: function() {
     this.props.navigator.push({
       component: OrderList,
-      from: this.props.data.name,
+      from: trimString(this.props.data.name, 15),
       data:''
     });
   },
@@ -139,11 +139,7 @@ var ItemList = React.createClass({
             <TouchableHighlight activeOpacity = {0.8}
               underlayColor = {'rgba(255,255,255,0.1)'}
               onPress = {this._onBackToMainView} >
-              <View style = {
-                {
-                  flexDirection: 'row',
-                  flex: 1
-              }}>
+              <View style = {styles.backButtonContainer}>
                 <Image source = {require('image!btn_back')}/>
                 <Text style = {styles.backButton}> {this.props.from} </Text>
               </View>
@@ -185,12 +181,19 @@ var ItemList = React.createClass({
   }
 });
 var styles = StyleSheet.create({
+  backButtonContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    marginLeft:20
+  },
+
   backButton: {
     fontFamily: 'AvenirNextLTPro-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
     color: '#8D383D',
+    marginLeft:8
   },
   overlay: {
     position: 'absolute',
