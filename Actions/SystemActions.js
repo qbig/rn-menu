@@ -3,8 +3,7 @@ var alt = require('../alt')
 class SystemActions {
   constructor() {
     this.generateActions(
-      'socketConnected',
-      'socketDisconnected',
+      'socketConnectionChanged',
       'tableUpdated',
       'masterOffline',
       'masterOnline',

@@ -8,7 +8,7 @@ class EnvStore {
     this.bindListeners({
       handleTokenUpdate : AuthActions.tokenUpdated,
       handleLastSyncUpdate : AuthActions.lastSyncUpdated,
-      handleSocketUpdate : SystemActions.socketConnected,
+      handleSocketUpdate : SystemActions.socketConnectionChanged,
       handleLoadingStart : SystemActions.loadingStart,
       handleLoadingFinish : SystemActions.loadingFinish,
       handleConfigStart : SystemActions.configStart
@@ -24,6 +24,7 @@ class EnvStore {
   }
 
   handleConfigStart() {
+    this.configStart = true;
     console.log('handleConfigStart!!!!')
   }
 

@@ -17,15 +17,15 @@ var SocketService = (function() {
         query: "posGuid=" +  "ghi" //configInfo.guid
       });
       socket.on('connect', function() {
-        SystemActions.socketConnected(socket);
+        SystemActions.socketConnectionChanged(socket);
         console.log("connected!");
       });
       socket.on('disconnect', function(data) {
-        SystemActions.socketDisconnected(data);
+        SystemActions.socketConnectionChanged(data);
         console.log("disconnected:" + JSON.stringify(data));
       });
       socket.on('connect_error', function(data) {
-        SystemActions.socketDisconnected(data);
+        SystemActions.socketConnectionChanged(data);
         console.log("connect error:" + JSON.stringify(data));
       });
       socket.on('permission', function(data) {
