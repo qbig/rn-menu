@@ -186,7 +186,7 @@ var styles = StyleSheet.create({
   },
 
   backButton: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
@@ -268,7 +268,7 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextLeft: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'center',
@@ -277,7 +277,7 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextRight: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
@@ -303,7 +303,7 @@ var styles = StyleSheet.create({
   },
 
   navBarText: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize: 23,
     alignItems: 'center',
     color: '#891F02',
@@ -366,7 +366,7 @@ var styles = StyleSheet.create({
   },
 
   textDesc: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 17,
     paddingLeft: 10,
@@ -376,13 +376,13 @@ var styles = StyleSheet.create({
   },
 
   textPrice: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     textAlign: 'center',
     fontSize: 16,
   },
 
   footerText: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-DemiBold',
     fontSize: 23,
     alignItems: 'center',
     color: 'white',

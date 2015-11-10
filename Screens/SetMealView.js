@@ -322,7 +322,7 @@ var SetMealView = React.createClass({
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
 
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
-              <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={require('image!mainimg')} />
+              <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={this.props.data.images.length > 0 ? {uri:  this.props.data.images[0].url} : require('image!mainimg')} />
             </View>
             <View style={styles.separator1} />
             {this._renderQuantityWidget()}
@@ -357,7 +357,7 @@ var styles = StyleSheet.create({
   },
 
   backButton: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
@@ -382,14 +382,14 @@ var styles = StyleSheet.create({
 
   },
   textPrice: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     textAlign:'center',
     fontSize:12,
     width:60,
   },
 
   textPriceWhite: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     textAlign:'center',
     fontSize:12,
     width:60,
@@ -439,7 +439,7 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextLeft: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'center',
@@ -448,7 +448,7 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextRight: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
@@ -474,7 +474,7 @@ var styles = StyleSheet.create({
 
   navBarText: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize:23,
     alignItems: 'center',
     color: '#891F02',
@@ -482,7 +482,7 @@ var styles = StyleSheet.create({
 
   blackText: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize:16,
     textAlign:'center',
     color: 'black',
@@ -490,14 +490,14 @@ var styles = StyleSheet.create({
 
   blackTextBold: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize:20,
     textAlign:'center',
     color: 'black',
   },
 
   input:{
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     height:50,
     color:'black',
     left:10,
@@ -507,7 +507,7 @@ var styles = StyleSheet.create({
 
   marronText: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize:20,
     textAlign:'center',
     color: '#891F02',
@@ -515,7 +515,7 @@ var styles = StyleSheet.create({
 
   marronHeader: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize:16,
     textAlign:'center',
     color: '#891F02',
@@ -523,7 +523,7 @@ var styles = StyleSheet.create({
 
   circleText: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex:2,
     fontSize:16,
     textAlign:'center',
@@ -535,7 +535,7 @@ var styles = StyleSheet.create({
 
   circleTextSelected: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex:2,
     fontSize:16,
     textAlign:'center',
@@ -723,7 +723,7 @@ var styles = StyleSheet.create({
 
   text: {
     paddingTop:8,
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize:28,
     paddingLeft: 10,
@@ -732,7 +732,7 @@ var styles = StyleSheet.create({
   },
   textDesc: {
     paddingTop:5,
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize:16,
     paddingLeft: 10,
@@ -744,7 +744,7 @@ var styles = StyleSheet.create({
     alignItems: 'center'
   },
   footerText: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-DemiBold',
     fontSize:23,
     alignItems: 'center',
     color: 'white',
@@ -861,7 +861,7 @@ var styles = StyleSheet.create({
     height:0,
   },
   alertTextVisible: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-DemiBold',
     fontSize:14,
     color: '#891F02',
     width:200,

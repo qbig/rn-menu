@@ -97,15 +97,17 @@ var OrderList = React.createClass({
   },
 
   sendOrderPress: function() {
-    var self = this;
-    SystemActions.loadingStart();
-    OrderService.updateCurrentOrder()
-    .then(function(){
-      SystemActions.loadingFinish();
-      self.setState({showSentOrder:true});
-    }).catch(function(){
-      SystemActions.loadingFinish();
-    })
+    if(this.state.viewOrder) {
+      var self = this;
+      SystemActions.loadingStart();
+      OrderService.updateCurrentOrder()
+      .then(function(){
+        SystemActions.loadingFinish();
+        self.setState({showSentOrder:true});
+      }).catch(function(){
+        SystemActions.loadingFinish();
+      })
+    }
   },
 
   _pressRow: function(rowID: number) {
@@ -193,24 +195,24 @@ var OrderList = React.createClass({
       );
     } else {
       return (
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}>
+        <View>
           <View style={styles.column}>
             <View style={styles.row}>
-              <View style={styles.column}>
+              <View style={[styles.column, {marginTop:15, marginBottom:15}]}>
                 <View style={styles.rowWithOp}>
-                  <Text style={styles.textTotalLabel}>SUB TOTAL</Text>
+                  <Text style={styles.textTotalLabel}>SUB TOTAL:</Text>
                   <Text style={styles.textTotalValue}>{OrdersStore.getOrderSum()}</Text>
                 </View>
                 <View  style={styles.rowWithOp}>
-                  <Text style={styles.textTotalLabel}>DISCOUNT</Text>
+                  <Text style={styles.textTotalLabel}>DISCOUNT:</Text>
                   <Text style={styles.textTotalValue}>0.00</Text>
                 </View>
                 <View  style={styles.rowWithOp}>
-                  <Text style={styles.textTotalLabel}>SERVICE CHARGE</Text>
+                  <Text style={styles.textTotalLabel}>SERVICE CHARGE:</Text>
                   <Text style={styles.textTotalValue}>{Number(storeInfo.service_charge * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
                 </View>
                 <View  style={styles.rowWithOp}>
-                  <Text style={styles.textTotalLabel}>GST</Text>
+                  <Text style={styles.textTotalLabel}>GST:</Text>
                   <Text style={styles.textTotalValue}>{Number(storeInfo.tax * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
                 </View>
               </View>
@@ -220,12 +222,18 @@ var OrderList = React.createClass({
                 <Text style={styles.redText}>CURRENT TOTAL</Text>
               </View>
               <View style={styles.totalColumn2}>
-                <Text style={styles.redText}>${Number((storeInfo.tax+storeInfo.service_charge+100) * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+                <Text style={styles.blackTextBold}>${Number((storeInfo.tax+storeInfo.service_charge+100) * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
               </View>
             </View>
             <View style={styles.separator} />
           </View>
-        </TouchableHighlight>
+
+          <View style={styles.payAtCounterInfoContainer}>
+            <View style={styles.emptyInfo}>
+              <Text style={[styles.emptyText, {textAlign: 'center'}]}>PLEASE PAY YOUR BILL AT THE COUNTER THANK YOU.</Text>
+            </View>
+          </View>
+        </View>
       );
     }
   },
@@ -322,15 +330,14 @@ render: function() {
         </View>
       </View>
 
-      {this.isEmpty() ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
+      {this.isEmpty() || !this.state.viewOrder ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
       <View style={styles.footer}>
         <Text style={styles.footerText}>SEND ORDER</Text>
       </View>
-    </TouchableHighlight>}
+      </TouchableHighlight>}
     <View style={styles.separator} />
-  </View>
-);
-}
+  </View>);
+  }
 });
 var styles = StyleSheet.create({
   toggleBtn: {
@@ -359,7 +366,7 @@ var styles = StyleSheet.create({
   },
 
   backButton: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     paddingLeft: 10,
     alignItems: 'flex-start',
     textAlign: 'left',
@@ -372,13 +379,21 @@ var styles = StyleSheet.create({
     paddingBottom: 0,
     paddingLeft: 0
   },
+
+  payAtCounterInfoContainer: {
+    width: screen.width,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 50
+  },
   emptyViewContainer: {
     flex:10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   emptyText: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Medium',
     fontSize: 23,
     alignItems: 'center',
     color: '#891F02',
@@ -420,7 +435,7 @@ var styles = StyleSheet.create({
     paddingLeft: 0
   },
   footerText: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-DemiBold',
     fontSize: 23,
     alignItems: 'center',
     color: 'white',
@@ -490,7 +505,7 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextLeft: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'center',
@@ -499,7 +514,7 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextRight: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
@@ -524,7 +539,7 @@ var styles = StyleSheet.create({
   },
 
   navBarText: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize: 23,
     alignItems: 'center',
     color: '#891F02',
@@ -561,7 +576,7 @@ var styles = StyleSheet.create({
     color: '#802628'
   },
   itemDesc: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 16,
     paddingLeft: 10,
@@ -571,7 +586,7 @@ var styles = StyleSheet.create({
     lineHeight: 25
   },
   textAmountTotal: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 16,
     alignItems: 'center',
@@ -583,7 +598,7 @@ var styles = StyleSheet.create({
     paddingBottom: 5,
   },
   textPrice: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 16,
     alignItems: 'center',
@@ -595,7 +610,7 @@ var styles = StyleSheet.create({
   },
 
   textAmount: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 16,
     alignItems: 'center',
@@ -607,23 +622,21 @@ var styles = StyleSheet.create({
   },
 
   textTotalLabel: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Medium',
     flex: 3,
     fontSize: 16,
     textAlign: 'right',
-    color: '#BBB8B0',
   },
 
   textTotalValue: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Medium',
     flex: 1,
     fontSize: 16,
     textAlign: 'center',
-    color: '#BBB8B0',
   },
 
   backbutton: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center'
@@ -688,14 +701,14 @@ var styles = StyleSheet.create({
   },
 
   blackText: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize: 16,
     textAlign: 'center',
     color: 'black',
   },
 
   blackTextBold: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-Regular',
     fontSize: 24,
     textAlign: 'center',
     color: 'black',
@@ -717,6 +730,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    marginLeft: 25,
   },
 
   totalColumn2: {
@@ -725,11 +739,12 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 25
   },
 
   redText: {
-    fontFamily: 'AvenirNextLTPro-Regular',
-    fontSize: 16,
+    fontFamily: 'AvenirNext-Regular',
+    fontSize: 24,
     textAlign: 'center',
     color: '#8D383D',
   },
@@ -859,7 +874,7 @@ var styles = StyleSheet.create({
   },
 
   alertTextVisible: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-DemiBold',
     fontSize: 16,
     color: '#891F02',
     width: 200,

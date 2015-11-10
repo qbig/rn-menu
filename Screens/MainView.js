@@ -86,7 +86,7 @@ var MainView = React.createClass({
              <View>
                <Image style={styles.thumb} source={{uri:group.images[0].url}} >
                  <Image style={styles.thumb} source={require('image!overlay1')} >
-                 <View style={styles.overlay1}><Text style={styles.footerText}>{group.name}</Text></View>
+                 <View style={styles.overlay1}><Text style={styles.groupNameText}>{group.name}</Text></View>
                  </Image>
                </Image>
              </View>
@@ -208,7 +208,7 @@ var styles = StyleSheet.create({
 
   navBarText: {
 
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     fontSize: 23,
     alignItems: 'center',
     color: '#891F02',
@@ -223,6 +223,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   topGoToOrderText: {
+    fontFamily: 'AvenirNext-Medium',
     color:'#FFFAF0',
     fontWeight: 'bold',
     width: 60,
@@ -257,12 +258,19 @@ var styles = StyleSheet.create({
     paddingLeft: 0
   },
   footerText: {
-    fontFamily: 'AvenirNextLTPro-Demi',
+    fontFamily: 'AvenirNext-DemiBold',
     fontSize: 23,
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',
   },
+  groupNameText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 23,
+    alignItems: 'center',
+    color: 'white',
+    textAlign: 'center',
+  }
 });
 
 module.exports = MainView;

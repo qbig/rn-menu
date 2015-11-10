@@ -13,6 +13,7 @@ Model.prototype.setAttributes = function(options) {
     uuid: options.uuid,
     price: options.price,
     availModifiers: options.avail_modifiers,
+    images: options.images
   });
 };
 
