@@ -171,7 +171,7 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     alignItems: 'center',
-    color: '#10E790',
+    color: 'white',
     paddingLeft: 15,
   },
 
@@ -180,7 +180,7 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
-    color: '#10E790',
+    color: 'white',
     paddingRight: 4,
     textAlign: 'right',
   },

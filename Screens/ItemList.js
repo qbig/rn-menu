@@ -91,21 +91,18 @@ var ItemList = React.createClass({
                   source = {rowData.images.length > 0 ? {uri:  rowData.images[0].url} : imgArr[0]}/>
             </View>
             <View style = {styles.column}>
-            <View style = {{width: screen.width - 420}} >
-              <Text style = {styles.text}> {rowData.name} </Text>
-            </View>
-            <View>
               <View style = {{width: screen.width - 420}} >
-                <Text style = {styles.textDesc}
-                  numberOfLines = {3} > {rowData.desc} </Text>
+                <Text style = {styles.text}> {rowData.name} </Text>
               </View>
-            </View>
-          </View>
+              <View>
+                <View style = {{width: screen.width - 420}} >
+                  <Text style = {styles.textDesc} numberOfLines = {3} > {rowData.desc} </Text>
+                </View>
+              </View>
+             </View>
           <View>
             <Image style = {styles.thumb1}
-              source = {
-                require('image!btn_option_unselected')
-              }>
+              source = { require('image!btn_option_unselected')}>
               <View style = {styles.overlay} >
                 <Text style = {styles.textPrice} > {(rowData.price/ 100.0).toFixed(2)}
                 </Text>
@@ -275,7 +272,7 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     alignItems: 'center',
-    color: '#10E790',
+    color: 'white',
     paddingLeft: 15,
   },
 
@@ -284,7 +281,7 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
-    color: '#10E790',
+    color: 'white',
     paddingRight: 4,
     textAlign: 'right',
   },
@@ -362,8 +359,8 @@ var styles = StyleSheet.create({
     flex: 1,
     fontSize: 24,
     paddingLeft: 10,
-    marginLeft: 10,
-    marginTop: 10,
+    marginLeft: 15,
+    marginTop: 20,
     alignItems: 'center',
     color: '#802628'
   },

@@ -490,17 +490,20 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextLeft: {
+    fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'center',
-    color: '#10E790',
+    color: 'white',
     paddingLeft: 15,
   },
+
   statusBarTextRight: {
+    fontFamily: 'AvenirNextLTPro-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
-    color: '#10E790',
+    color: 'white',
     paddingRight: 4,
     textAlign: 'right',
   },
