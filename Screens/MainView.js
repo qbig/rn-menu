@@ -26,6 +26,7 @@ var ItemList = require('./ItemList');
 var OrderList = require('./OrderList');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var OrdersStore = require('../Stores/OrdersStore');
+
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', function() {
   // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
@@ -43,8 +44,6 @@ var MainView = React.createClass({
     };
   },
 
-  componentWillMount: function() {
-  },
   componentDidMount: function() {
     _navigator = this.props.navigator;
   },
@@ -80,9 +79,9 @@ var MainView = React.createClass({
     }
   },
   render: function() {
-    var groups = this.state.groupsItems.map((group)=>{
+    var groups = this.state.groupsItems.map((group, groupIndex)=>{
       return (
-        <View  style={styles.item}>
+        <View  style={styles.item} key={groupIndex}>
            <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(group)}}>
              <View>
                <Image style={styles.thumb} source={{uri:group.images[0].url}} >

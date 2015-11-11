@@ -14,6 +14,7 @@ class OrdersStore {
     this.bindListeners({
       handleOrderUpdate: OrderActions.orderUpdated,
       handleOrderCreate: OrderActions.orderCreated,
+      handleOrderDelete: OrderActions.orderClosed,
       handleNewItem: OrderActions.orderItemStarted,
       handleBoolClicked: OrderActions.boolClicked,
       handleRadioClicked: OrderActions.radioClicked,
@@ -26,15 +27,25 @@ class OrdersStore {
       handleUnsentItemStartedEdit: OrderActions.orderItemStartedEdit,
       handleUnsentItemCompletedEdit: OrderActions.orderItemCompletedEdit
     });
-    this.sentItems = [];
-    this.unsentItems = [];
-    this.details = '';
-    this.currentItem = '';
+    this.init();
     this.exportPublicMethods({
       getOrderCount: this.getOrderCount,
       getOrderSum: this.getOrderSum,
       getUnsentOrderSum: this.getUnsentOrderSum
     });
+  }
+
+  init(){
+    this.sentItems = [];
+    this.unsentItems = [];
+    this.details = '';
+    this.currentItem = '';
+  }
+
+  handleOrderDelete(data) {
+    if (data['verb'] === 'destroyed' && data['id'] === this.details.uuid) {
+      this.init();
+    }
   }
 
   handleUnsentItemCompletedEdit(comment) {

@@ -45,10 +45,13 @@ var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
+var ListenerMixin = require('alt/mixins/ListenerMixin');
+
 import Portal from 'react-native/Libraries/Portal/Portal';
 var tag = Portal.allocateTag();
 
 var Root = React.createClass({
+  mixins: [ListenerMixin],
   getInitialState: function() {
       return {
         ang: new Animated.Value(0),
@@ -108,13 +111,31 @@ var Root = React.createClass({
       console.log("!!!!!!!!!")
     }
   },
+
+  updateLoading: function () {
+    if (EnvStore.getState().isLoading) {
+      this.showLoading();
+    } else {
+      this.closeLoading();
+    }
+  },
+
+  startConfigFlow: function() {
+    if (EnvStore.getState().configStart){
+        console.log("config should start now")
+    }
+  },
+
   componentWillMount: function() {
+    this.listenTo(EnvStore, this.updateLoading);
+    this.listenTo(EnvStore, this.startConfigFlow);
+
     if (EnvStore.getState().webToken == "" || EnvStore.getState().lastSync == ""){
       this.showLoading();
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
-        EnvStore.listen(this.updateLoading);
+
       })
       .catch((err)=>{
         console.log(err)
@@ -156,19 +177,22 @@ var Root = React.createClass({
       </View>);
   },
 
-  updateLoading: function () {
-    if (EnvStore.getState().isLoading) {
-      this.showLoading();
-    } else {
-      this.closeLoading();
+  reset: function() {
+    if (EnvStore.getState().reset) {
+      this._nav.popToTop();
+      SystemActions.orderResetComplete.defer();
     }
   },
 
-  componentDidMount : function() {},
+  componentDidMount : function() {
+    // only now the _nav ref is available
+    this.listenTo(EnvStore, this.reset);
+  },
 
   render: function() {
     return (
         <Navigator
+          ref={(nav) => this._nav = nav}
           initialRoute={{data: '', from:'', title: 'SplashScreen'}}
           configureScene={() => {
             return Navigator.SceneConfigs.FloatFromRight;

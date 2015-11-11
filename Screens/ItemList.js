@@ -83,6 +83,7 @@ var ItemList = React.createClass({
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
     return (
       <TouchableHighlight activeOpacity = {0.8}
+        key={rowID}
         underlayColor = {'rgba(255,255,255,0.1)'}
         onPress = {() => this._pressRow(rowData)}>
         <View style = {styles.column} >

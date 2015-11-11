@@ -203,6 +203,9 @@ var OrderList = React.createClass({
         </TouchableHighlight>
       );
     } else {
+      var sumRaw = (storeInfo.tax+100) * (storeInfo.service_charge+100) * OrdersStore.getOrderSum();
+      sumRaw = sumRaw - (sumRaw % 500); // round down to 5 cent
+      var sum = Number(sumRaw/10000.0).toFixed(2)
       return (
         <View>
           <View style={styles.column}>
@@ -231,7 +234,7 @@ var OrderList = React.createClass({
                 <Text style={styles.redText}>CURRENT TOTAL</Text>
               </View>
               <View style={styles.totalColumn2}>
-                <Text style={styles.blackTextBold}>${Number((storeInfo.tax+storeInfo.service_charge+100) * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+                <Text style={styles.blackTextBold}>${sum}</Text>
               </View>
             </View>
             <View style={styles.separator} />

@@ -12,7 +12,10 @@ class SystemActions {
       'loadingStart',
       'loadingFinish',
       'storeInfoLoaded',
-      'configStart'
+      'configStart',
+      'configDone',
+      'orderCleared',
+      'orderResetComplete'
     );
   }
 }

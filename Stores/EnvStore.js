@@ -11,7 +11,10 @@ class EnvStore {
       handleSocketUpdate : SystemActions.socketConnectionChanged,
       handleLoadingStart : SystemActions.loadingStart,
       handleLoadingFinish : SystemActions.loadingFinish,
-      handleConfigStart : SystemActions.configStart
+      handleConfigStart : SystemActions.configStart,
+      handleConfigDone: SystemActions.configDone,
+      handleOrderCleared: SystemActions.orderCleared,
+      handleOrderResetComplete: SystemActions.orderResetComplete
     });
     this.token = ""
     this.lastSync = ""
@@ -20,6 +23,19 @@ class EnvStore {
       getAll: this.getAll
     });
     this.isLoading = false;
+    this.configStart = false;
+    this.reset = false;
+  }
+
+  handleOrderResetComplete() {
+    this.reset = false;
+  }
+
+  handleOrderCleared() {
+    this.reset = true;
+  }
+
+  handleConfigDone() {
     this.configStart = false;
   }
 

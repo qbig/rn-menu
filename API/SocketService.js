@@ -4,7 +4,7 @@ var io = require('socket.io-client/socket.io');
 var ConfigStore = require('../Stores/ConfigStore');
 var SystemActions = require('../Actions/SystemActions');
 var OrderActions = require('../Actions/OrderActions');
-
+var OrdersStore = require('../Stores/OrdersStore');
 var SocketService = (function() {
   var socket;
   return {
@@ -55,6 +55,10 @@ var SocketService = (function() {
       });
 
       socket.on('order', function(data) {
+        if (data['verb'] === 'destroyed' && OrdersStore.getState().details.uuid === data['id']) {
+          OrderActions.orderClosed(data)
+          SystemActions.orderCleared();
+        }
         console.log("order event occurred: " + JSON.stringify(data));
       });
       socket.on('orderitem', function(data) {
