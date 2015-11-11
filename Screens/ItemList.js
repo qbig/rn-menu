@@ -387,7 +387,7 @@ var styles = StyleSheet.create({
   },
 
   textPrice: {
-    fontFamily: 'AvenirNext-Regular',
+    fontFamily: 'AvenirNext-Medium',
     textAlign: 'center',
     fontSize: 16,
   },
