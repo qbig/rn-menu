@@ -6,15 +6,17 @@ var TableActions = require('../Actions/TableActions');
 class TablesStore {
   constructor() {
     this.bindListeners({
-      handleGroupsItems: TableActions.tablesUpdated
+      handleTablesUpdated: TableActions.tablesUpdated
     });
-    this.tablesInfo = [];
+    this.tableStatus = [];
+    this.tableInfo = [];
   }
 
-  handleGroupsItems(data) {
-    this.tablesInfo = data;
+  handleTablesUpdated([tableStatus, tableInfo]) {
+    this.tableStatus = tableStatus;
+    this.tableInfo = tableInfo;
     console.log("TablesStore: updated");
-    console.log(data);
+    console.log([tableStatus, tableInfo]);
   }
 }
 

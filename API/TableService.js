@@ -3,13 +3,14 @@ var TableActions = require('../Actions/TableActions');
 
 var TableService = {
    requestForTables : function() {
-    getRequest('/table')
-      .then(function(resJson) {
-        TableActions.tablesUpdated(resJson);
-        console.log("TableService: done !!!")
-      }).catch(function(e){
-        console.log(e);
-      });
+    return Promise.all([getRequest('/table'), getRequest('/provisioning/sectors')])
+    .then(function(resJson) {
+      TableActions.tablesUpdated(resJson);
+      console.log("TableService: done !!!")
+    })
+    .catch(function(e){
+      console.log(e);
+    });
   }
 }
 

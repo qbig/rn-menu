@@ -18,9 +18,11 @@ var StatusBar = require('../Components/StatusBar');
 var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
+var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var OrderActions = require('../Actions/OrderActions');
 var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+
 var TITLE_LENGTH = 20;
 
 function trimString(str, length) {
@@ -30,38 +32,48 @@ function trimString(str, length) {
 }
 
 var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
+var ds = new ListView.DataSource({
+  rowHasChanged: (r1, r2) => r1 !== r2
+});
 var ItemList = React.createClass({
   mixins: [ListenerMixin],
   getInitialState: function() {
-    var ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+    console.log("produscs")
+    console.log(GroupsItemsStore.getState().groupsItems[this.props.data].products)
     return {
-      dataSource: ds.cloneWithRows(this.props.data.products)
+      // this.props.data --> index of selected group
+      data: GroupsItemsStore.getState().groupsItems[this.props.data],
+      dataSource: ds.cloneWithRows(GroupsItemsStore.getState().groupsItems[this.props.data].products)
     };
   },
   _handleOrderItemsChange: function() {
-    this.setState({dataSource: this.state.dataSource})
+    this.setState({
+      data: GroupsItemsStore.getState().groupsItems[this.props.data],
+      dataSource: ds.cloneWithRows(GroupsItemsStore.getState().groupsItems[this.props.data].products)
+    })
   },
   componentWillMount: function() {
     this.listenTo(OrdersStore, this._handleOrderItemsChange);
+    this.listenTo(GroupsItemsStore, this._handleOrderItemsChange);
   },
   _onBackToMainView: function() {
     this.props.navigator.pop();
   },
   _pressRow: function(rowData) {
-    OrderActions.orderItemStarted(rowData);
-    this.props.navigator.push({
-      title: 'SetMealView',
-      from: trimString(this.props.data.name, 15),
-      data: rowData
-    });
+    if (!rowData.soldOut) {
+      OrderActions.orderItemStarted(rowData);
+      this.props.navigator.push({
+        title: 'SetMealView',
+        from: trimString(this.state.data.name, 15),
+        data: rowData
+      });
+    }
   },
 
   _onViewOrderPress: function() {
     this.props.navigator.push({
       title: 'OrderList',
-      from: trimString(this.props.data.name, 15),
+      from: trimString(this.state.data.name, 15),
       data:''
     });
   },
@@ -106,7 +118,8 @@ var ItemList = React.createClass({
             <Image style = {styles.thumb1}
               source = { require('image!btn_option_unselected')}>
               <View style = {styles.overlay} >
-                <Text style = {styles.textPrice} > {(rowData.price/ 100.0).toFixed(2)}
+                <Text style = {styles.textPrice} >
+                  {rowData.soldOut? 'SOLD \nOUT' : (rowData.price/ 100.0).toFixed(2)}
                 </Text>
               </View>
             </Image>
@@ -147,7 +160,7 @@ var ItemList = React.createClass({
               justifyContent: 'center',
               alignItems: 'center',
             }} >
-            <Text style = {styles.navBarText} > {trimString(this.props.data.name, TITLE_LENGTH)} </Text>
+            <Text style = {styles.navBarText} > {trimString(this.state.data.name, TITLE_LENGTH)} </Text>
           </View>
           <View style = {
             {

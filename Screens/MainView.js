@@ -57,11 +57,11 @@ var MainView = React.createClass({
     });
   },
 
-  menuItemClicked: function(group) {
-    console.log(group)
+  menuItemClicked: function(groupIndex) {
+    console.log(groupIndex)
     this.props.navigator.push({
       title: 'ItemList',
-      data: group,
+      data: groupIndex,
       from: "FULL MENU"
     });
   },
@@ -82,7 +82,7 @@ var MainView = React.createClass({
     var groups = this.state.groupsItems.map((group, groupIndex)=>{
       return (
         <View  style={styles.item} key={groupIndex}>
-           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(group)}}>
+           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(groupIndex)}}>
              <View>
                <Image style={styles.thumb} source={{uri:group.images[0].url}} >
                  <Image style={styles.thumb} source={require('image!overlay1')} >

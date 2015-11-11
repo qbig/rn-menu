@@ -5,6 +5,7 @@ var ConfigStore = require('../Stores/ConfigStore');
 var SystemActions = require('../Actions/SystemActions');
 var OrderActions = require('../Actions/OrderActions');
 var OrdersStore = require('../Stores/OrdersStore');
+var ProdAttributeService = require('./ProdAttributeService');
 var SocketService = (function() {
   var socket;
   return {
@@ -67,6 +68,7 @@ var SocketService = (function() {
       });
 
       socket.on('productattribute', function(data) {
+        ProdAttributeService.requestForProdAttribute();
         console.log("productattribute event occurred: " + JSON.stringify(data));
       });
 

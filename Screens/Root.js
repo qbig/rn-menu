@@ -140,7 +140,7 @@ var Root = React.createClass({
       .catch((err)=>{
         console.log(err)
         this.setState({
-          status: "SHIT..."
+          status: "PLS TRY AGAIN..."
         });
       }).then(()=>{
         return this.delay(2000)

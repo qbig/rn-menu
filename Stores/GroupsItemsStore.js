@@ -2,17 +2,32 @@
 
 var alt = require('../alt')
 var GroupsItemsActions = require('../Actions/GroupsItemsActions');
+var ProdAttributeActions = require('../Actions/ProdAttributeActions');
 
 class GroupsItemsStore {
   constructor() {
     this.bindListeners({
-      handleGroupsItems: GroupsItemsActions.groupsItemsUpdated
+      handleGroupsItems: GroupsItemsActions.groupsItemsUpdated,
+      handleProdAttributeChanges: ProdAttributeActions.prodAttributeChanged
     });
     this.groupsItems = [];
 
     this.exportPublicMethods({
       getProdPrice: this.getProdPrice
     });
+  }
+
+  handleProdAttributeChanges(prodAttributeData) {
+    this.groupsItems.forEach(function(group){
+      group.products.forEach(function(prod){
+        prod.soldOut = false;
+        prodAttributeData.forEach(function(prodAttri){
+          if (prodAttri.product_uuid === prod.uuid) {
+            prod.soldOut = prodAttri['sold_out'];
+          }
+        })
+      })
+    })
   }
 
   handleGroupsItems(data) {
