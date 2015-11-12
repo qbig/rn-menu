@@ -1,10 +1,45 @@
 var alt = require('../alt')
 var SystemActions = require('../Actions/SystemActions')
 var TableActions = require('../Actions/TableActions')
+var store = require('react-native-simple-store');
+var TABLE = 'table';
+
+/*
+store.save('coffee', {
+    isAwesome: true
+}).then(() => {
+    return store.get('coffee').then((coffee) => {
+        console.log(coffee.isAwesome === true); // true
+    });
+
+}).then(() => {
+
+    return store.update('coffee', {
+        isNotEssential: false
+    });
+
+}).then(() => {
+
+    return store.get('coffee');
+
+}).then((coffee) => {
+
+    console.log(coffee.isNotEssential === false); // true
+    console.log(coffee.isAwesome === true); // true
+
+    return store.delete('coffee');
+
+}).then(() => {
+
+    store.get('coffee').then((coffee) => {
+        console.log(coffee === null); // true
+    });
+
+});
+*/
+
 class ConfigStore {
   constructor() {
-    // TODO: listen to action
-    //this.bindActions(TodoActionCreators)
     this.host = "http://104.155.205.124"
     this.guid = "abc"
     this.username ="7737"
@@ -24,6 +59,10 @@ class ConfigStore {
   handleTableIdUpdate({name, id}) {
     this.tableId = id
     this.tableName = name
+    store.save(TABLE, {
+        tableId: id,
+        tableName: name
+    })
   }
 
   handleStoreInfoUpdate(storeInfo) {

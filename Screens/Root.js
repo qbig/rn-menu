@@ -93,6 +93,7 @@ var Root = React.createClass({
   bootStrapData: async function bootStrapData() {
     try {
       SocketService.init();
+      await TableService.initFromCache();
       await AuthService.requestForToken();
       await this.delay(10);
       await GroupsItemsService.requestForGroupsItems();
