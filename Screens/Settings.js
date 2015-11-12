@@ -102,13 +102,15 @@ var Settings = React.createClass({
     console.log(rowData.id)
     console.log(this.state.selectedTableId)
     console.log(rowData.id === this.state.selectedTableId)
+    var selected = rowData.id == this.state.selectedTableId;
     return (
       <TouchableHighlight activeOpacity = {0.8}
         key={ sectionID + ":" + rowID}
         underlayColor = {'rgba(255,255,255,0.1)'}
         onPress = {() => this._pressRow(rowData)}>
-        <View style = {[styles.column, (rowData.id == this.state.selectedTableId)&&{backgroundColor:'#891F02'}]} >
-          <Text style = {[styles.text, (rowData.id == this.state.selectedTableId)&&{color:'white'} ]}> {rowData.name} </Text>
+        <View style = {[styles.column, selected&&{backgroundColor:'#891F02'}]} >
+          <Text style = {[styles.text, selected&&{color:'white'} ]}> {rowData.name} </Text>
+          {selected ? <Image style={{width:60, height: 60, resizeMode: 'contain'}} source={require('image!icn_tick_white')}/> : null}
           <View style = {styles.separator}/>
         </View>
       </TouchableHighlight>
@@ -209,8 +211,8 @@ var styles = StyleSheet.create({
 
   column: {
     flex: 1,
-    height: 100,
-    flexDirection: 'column',
+    height: 70,
+    flexDirection: 'row',
   },
 
   row: {
@@ -260,7 +262,10 @@ var styles = StyleSheet.create({
 section: {
   width: screen.width,
   height: 60,
-  backgroundColor: '#891F02'
+  backgroundColor: '#891F02',
+  borderTopWidth:1,
+  borderBottomWidth:1,
+  borderColor: 'white'
 },
 
 sectionText: {
