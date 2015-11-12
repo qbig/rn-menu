@@ -3,7 +3,8 @@ var alt = require('../alt')
 class TableActions {
   constructor() {
     this.generateActions(
-      'tablesUpdated'
+      'tablesUpdated',
+      'tableIdUpdated'
     );
   }
 }

@@ -1,5 +1,6 @@
 var alt = require('../alt')
 var SystemActions = require('../Actions/SystemActions')
+var TableActions = require('../Actions/TableActions')
 class ConfigStore {
   constructor() {
     // TODO: listen to action
@@ -14,8 +15,13 @@ class ConfigStore {
       getAll: this.getAll
     });
     this.bindListeners({
-      handleStoreInfoUpdate: SystemActions.storeInfoLoaded
+      handleStoreInfoUpdate: SystemActions.storeInfoLoaded,
+      handleTableIdUpdate: TableActions.tableIdUpdated
     });
+  }
+
+  handleTableIdUpdate(newId) {
+    this.tableId = newId
   }
 
   handleStoreInfoUpdate(storeInfo) {

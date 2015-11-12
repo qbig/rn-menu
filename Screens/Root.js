@@ -23,7 +23,7 @@ var MainView = require('./MainView');
 var ItemList = require('./ItemList');
 var SetMealView = require('./SetMealView')
 var OrderList = require('./OrderList');
-
+var Settings = require('./Settings');
 
 var SocketService = require('../API/SocketService');
 var GroupsItemsService = require('../API/GroupsItemsService');
@@ -126,16 +126,28 @@ var Root = React.createClass({
     }
   },
 
-  componentWillMount: function() {
+  reset: function() {
+    if (EnvStore.getState().reset) {
+      this._nav.popToTop();
+      SystemActions.orderResetComplete.defer();
+    }
+  },
+
+  componentDidMount: function() {
     this.listenTo(EnvStore, this.updateLoading);
     this.listenTo(EnvStore, this.startConfigFlow);
-
+    // only now the _nav ref is available
+    this.listenTo(EnvStore, this.reset);
     if (EnvStore.getState().webToken == "" || EnvStore.getState().lastSync == ""){
       this.showLoading();
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
-
+        this._nav.push({
+          title: 'Settings',
+          data: '',
+          from: ''
+        });
       })
       .catch((err)=>{
         console.log(err)
@@ -177,24 +189,15 @@ var Root = React.createClass({
       </View>);
   },
 
-  reset: function() {
-    if (EnvStore.getState().reset) {
-      this._nav.popToTop();
-      SystemActions.orderResetComplete.defer();
-    }
-  },
-
-  componentDidMount : function() {
-    // only now the _nav ref is available
-    this.listenTo(EnvStore, this.reset);
-  },
-
   render: function() {
     return (
         <Navigator
           ref={(nav) => this._nav = nav}
-          initialRoute={{data: '', from:'', title: 'SplashScreen'}}
-          configureScene={() => {
+          initialRoute={{data: '', from:'', title: 'SplashScreen'}} //
+          configureScene={(route) => {
+            if (route.title === "Settings") {
+              return Navigator.SceneConfigs.FloatFromBottom;
+            }
             return Navigator.SceneConfigs.FloatFromRight;
           }}
           renderScene={(route, navigator) => {
@@ -212,6 +215,9 @@ var Root = React.createClass({
             }
             if (route.title === "OrderList") {
               return <OrderList navigator={navigator} data={route.data} from={route.from} />
+            }
+            if (route.title === "Settings") {
+              return <Settings navigator={navigator} data={route.data} from={route.from} />
             }
           }}
           />
