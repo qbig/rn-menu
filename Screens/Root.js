@@ -46,7 +46,11 @@ var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-
+var routeSetting = {
+  title: 'Settings',
+  data: '',
+  from: ''
+};
 import Portal from 'react-native/Libraries/Portal/Portal';
 var tag = Portal.allocateTag();
 
@@ -123,6 +127,9 @@ var Root = React.createClass({
 
   startConfigFlow: function() {
     if (EnvStore.getState().configStart){
+        var currentRoutes = this._nav.getCurrentRoutes();
+        this._nav.immediatelyResetRouteStack(currentRoutes.slice(0, 1).concat(routeSetting))
+        SystemActions.configDone.defer();
         console.log("config should start now")
     }
   },
@@ -145,11 +152,7 @@ var Root = React.createClass({
       .then(()=>{
         this.closeLoading();
         if (ConfigStore.getState().tableId == -1) {
-          this._nav.push({
-            title: 'Settings',
-            data: '',
-            from: ''
-          });
+          this._nav.push(routeSetting);
         }
       })
       .catch((err)=>{
