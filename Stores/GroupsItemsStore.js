@@ -13,7 +13,8 @@ class GroupsItemsStore {
     this.groupsItems = [];
 
     this.exportPublicMethods({
-      getProdPrice: this.getProdPrice
+      getProdPrice: this.getProdPrice,
+      getProd: this.getProd
     });
   }
 
@@ -36,16 +37,24 @@ class GroupsItemsStore {
     console.log(this.groupsItems);
   }
 
-  getProdPrice(uuid) {
+  getProd(uuid) {
     var result;
     this.getState().groupsItems.forEach((group)=>{
       group.products.forEach((prod)=>{
         if (prod.uuid == uuid){
-          result = prod.price;
+          result = prod;
         }
       });
     });
     return result;
+  }
+
+  getProdPrice(uuid) {
+    var prod = this.getProd(uuid);
+    if (prod == undefined){
+      throw new Error("product not found for uuid:" + uuid);
+    }
+    return prod.price;
   }
 
 }

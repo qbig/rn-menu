@@ -7,6 +7,44 @@ var Model = function(productInfo, modifierDict) {
   this.init(modifierDict);
 };
 
+// static --> array of OrderItem s
+Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
+  return items.map(function(item){
+    var uuid = item["product_uuid"];
+    var quantity = item["qty"];
+    var comment = item["notes"];
+    var modifiers = item["modifiers"]; //this.currentItem.boolMods[index].select(name);
+    var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
+    itemObj.quantity = quantity;
+    itemObj.comment = comment;
+    modifiers.forEach(function(mod){
+      var modUuid = mod['uuid'];
+      if (mod["selected_radio_option_name"]) {
+        var foundRadioMod = itemObj.radioMods.find(function(radioMod){
+          return radioMod.data.uuid == modUuid
+        });
+        if (foundRadioMod == undefined) {
+          throw new Error("cannot find radio modifier with uuid:" + modUuid);
+        }
+        foundRadioMod.select(mod["selected_radio_option_name"]);
+      }
+
+      if (mod["is_selected"]) {
+        var foundBoolMod = itemObj.boolMods.find(function(boolMod){
+          return boolMod.data.uuid == modUuid
+        });
+        if (foundBoolMod == undefined) {
+          throw new Error("cannot find bool modifier with uuid:" + modUuid);
+        }
+        foundBoolMod.select();
+      }
+    });
+
+
+    return itemObj;
+  });
+}
+
 Model.prototype.setAttributes = function(options) {
   options = (options || {});
   assign(this.data, {
@@ -68,7 +106,7 @@ Model.prototype.getModsStrWithComment = function () {
   if (modsStr === "" ){
     return this.comment
   } else {
-    if (this.comment === "") {
+    if (! this.comment) {
       return modsStr
     } else {
       return modsStr + ",\n" + this.comment
@@ -127,6 +165,70 @@ module.exports = Model;
 
 
 /*
+JSON for existing order
+{
+  "id": 140,
+  "product_uuid": 167,
+  "qty": 1,
+  "subtotal": 980,
+  "item_subtotal": 980,
+  "item_adjustment": 0,
+  "adjustment": 0,
+  "item_adj_amt": 0,
+  "item_adj_type": "value",
+  "item_adj_entry_type": "discount",
+  "modifiers": [
+    {
+      "uuid": "type_of_hor_fun_/_noodle",
+      "selected_radio_option_name": "河粉汤 Hor Fun Soup",
+      "price": 0
+    },
+    {
+      "uuid": "takeaway",
+      "is_selected": true,
+      "price": 0
+    },
+    {
+      "uuid": "add_hor_fun",
+      "is_selected": true,
+      "price": 100
+    },
+    {
+      "uuid": "add_noodles",
+      "is_selected": true,
+      "price": 100
+    },
+    {
+      "uuid": "add_veg",
+      "is_selected": true,
+      "price": 100
+    },
+    {
+      "uuid": "add_meat_($2)",
+      "is_selected": true,
+      "price": 200
+    },
+    {
+      "uuid": "soup_separate",
+      "is_selected": true,
+      "price": 0
+    },
+    {
+      "uuid": "sauce_separate",
+      "is_selected": true,
+      "price": 0
+    }
+  ],
+  "notes": null,
+  "status": "placed",
+  "updatedAt": "2015-11-12T10:44:28.000Z",
+  "createdAt": "2015-11-12T10:44:28.000Z",
+  "unit_gram_amount": 0,
+  "staff_id": 29,
+  "deletedAt": null,
+  "adjustments": []
+}
+
 Product info
 {
         "uuid": 167,

@@ -79,7 +79,8 @@ var ModifierSectionCell = React.createClass({
 
   render: function () {
     return (
-      <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{this.props.onSelect(this.props.index, this.props.name)}}>
+      <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+        onPress={()=>{this.props.onSelect(this.props.index, this.props.name)}}>
         <View style={styles.option}>
           <Image style={styles.thumb1} source={this.props.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
             <View style={styles.overlay}>
@@ -231,7 +232,8 @@ var SetMealView = React.createClass({
         <View style={styles.optionsContainer}>
           {mod.data.radioOptions.map(function(option){
             return (
-              <ModifierSectionCell name={option.name} index={index} isSelected={option.isSelected} onSelect={self._handleRadioSelect} />
+              <ModifierSectionCell name={option.name} index={index}
+                isSelected={option.isSelected} onSelect={self._handleRadioSelect} />
             );
           })}
         </View>

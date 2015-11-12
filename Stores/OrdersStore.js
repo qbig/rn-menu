@@ -9,10 +9,10 @@ var GroupsItemsStore = require('./GroupsItemsStore');
 var OrderItemModel = require('../Models/OrderItem');
 var ModifierStore = require('./ModifierStore');
 
+
 class OrdersStore {
   constructor() {
     this.bindListeners({
-      handleOrderUpdate: OrderActions.orderUpdated,
       handleOrderCreate: OrderActions.orderCreated,
       handleOrderDelete: OrderActions.orderClosed,
       handleNewItem: OrderActions.orderItemStarted,
@@ -50,7 +50,7 @@ class OrdersStore {
 
   handleUnsentItemCompletedEdit(comment) {
     this.currentItem.comment = comment;
-    this.unsentItems[this.currentItem.index] = this.currentItem;
+    this.unsentItems[this.currentItem.index] = this.currentItem; // replacing original item
     this.currentItem = '';
   }
 
@@ -104,50 +104,8 @@ class OrdersStore {
     console.log(this.currentItem);
   }
 
-  handleOrderUpdate(data) {
-    // [{
-    //            "product_uuid":167,
-    //            "qty": 1,
-    //            "modifiers":[{
-    //                "uuid":
-    //                  "type_of_hor_fun_/_noodle",
-    //                  "selected_radio_option_name":"河粉汤 Hor Fun Soup"
-    //              },
-    //              {
-    //                  "uuid": "takeaway",
-    //                     "is_selected": true
-    //              },
-    //              {
-    //                  "uuid":"add_hor_fun",
-    //                  "is_selected": true
-    //              },
-    //              {
-    //                  "uuid":"add_noodles",
-    //                  "is_selected": true
-    //              },
-    //              {
-    //                  "uuid":"add_veg",
-    //                  "is_selected": true
-    //              },
-    //              {
-    //                  "uuid":"add_meat_($2)",
-    //                  "is_selected": true
-    //              },
-    //              {
-    //                  "uuid":"soup_separate",
-    //                  "is_selected": true
-    //              },
-    //              {
-    //                  "uuid":"sauce_separate",
-    //                  "is_selected": true
-    //              }
-    //            ]
-    // }]
-    console.log("OrdersStore : handleOrderUpdate updated")
-    console.log(data);
-  }
-
   handleOrderCreate(data) {
+    // TODO: hanle 'order_items'!!!
     // {
     //   "order_items": [],
     //   "uuid": "151104YCY0000292",
@@ -166,85 +124,91 @@ class OrdersStore {
     //   "table_id": null
     // }
     this.details = data;
-/*    this.details = {
-    "order_items": [
+    if (data['order_items'].length > 0) {
+      this.sentItems = OrderItemModel.makeItemsFromJson(data['order_items'], GroupsItemsStore,  ModifierStore.getState().modifiers )
+    }
+/*
+{
+  "order_items": [
+    {
+      "id": 140,
+      "product_uuid": 167,
+      "qty": 1,
+      "subtotal": 980,
+      "item_subtotal": 980,
+      "item_adjustment": 0,
+      "adjustment": 0,
+      "item_adj_amt": 0,
+      "item_adj_type": "value",
+      "item_adj_entry_type": "discount",
+      "modifiers": [
         {
-            "id": 31,
-            "product_uuid": 167,
-            "qty": 1,
-            "subtotal": 980,
-            "item_subtotal": 980,
-            "item_adjustment": 0,
-            "adjustment": 0,
-            "item_adj_amt": 0,
-            "item_adj_type": "value",
-            "item_adj_entry_type": "discount",
-            "modifiers": [
-                {
-                    "uuid": "type_of_hor_fun_/_noodle",
-                    "selected_radio_option_name": "河粉汤 Hor Fun Soup",
-                    "price": 0
-                },
-                {
-                    "uuid": "takeaway",
-                    "is_selected": true,
-                    "price": 0
-                },
-                {
-                    "uuid": "add_hor_fun",
-                    "is_selected": true,
-                    "price": 100
-                },
-                {
-                    "uuid": "add_noodles",
-                    "is_selected": true,
-                    "price": 100
-                },
-                {
-                    "uuid": "add_veg",
-                    "is_selected": true,
-                    "price": 100
-                },
-                {
-                    "uuid": "add_meat_($2)",
-                    "is_selected": true,
-                    "price": 200
-                },
-                {
-                    "uuid": "soup_separate",
-                    "is_selected": true,
-                    "price": 0
-                },
-                {
-                    "uuid": "sauce_separate",
-                    "is_selected": true,
-                    "price": 0
-                }
-            ],
-            "notes": null,
-            "status": "placed",
-            "updatedAt": "2015-11-04T04:14:54.000Z",
-            "createdAt": "2015-11-04T04:14:54.000Z",
-            "unit_gram_amount": 0,
-            "staff_id": 29,
-            "deletedAt": null,
-            "adjustments": []
+          "uuid": "type_of_hor_fun_/_noodle",
+          "selected_radio_option_name": "河粉汤 Hor Fun Soup",
+          "price": 0
+        },
+        {
+          "uuid": "takeaway",
+          "is_selected": true,
+          "price": 0
+        },
+        {
+          "uuid": "add_hor_fun",
+          "is_selected": true,
+          "price": 100
+        },
+        {
+          "uuid": "add_noodles",
+          "is_selected": true,
+          "price": 100
+        },
+        {
+          "uuid": "add_veg",
+          "is_selected": true,
+          "price": 100
+        },
+        {
+          "uuid": "add_meat_($2)",
+          "is_selected": true,
+          "price": 200
+        },
+        {
+          "uuid": "soup_separate",
+          "is_selected": true,
+          "price": 0
+        },
+        {
+          "uuid": "sauce_separate",
+          "is_selected": true,
+          "price": 0
         }
-    ],
-    "uuid": "151022YCY0000006",
-    "staff_id": 29,
-    "pax": 1,
-    "type": "eat-in",
-    "state": "parked",
-    "subtotal_adj_amt": 0,
-    "subtotal_adj_type": "value",
-    "subtotal_adj_entry_type": "discount",
-    "notes": null,
-    "updatedAt": "2015-11-04T04:14:05.000Z",
-    "adjustments": [],
-    "queue_num": null,
-    "createdAt": "2015-10-22T16:25:16.000Z"
-}; */
+      ],
+      "notes": null,
+      "status": "placed",
+      "updatedAt": "2015-11-12T10:44:28.000Z",
+      "createdAt": "2015-11-12T10:44:28.000Z",
+      "unit_gram_amount": 0,
+      "staff_id": 29,
+      "deletedAt": null,
+      "adjustments": []
+    }
+  ],
+  "uuid": "151112YCY0000057",
+  "staff_id": 29,
+  "pax": 1,
+  "type": "eat-in",
+  "state": "opened",
+  "subtotal_adj_amt": 0,
+  "subtotal_adj_type": "value",
+  "subtotal_adj_entry_type": "discount",
+  "notes": null,
+  "updatedAt": "2015-11-12T10:44:28.000Z",
+  "adjustments": null,
+  "queue_num": null,
+  "createdAt": "2015-11-12T09:15:00.000Z",
+  "table_id": 81
+}
+ */
     console.log("OrdersStore : handleOrderCreate");
     console.log(this.details);
   }

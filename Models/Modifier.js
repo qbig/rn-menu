@@ -40,6 +40,7 @@ Model.prototype.init = function() {
 
 Model.prototype.select = function(name) {
   if (this.data.type === BOOLEAN) {
+    // name arg is not required for bool mod
     this.isSelected = !this.isSelected;
     if (this.isSelected) {
       this.selectedRadioOptionName = this.data.name;
