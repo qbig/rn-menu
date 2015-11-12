@@ -143,11 +143,13 @@ var Root = React.createClass({
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
-        this._nav.push({
-          title: 'Settings',
-          data: '',
-          from: ''
-        });
+        if (ConfigStore.getState().tableId == -1) {
+          this._nav.push({
+            title: 'Settings',
+            data: '',
+            from: ''
+          });
+        }
       })
       .catch((err)=>{
         console.log(err)

@@ -18,8 +18,12 @@ var {
 var MainView = require('./MainView');
 var OrderService = require('../API/OrderService');
 var SystemActions = require('../Actions/SystemActions');
+var ConfigStore = require('../Stores/ConfigStore');
 var SplashScreen = React.createClass({
   _onViewPress: function() {
+    if (ConfigStore.getState().tableId == -1) {
+      return;
+    }
     SystemActions.loadingStart();
     OrderService.createNewEmptyOrder()
     .then(()=>{

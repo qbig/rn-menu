@@ -30,11 +30,11 @@ var OrdersStore = require('../Stores/OrdersStore');
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', function() {
   // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
-  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+  if (_navigator && _navigator.getCurrentRoutes().length > 2) {
     _navigator.pop();
     return true;
   }
-  return false;
+  return true;
 });
 
 var MainView = React.createClass({

@@ -13,6 +13,7 @@ var {
   Image,
   TouchableHighlight,
   ListView,
+  ToastAndroid
 } = React;
 var StatusBar = require('../Components/StatusBar');
 var SetMealView = require('./SetMealView');
@@ -84,6 +85,10 @@ var Settings = React.createClass({
     this.listenTo(ConfigStore, this._handleTableSelectedChange);
   },
   _onBackToMainView: function() {
+    if (this.state.selectedTableId == -1) {
+      ToastAndroid.show("Pls choose a Table for this device.", ToastAndroid.LONG);
+      return;
+    }
     this.props.navigator.pop();
   },
   _pressRow: function(rowData) {
