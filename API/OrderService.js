@@ -1,6 +1,7 @@
 var getRequest = require('./getRequest');
 var OrderActions = require('../Actions/OrderActions');
 var OrdersStore = require('../Stores/OrdersStore');
+var ConfigStore = require('../Stores/ConfigStore');
 var ORDER_URI = '/order/';
 var ITEM_URI = '/item';
 var OrderService = (function() {
@@ -16,7 +17,7 @@ var OrderService = (function() {
     },
 
     createNewEmptyOrder : ()=>{
-      return getRequest(ORDER_URI, 'POST', {"pax":1, "type": "eat-in"})
+      return getRequest(ORDER_URI, 'POST', {"pax":1, "type": "eat-in", "table_id":ConfigStore.getState().tableId})
         .then(function(resJson) {
           OrderActions.orderCreated(resJson);
           console.log("OrderService: createNewOrder done !!!")

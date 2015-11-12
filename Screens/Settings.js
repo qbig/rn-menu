@@ -87,7 +87,7 @@ var Settings = React.createClass({
     this.props.navigator.pop();
   },
   _pressRow: function(rowData) {
-    TableActions.tableIdUpdated(rowData.id);
+    TableActions.tableIdUpdated(rowData);
   },
 
   renderSectionHeader: function(sectionData, sectionID) {
@@ -99,9 +99,6 @@ var Settings = React.createClass({
   },
 
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
-    console.log(rowData.id)
-    console.log(this.state.selectedTableId)
-    console.log(rowData.id === this.state.selectedTableId)
     var selected = rowData.id == this.state.selectedTableId;
     return (
       <TouchableHighlight activeOpacity = {0.8}
@@ -211,13 +208,13 @@ var styles = StyleSheet.create({
 
   column: {
     flex: 1,
-    height: 70,
+    height: 55,
     flexDirection: 'row',
   },
 
   row: {
     flex: 1,
-    height: 70,
+    height: 50,
     flexDirection: 'row',
     alignItems: 'flex-start',
     paddingRight: 0,
@@ -261,17 +258,19 @@ var styles = StyleSheet.create({
 
 section: {
   width: screen.width,
-  height: 60,
+  height: 70,
   backgroundColor: '#891F02',
   borderTopWidth:1,
   borderBottomWidth:1,
-  borderColor: 'white'
+  borderColor: 'white',
+  paddingLeft:20,
+  justifyContent: 'center'
 },
 
 sectionText: {
   color: 'white',
   fontFamily: 'AvenirNext-Medium',
-  fontSize: 23,
+  fontSize: 26,
 },
 
   icon: {
@@ -345,12 +344,13 @@ sectionText: {
 
   text: {
     flex: 1,
-    fontSize: 24,
+    fontSize: 23,
     paddingLeft: 10,
     marginLeft: 15,
-    marginTop: 20,
+    marginTop: 10,
     alignItems: 'center',
-    color: '#802628'
+    color: '#802628',
+    fontFamily: 'AvenirNext-Regular',
   },
 
   textDesc: {

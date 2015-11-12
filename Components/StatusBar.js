@@ -19,7 +19,7 @@ var StatusBar = React.createClass({
   getInitialState: function() {
     return {
       connected: EnvStore.getState().socketStatus === 'connected',
-      tableId: ConfigStore.getState().tableId
+      tableName: ConfigStore.getState().tableName
     };
   },
 
@@ -28,7 +28,9 @@ var StatusBar = React.createClass({
   },
 
   _handleTableChange: function() {
-    this.setState({tabletId: ConfigStore.getState().tabletId})
+    this.setState({tableName: ConfigStore.getState().tableName})
+    console.log("_handleTableChange!!!!  : " + this.state.tableName);
+    console.log(" ConfigStore.getState().tableId :" +  ConfigStore.getState().tableName)
   },
 
   componentWillMount: function() {
@@ -40,7 +42,7 @@ var StatusBar = React.createClass({
     return (
       <View style={styles.statusBar}>
         <TouchableHighlight delayLongPress={5000} onLongPress={()=>{SystemActions.configStart()}}>
-          <Text style={styles.statusBarTextLeft}> TABLE {this.state.tableId} </Text>
+          <Text style={styles.statusBarTextLeft}>{this.state.tableName} </Text>
         </TouchableHighlight>
         <Text style={styles.statusBarTextRight}>{this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
         <Image style={[styles.icon, !this.state.connected&&{opacity:0}]} source={require('image!icn_connected')} />
