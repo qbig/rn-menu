@@ -17,6 +17,7 @@ var {
 
 var MainView = require('./MainView');
 var OrderService = require('../API/OrderService');
+var AuthService = require('../API/AuthService');
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
 var SplashScreen = React.createClass({
@@ -25,7 +26,10 @@ var SplashScreen = React.createClass({
       return;
     }
     SystemActions.loadingStart();
-    OrderService.createNewEmptyOrder()
+    AuthService.requestForToken()
+    .then(()=>{
+        return OrderService.createNewEmptyOrder()
+    })
     .then(()=>{
       SystemActions.loadingFinish();
       this.props.navigator.push({
