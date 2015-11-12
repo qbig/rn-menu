@@ -334,7 +334,7 @@ var SetMealView = React.createClass({
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
             </View>
-            <TextInput style={styles.input} value={this.state.comment} placeholder="Add a comment here" placeholderTextColor="#999" onChangeText={(text) => this.setState({comment:text})} />
+            <TextInput underlineColorAndroid={'#891F02'} style={styles.input} value={this.state.comment} placeholder="Add a comment here" placeholderTextColor="#999" onChangeText={(text) => this.setState({comment:text})} />
           </ScrollView>
           {this._renderModal()}
         </View>

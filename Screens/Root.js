@@ -151,7 +151,7 @@ var Root = React.createClass({
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
-        if (ConfigStore.getState().tableId == -1) {
+        if (ConfigStore.getState().tableId == -1) { 
           this._nav.push(routeSetting);
         }
       })

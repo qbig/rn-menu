@@ -9,6 +9,7 @@ var {
   AppRegistry,
   StyleSheet,
   Text,
+  TextInput,
   View,
   Image,
   TouchableHighlight,
@@ -75,6 +76,7 @@ var Settings = React.createClass({
       return section.tables
     });
     this.setState({
+      pin: '',
       table: tbInfo,
       dataSource : ds.cloneWithRowsAndSections(tbItems, sectionIDs, rowIDs),
       selectedTableId: ConfigStore.getState().tableId
@@ -119,6 +121,37 @@ var Settings = React.createClass({
     );
   },
 
+  _renderTableList: function() {
+    return (
+      <View style = {styles.listview} >
+        <ListView
+            dataSource = {this.state.dataSource}
+            renderRow = {this._renderRow}
+            renderSectionHeader = {this.renderSectionHeader}
+            showsVerticalScrollIndicator={false}/>
+      </View>
+    );
+  },
+
+  _renderPinField: function()  {
+    return (
+      <View style={styles.emptyViewContainer}>
+        <View style={styles.emptyInfo}>
+          <TextInput
+            onChangeText={(pin) => this.setState({pin})}
+            maxLength={4} // current not effect
+            secureTextEntry={true}
+            autoFocus={true}
+            keyboardType={'default'} // 'numeric would broke secureTextEntry'
+            underlineColorAndroid={'#891F02'}
+            placeholder={"Pls enter staff PIN"}
+            placeholderTextColor={'#999'}
+            style={styles.emptyText} />
+        </View>
+      </View>
+    );
+  },
+
   render: function() {
     return (
       <View style = {styles.container}>
@@ -141,19 +174,42 @@ var Settings = React.createClass({
           </View>
         </View>
         <View style = {styles.separator}/>
-        <View style = {styles.listview}>
-          <ListView
-              dataSource = {this.state.dataSource}
-              renderRow = {this._renderRow}
-              renderSectionHeader = {this.renderSectionHeader}
-              showsVerticalScrollIndicator={false}/>
+        {this.state.selectedTableId == -1 || this.state.pin == ConfigStore.getState().password ?
+          this._renderTableList() : this._renderPinField()}
         </View>
-      </View>
     );
   }
 });
 
 var styles = StyleSheet.create({
+  emptyViewContainer: {
+    flex:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 23,
+    alignItems: 'center',
+    color: '#891F02',
+  },
+
+  emptyBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F2EDE4',
+    height:60,
+    width: screen.width,
+    borderBottomWidth:2.7,
+    borderColor: '#CCA697'
+  },
+
+  emptyInfo: {
+    height:60,
+    width:300,
+    marginBottom: 30
+  },
+
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
