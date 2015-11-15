@@ -15,6 +15,7 @@ var {
   TouchableHighlight,
   ScrollView,
   BackAndroid,
+  InteractionManager
 } = React;
 import type {
   NavigationContext
@@ -40,12 +41,18 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
 var MainView = React.createClass({
   getInitialState: function() {
     return {
-      groupsItems : GroupsItemsStore.getState().groupsItems
+      groupsItems : GroupsItemsStore.getState().groupsItems,
+      isLoading: true
     };
   },
 
   componentDidMount: function() {
     _navigator = this.props.navigator;
+    InteractionManager.runAfterInteractions(()=>{
+      this.setState({
+        isLoading: false
+      })
+    });
   },
   _onPressButton: function() {},
 
@@ -79,22 +86,7 @@ var MainView = React.createClass({
     }
   },
   render: function() {
-    var groups = this.state.groupsItems.map((group, groupIndex)=>{
-      return (
-        <View  style={styles.item} key={groupIndex}>
-           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(groupIndex)}}>
-             <View>
-               <Image style={styles.thumb} source={{uri:group.images[0].url}} >
-                 <Image style={styles.thumb} source={require('image!overlay1')} >
-                 <View style={styles.overlay1}><Text style={styles.groupNameText}>{group.name}</Text></View>
-                 </Image>
-               </Image>
-             </View>
-           </TouchableHighlight>
-        </View>
-      );
-    })
-     return (
+    return (
        <View style={styles.container}>
            <StatusBar />
            <View style={styles.navBar}>
@@ -107,11 +99,31 @@ var MainView = React.createClass({
            <View style={styles.separator} />
 
            <View style={styles.container}>
+             {this.state.isLoading ?
+               <View style={styles.emptyViewContainer}>
+                 <Text style={styles.emptyText}>Loading ...</Text>
+               </View>
+                 :
                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
                   <View style={styles.itemsContainer}>
-                    {groups}
+                    {
+                      this.state.groupsItems.map((group, groupIndex)=>{
+                      return (
+                        <View  style={styles.item} key={groupIndex}>
+                           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(groupIndex)}}>
+                             <View>
+                               <Image style={styles.thumb} source={{uri:group.images[0].url}} >
+                                 <Image style={styles.thumb} source={require('image!overlay1')} >
+                                 <View style={styles.overlay1}><Text style={styles.groupNameText}>{group.name}</Text></View>
+                                 </Image>
+                               </Image>
+                             </View>
+                           </TouchableHighlight>
+                        </View>
+                      )})
+                    }
                   </View>
-               </ScrollView>
+               </ScrollView>}
             </View>
             {this._renderViewOrderButton()}
         </View>);
@@ -119,6 +131,18 @@ var MainView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  emptyViewContainer: {
+    flex:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 23,
+    alignItems: 'center',
+    color: '#891F02',
+  },
+
   scrollView: {
     height: (screen.height * 69) / 100,
     top: 0,

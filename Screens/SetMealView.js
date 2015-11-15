@@ -19,7 +19,8 @@ var
   Navigator,
   Animated,
   Dimensions,
-  ToastAndroid
+  ToastAndroid,
+  InteractionManager
 } = React;
 
 var StatusBar = require('../Components/StatusBar');
@@ -104,7 +105,8 @@ var SetMealView = React.createClass({
       isAlertVisibale: false,
       comment:OrdersStore.getState().currentItem.comment,
       done: false,
-      isEditMode: this.props.from === 'ORDER LIST'
+      isEditMode: this.props.from === 'ORDER LIST',
+      isLoading: true
     };
   },
 
@@ -117,6 +119,15 @@ var SetMealView = React.createClass({
   componentWillMount: function() {
     this.listenTo(OrdersStore, this._handleOptionsChange);
   },
+
+  componentDidMount: function() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        isLoading: false
+      });
+    });
+  },
+
   componentWillUnmount: function() {
     if (this.state.done) {
       if (this.state.isEditMode) {
@@ -325,14 +336,15 @@ var SetMealView = React.createClass({
 
         <View style={styles.container}>
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
-
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
               <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={this.props.data.images.length > 0 ? {uri:  this.props.data.images[0].url} : require('image!mainimg')} />
             </View>
             <View style={styles.separator1} />
             {this._renderQuantityWidget()}
             <View style={styles.separator} />
-            {this._renderSections()}
+            {this.state.isLoading ? <View style={styles.emptyViewContainer}>
+              <Text style={styles.emptyText}>Loading ...</Text>
+            </View> : this._renderSections()}
             <View style={styles.columnContainerAddComment}>
               <View style={styles.separator} />
             </View>
@@ -347,6 +359,18 @@ var SetMealView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  emptyViewContainer: {
+    flex:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 23,
+    alignItems: 'center',
+    color: '#891F02',
+  },
+
   containerForAlert: {
     flex: 1,
     backgroundColor: '#FFFAF0',

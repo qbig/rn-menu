@@ -14,13 +14,16 @@ var {
   TouchableHighlight,
   ListView,
   ToastAndroid,
+  InteractionManager
 } = React;
 var StatusBar = require('../Components/StatusBar');
 var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
 var OrdersStore = require('../Stores/OrdersStore');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
+var EnvStore = require('../Stores/EnvStore');
 var OrderActions = require('../Actions/OrderActions');
+var SystemActions = require('../Actions/SystemActions');
 var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 
@@ -39,13 +42,9 @@ var ds = new ListView.DataSource({
 var ItemList = React.createClass({
   mixins: [ListenerMixin],
   getInitialState: function() {
-    console.log("produscs")
-    console.log(GroupsItemsStore.getState().groupsItems[this.props.data].products)
     return {
-      // this.props.data --> index of selected group
       data: GroupsItemsStore.getState().groupsItems[this.props.data],
-      dataSource: ds.cloneWithRows(GroupsItemsStore.getState().groupsItems[this.props.data].products)
-    };
+    }
   },
   _handleOrderItemsChange: function() {
     this.setState({
@@ -53,6 +52,17 @@ var ItemList = React.createClass({
       dataSource: ds.cloneWithRows(GroupsItemsStore.getState().groupsItems[this.props.data].products)
     })
   },
+
+  componentDidMount: function() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        // this.props.data --> index of selected group
+        data: GroupsItemsStore.getState().groupsItems[this.props.data],
+        dataSource: ds.cloneWithRows(GroupsItemsStore.getState().groupsItems[this.props.data].products)
+      });
+    });
+  },
+
   componentWillMount: function() {
     this.listenTo(OrdersStore, this._handleOrderItemsChange);
     this.listenTo(GroupsItemsStore, this._handleOrderItemsChange);
@@ -139,14 +149,7 @@ var ItemList = React.createClass({
       <View style = {styles.container}>
         <StatusBar />
         <View style = {styles.navBar}>
-          <View style = {
-              {
-                flexDirection: 'column',
-                flex: 1,
-                left: 10,
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-            }}>
+          <View style = {{flexDirection: 'column', flex: 1, left: 10, justifyContent: 'center', alignItems: 'flex-start',}}>
             <TouchableHighlight activeOpacity = {0.8}
               underlayColor = {'rgba(255,255,255,0.1)'}
               onPress = {this._onBackToMainView} >
@@ -156,36 +159,25 @@ var ItemList = React.createClass({
               </View>
             </TouchableHighlight>
           </View>
-          <View style = {
-            {
-              flexDirection: 'column',
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }} >
+          <View style = {{flexDirection: 'column', flex: 1, justifyContent: 'center', alignItems: 'center',}} >
             <Text style = {styles.navBarText} > {trimString(this.state.data.name, TITLE_LENGTH)} </Text>
           </View>
-          <View style = {
-            {
-              flexDirection: 'column',
-              flex: 1,
-              justifyContent: 'center',
-              top: 10,
-              alignItems: 'flex-start',
-            }} >
+          <View style = {{flexDirection: 'column', flex: 1, justifyContent: 'center', top: 10, alignItems: 'flex-start',}} >
           </View>
           <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
             <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
           </TouchableHighlight>
         </View>
         <View style = {styles.separator}/>
-        <View style = {styles.lstview}>
+        {this.state.dataSource ?
+        <View style = {styles.listview}>
           <ListView
               dataSource = {this.state.dataSource}
               renderRow = {this._renderRow}
               showsVerticalScrollIndicator={false}/>
-        </View>
-
+          </View> : <View style={styles.emptyViewContainer}>
+            <Text style={styles.emptyText}>Loading ...</Text>
+          </View>}
         {this._renderViewOrderButton()}
       </View>
     );
@@ -193,6 +185,18 @@ var ItemList = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  emptyViewContainer: {
+    flex:10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 23,
+    alignItems: 'center',
+    color: '#891F02',
+  },
+  
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
@@ -217,7 +221,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  lstview: {
+  listview: {
     flex: 1,
   },
 
