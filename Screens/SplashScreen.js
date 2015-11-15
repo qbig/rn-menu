@@ -20,6 +20,8 @@ var OrderService = require('../API/OrderService');
 var AuthService = require('../API/AuthService');
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
+var screen = require('Dimensions').get('window');
+
 var SplashScreen = React.createClass({
   _onViewPress: function() {
     if (ConfigStore.getState().tableId == -1) {
@@ -58,6 +60,7 @@ var styles = StyleSheet.create({
   },
   cover: {
     flex: 1,
+    width: screen.width
   }
 });
 

@@ -368,21 +368,22 @@ var styles = StyleSheet.create({
     width: 50,
     textAlign: 'center',
   },
-
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:20
+    marginLeft:20,
+    height: 60,
+    alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
     paddingLeft: 10,
-    alignItems: 'flex-start',
-    textAlign: 'left',
+    height: 25,
     color: '#8D383D',
     marginLeft:8
   },
+  
   listView: {
     flex: 1,
     alignItems: 'flex-start',

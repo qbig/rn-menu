@@ -13,6 +13,7 @@ var {
   Image,
   TouchableHighlight,
   ListView,
+  ToastAndroid,
 } = React;
 var StatusBar = require('../Components/StatusBar');
 var SetMealView = require('./SetMealView');
@@ -67,6 +68,8 @@ var ItemList = React.createClass({
         from: trimString(this.state.data.name, 15),
         data: rowData
       });
+    } else {
+      ToastAndroid.show("The item is sold out.", ToastAndroid.LONG);
     }
   },
 
@@ -193,14 +196,15 @@ var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:20
+    marginLeft:20,
+    height: 60,
+    alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
     paddingLeft: 10,
-    alignItems: 'flex-start',
-    textAlign: 'left',
+    height: 25,
     color: '#8D383D',
     marginLeft:8
   },
