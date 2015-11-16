@@ -119,7 +119,6 @@ var Root = React.createClass({
       console.log("!!!!!!!!!")
       console.log(err);
       throw err;
-      console.log("!!!!!!!!!")
     }
   },
 
@@ -151,8 +150,9 @@ var Root = React.createClass({
     if (this.state.initializing) {
       return;
     }
-    this.setState({initializing:true})
+
     if (EnvStore.getState().webToken == "" || EnvStore.getState().lastSync == ""){
+      this.setState({initializing:true})
       this.showLoading();
       this.bootStrapData()
       .then(()=>{
@@ -162,10 +162,14 @@ var Root = React.createClass({
           initialized:true
         })
         if (ConfigStore.getState().tableId == -1) {
-          this._nav.push(routeSetting);
+          this._nav.push(routeSetting); // to choose a table
         }
       })
       .catch((err)=>{
+        if (err === "NotFound") {
+          this.closeLoading();
+          this._nav.push(routeSetting); // to choose a config(ip, etc)
+        }
         console.log(err)
         this.setState({
           status: "PLS TRY AGAIN...",
@@ -187,7 +191,7 @@ var Root = React.createClass({
     this.listenTo(EnvStore, this.startConfigFlow);
     // only now the _nav ref is available
     this.listenTo(EnvStore, this.reset);
-    this.showLoading();
+    this.listenTo(ConfigStore, this.initData);
     this.initData();
   },
 

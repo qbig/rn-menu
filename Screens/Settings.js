@@ -22,6 +22,8 @@ var OrderList = require('./OrderList');
 var TablesStore = require('../Stores/TablesStore');
 var ConfigStore = require('../Stores/ConfigStore');
 var TableActions = require('../Actions/TableActions');
+var SystemActions = require('../Actions/SystemActions');
+var StoreConfigService = require('../API/StoreConfigService');
 var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 
@@ -56,12 +58,19 @@ var Settings = React.createClass({
     });
 
     return {
+      pin: '',
+      setTableView: false,
+      firstTime: false,
       table: tbInfo,
       dataSource : ds.cloneWithRowsAndSections(tbItems, sectionIDs, rowIDs),
       selectedTableId: ConfigStore.getState().tableId
     };
   },
   _handleTableSelectedChange: function() {
+    if (this.state.firstTime) {
+        this.props.navigator.pop();
+    }
+
     var tbInfo = TablesStore.getState().tableInfo;
     var sectionIDs = tbInfo.map(function(section, index){
       return index + '';
@@ -76,10 +85,10 @@ var Settings = React.createClass({
       return section.tables
     });
     this.setState({
-      pin: '',
       table: tbInfo,
       dataSource : ds.cloneWithRowsAndSections(tbItems, sectionIDs, rowIDs),
-      selectedTableId: ConfigStore.getState().tableId
+      selectedTableId: ConfigStore.getState().tableId,
+      setTableView: false
     })
     console.log('!!!! after update this.state.selectedTableId:' + this.state.selectedTableId)
   },
@@ -87,13 +96,18 @@ var Settings = React.createClass({
     this.listenTo(ConfigStore, this._handleTableSelectedChange);
   },
   _onBackToMainView: function() {
-    if (this.state.selectedTableId == -1) {
+    if (!ConfigStore.getState().host) {
+      ToastAndroid.show("Pls choose a host.", ToastAndroid.LONG);
+    } else if (this.state.selectedTableId == -1) {
       ToastAndroid.show("Pls choose a Table for this device.", ToastAndroid.LONG);
       return;
     }
     this.props.navigator.pop();
   },
   _pressRow: function(rowData) {
+    if (this.state.selectedTableId == -1) {
+      this.setState({firstTime: true})
+    }
     TableActions.tableIdUpdated(rowData);
   },
 
@@ -152,7 +166,65 @@ var Settings = React.createClass({
     );
   },
 
+  _renderEmptyView() {
+
+      return (
+        <View style={styles.emptyViewContainer}>
+        {ConfigStore.getState().password ? <TouchableHighlight style={styles.emptyBtn}
+          activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+            this.setState({setTableView: true});
+          }}>
+          <Text style={styles.emptyText}>CHANGE TABLE</Text>
+        </TouchableHighlight> : null }
+        <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
+          underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+            SystemActions.loadingStart();
+            StoreConfigService.discoverFromLocalWifi()
+            .then((configInfo)=>{
+              SystemActions.loadingFinish();
+              SystemActions.configInfoUpdate({
+                host: configInfo['host'],
+                guid: configInfo['guid'],
+                username: configInfo['username'],
+                password: configInfo['password']
+              })
+              this.props.navigator.pop()
+            }).catch((e)=>{
+              SystemActions.loadingFinish();
+              if (e === "NotFound") {
+                ToastAndroid.show("No nearby host is found.", ToastAndroid.LONG);
+              }
+            });
+          }}>
+          <Text style={styles.emptyText}>SEARCH NEARBY HOST</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
+          underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+            SystemActions.configInfoUpdate({
+              host: "http://104.155.205.124",
+              guid: "abc",
+              username: "7737",
+              password: "7737"
+            });
+            this.props.navigator.pop();
+          }} >
+          <Text style={styles.emptyText}>YCY TEST HOST</Text>
+        </TouchableHighlight>
+      </View>
+    );
+  },
+
   render: function() {
+    var content;
+    if (!ConfigStore.getState().password) {
+      content = this._renderEmptyView(); // without table options
+    } else if (this.state.setTableView || ConfigStore.getState().tableId == -1) {
+      content = this._renderTableList();
+    } else if (this.state.pin =='' || this.state.pin != ConfigStore.getState().password){
+      content = this._renderPinField();
+    }  else {
+      content = this._renderEmptyView(); // with table options
+    }
     return (
       <View style = {styles.container}>
         <StatusBar />
@@ -174,8 +246,7 @@ var Settings = React.createClass({
           </View>
         </View>
         <View style = {styles.separator}/>
-        {this.state.selectedTableId == -1 || this.state.pin == ConfigStore.getState().password ?
-          this._renderTableList() : this._renderPinField()}
+          {content}
         </View>
     );
   }

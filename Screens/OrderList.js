@@ -251,103 +251,103 @@ var OrderList = React.createClass({
   },
 
   _renderEmptyView() {
-    var message= '';
-    if (this.state.viewOrder) {
-      if (this.state.showSentOrder) {
-        message = "ORDER SENT! THANK YOU."
+      var message= '';
+      if (this.state.viewOrder) {
+        if (this.state.showSentOrder) {
+          message = "ORDER SENT! THANK YOU."
+        } else {
+          message = "YOUR ORDER LIST IS EMPTY."
+        }
       } else {
-        message = "YOUR ORDER LIST IS EMPTY."
+        message = "THERE ARE NO ITEMS IN YOUR BILL."
       }
-    } else {
-      message = "THERE ARE NO ITEMS IN YOUR BILL."
-    }
+      return (
+        <View style={styles.emptyViewContainer}>
+          <View style={styles.emptyInfo}>
+            <Text style={[styles.emptyText, {textAlign: 'center'}]}>{message}</Text>
+          </View>
+          <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.backToMain}>
+            <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
+          </TouchableHighlight>
+          {this.state.viewOrder ? <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.togglePressed} >
+          <Text style={styles.emptyText}>VIEW BILL</Text>
+        </TouchableHighlight> : null}
+      </View>
+    );
+  },
+
+  _renderListView() {
     return (
-      <View style={styles.emptyViewContainer}>
-        <View style={styles.emptyInfo}>
-          <Text style={[styles.emptyText, {textAlign: 'center'}]}>{message}</Text>
-        </View>
-        <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.backToMain}>
-          <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
-        </TouchableHighlight>
-        {this.state.viewOrder ? <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.togglePressed} >
-        <Text style={styles.emptyText}>VIEW BILL</Text>
-      </TouchableHighlight> : null}
-    </View>
-  );
-},
-
-_renderListView() {
-  return (
-    <View style={styles.listView}>
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this._renderRow}
-        />
-    </View>
-  );
-},
-
-render: function() {
-  var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
-  var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
-  var textMessage = this.state.isAlertVisibale ?
-  <Text style={styles.alertTextVisible}>Would you like to edit {this.state.editRowIndex === -1 ? 'meal' : this.state.orders.unsentItems[this.state.editRowIndex].data.name}?</Text>  : null ;
-
-  return (
-    <View style={styles.container}>
-      <StatusBar />
-      <View style={styles.navBar}>
-        <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
-          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
-            <View style={styles.backButtonContainer}>
-              <Image source={require('image!btn_back')}  />
-              <Text style={styles.backButton}> {this.props.from} </Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-        <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
-          <Text style={styles.navBarText}>{this.state.viewOrder ? 'ORDER LIST' : 'BILL TOTAL'} </Text>
-        </View>
-        <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
-          <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
-            style={styles.toggleBtn} onPress={this.togglePressed}>
-            <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
-          </TouchableHighlight>
-        </View>
+      <View style={styles.listView}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderRow}
+          />
       </View>
-      {this.isEmpty() ? this._renderEmptyView() : this._renderListView()}
-      <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
-        <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
-          <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
-            {textMessage}
-          </View>
-          <View  style={this.state.isAlertVisibale ? styles.alertSecondRowVisible : styles.alertSecondRowInVisible}>
-            <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertYesPressed}>
-                <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
-                  {yesBtn}
+    );
+  },
+
+  render: function() {
+    var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
+    var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
+    var textMessage = this.state.isAlertVisibale ?
+    <Text style={styles.alertTextVisible}>Would you like to edit {this.state.editRowIndex === -1 ? 'meal' : this.state.orders.unsentItems[this.state.editRowIndex].data.name}?</Text>  : null ;
+
+      return (
+        <View style={styles.container}>
+          <StatusBar />
+          <View style={styles.navBar}>
+            <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
+                <View style={styles.backButtonContainer}>
+                  <Image source={require('image!btn_back')}  />
+                  <Text style={styles.backButton}> {this.props.from} </Text>
                 </View>
               </TouchableHighlight>
             </View>
-            <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertNoPressed}>
-                <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
-                  {noBtn}
-                </View>
+            <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
+              <Text style={styles.navBarText}>{this.state.viewOrder ? 'ORDER LIST' : 'BILL TOTAL'} </Text>
+            </View>
+            <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
+              <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+                style={styles.toggleBtn} onPress={this.togglePressed}>
+                <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
               </TouchableHighlight>
             </View>
           </View>
-        </View>
-      </View>
+          {this.isEmpty() ? this._renderEmptyView() : this._renderListView()}
+          <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
+            <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
+              <View  style={this.state.isAlertVisibale ? styles.alertRowVisible : styles.alertRowInVisible}>
+                {textMessage}
+              </View>
+              <View  style={this.state.isAlertVisibale ? styles.alertSecondRowVisible : styles.alertSecondRowInVisible}>
+                <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
+                  <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertYesPressed}>
+                    <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
+                      {yesBtn}
+                    </View>
+                  </TouchableHighlight>
+                </View>
+                <View  style={this.state.isAlertVisibale ? styles.alertCollVisible : styles.alertCollInVisible}>
+                  <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.alertNoPressed}>
+                    <View style={this.state.isAlertVisibale ? styles.alertBtnVisible : styles.alertBtnInVisible}>
+                      {noBtn}
+                    </View>
+                  </TouchableHighlight>
+                </View>
+              </View>
+            </View>
+          </View>
 
-      {this.isEmpty() || !this.state.viewOrder ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>SEND ORDER</Text>
-      </View>
-      </TouchableHighlight>}
-    <View style={styles.separator} />
-  </View>);
-  }
+          {this.isEmpty() || !this.state.viewOrder ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>SEND ORDER</Text>
+          </View>
+        </TouchableHighlight>}
+        <View style={styles.separator} />
+      </View>);
+    }
 });
 var styles = StyleSheet.create({
   toggleBtn: {
@@ -383,7 +383,7 @@ var styles = StyleSheet.create({
     color: '#8D383D',
     marginLeft:8
   },
-  
+
   listView: {
     flex: 1,
     alignItems: 'flex-start',
@@ -398,6 +398,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50
   },
+
   emptyViewContainer: {
     flex:10,
     justifyContent: 'center',

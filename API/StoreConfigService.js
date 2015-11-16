@@ -22,6 +22,7 @@ var StoreConfigService = {
 
   respondToResolvedEvent(e) {
     console.log("resolved:" + e['data']);
+    this.ip = e['data'];
     ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
   },
 
@@ -37,10 +38,22 @@ var StoreConfigService = {
     );
     this.ip = "";
     var self = this;
+    NSDModule.discover();
     return new Promise(function(resolve, reject){
       setTimeout(function(){
         console.log("IP found:" + self.ip);
-        resolve(self.ip);
+        NSDModule.stop();
+        if (self.ip) {
+          resolve({
+              host: "http://" + self.ip,
+              guid: "abc",
+              username: "7737",
+              password: "7737"
+            });
+        } else {
+          reject("NotFound");
+        }
+
       }, 10*1000);
     });
   },
@@ -70,13 +83,6 @@ var StoreConfigService = {
             username: configInfo['username'],
             password: configInfo['password']
           })
-        } else {
-          SystemActions.configInfoUpdate({
-            host: "http://104.155.205.124",
-            guid: "abc",
-            username: "7737",
-            password: "7737"
-          });
         }
       });
   }
