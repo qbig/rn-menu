@@ -40,10 +40,10 @@ store.save('coffee', {
 
 class ConfigStore {
   constructor() {
-    this.host = "http://104.155.205.124"
-    this.guid = "abc"
-    this.username ="7737"
-    this.password ="7737"
+    this.host = ""
+    this.guid = ""
+    this.username =""
+    this.password =""
     this.tableId = -1
     this.tableName = ''
     this.storeInfo = ""
@@ -52,8 +52,17 @@ class ConfigStore {
     });
     this.bindListeners({
       handleStoreInfoUpdate: SystemActions.storeInfoLoaded,
-      handleTableIdUpdate: TableActions.tableIdUpdated
+      handleTableIdUpdate: TableActions.tableIdUpdated,
+      handleConfigInfoUpdate: SystemActions.configInfoUpdate,
     });
+  }
+
+  handleConfigInfoUpdate(configInfo/*{host, guid, username, password}*/) {
+    for (var item in configInfo) {
+      if (configInfo[item]) {
+        this[item] = configInfo[item]
+      }
+    }
   }
 
   handleTableIdUpdate({name, id}) {

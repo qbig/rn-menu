@@ -15,7 +15,8 @@ class SystemActions {
       'configStart',
       'configDone',
       'orderCleared',
-      'orderResetComplete'
+      'orderResetComplete',
+      'configInfoUpdate'
     );
   }
 }

@@ -15,7 +15,10 @@ var {
   TouchableHighlight,
   Navigator,
   Animated,
-  Easing
+  Easing,
+  NativeModules,
+  DeviceEventEmitter,
+  ToastAndroid
 } = React;
 
 var SplashScreen = require('./SplashScreen');
@@ -46,6 +49,8 @@ var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+var Subscribable = require('Subscribable');
+var NSDModule = NativeModules.NSDModule
 var routeSetting = {
   title: 'Settings',
   data: '',
@@ -55,11 +60,12 @@ import Portal from 'react-native/Libraries/Portal/Portal';
 var tag = Portal.allocateTag();
 
 var Root = React.createClass({
-  mixins: [ListenerMixin],
+  mixins: [ListenerMixin, Subscribable.Mixin],
   getInitialState: function() {
       return {
         ang: new Animated.Value(0),
-        status: "  LOADING . . ."
+        status: "  LOADING . . .",
+        initializing: false
       };
   },
 
@@ -141,17 +147,32 @@ var Root = React.createClass({
     }
   },
 
-  componentDidMount: function() {
-    this.listenTo(EnvStore, this.updateLoading);
-    this.listenTo(EnvStore, this.startConfigFlow);
-    // only now the _nav ref is available
-    this.listenTo(EnvStore, this.reset);
+  respondToDiscoveredEvent: function(e) {
+    if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
+      NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
+      ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
+    }
+  },
+
+  respondToResolvedEvent: function(e) {
+    console.log("resolved:" + e['data']);
+    ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
+    SystemActions.configInfoUpdate({
+      host: "http://" + e['data']
+    });
+  },
+
+  initData: function() {
+    if (this.state.initializing) {
+      return;
+    }
+    this.setState({initializing:true})
     if (EnvStore.getState().webToken == "" || EnvStore.getState().lastSync == ""){
       this.showLoading();
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
-        if (ConfigStore.getState().tableId == -1) { 
+        if (ConfigStore.getState().tableId == -1) {
           this._nav.push(routeSetting);
         }
       })
@@ -168,6 +189,34 @@ var Root = React.createClass({
           status: "LOADING..."
         });
       });
+    }
+  },
+
+  componentWillMount: function() {
+    this.addListenerOn(DeviceEventEmitter,
+      NSDModule.SERVICE_RESOLVED,
+      this.respondToResolvedEvent);
+
+    this.addListenerOn(DeviceEventEmitter,
+      NSDModule.SERVICE_FOUND,
+      this.respondToDiscoveredEvent);
+  },
+
+  componentDidMount: function() {
+    this.listenTo(EnvStore, this.updateLoading);
+    this.listenTo(EnvStore, this.startConfigFlow);
+    // only now the _nav ref is available
+    this.listenTo(EnvStore, this.reset);
+    this.listenTo(ConfigStore, this.initData);
+    if (ConfigStore.getState().host === "") {
+      SystemActions.configInfoUpdate({
+        host: "http://104.155.205.124",
+        guid: "abc",
+        username: "7737",
+        password: "7737"
+      });
+
+      NSDModule.discover();
     }
   },
 
