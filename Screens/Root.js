@@ -16,8 +16,6 @@ var {
   Navigator,
   Animated,
   Easing,
-  NativeModules,
-  DeviceEventEmitter,
   ToastAndroid
 } = React;
 
@@ -36,6 +34,7 @@ var ProdAttributeService = require('../API/ProdAttributeService');
 var OrderService = require('../API/OrderService');
 var ModifierService = require('../API/ModifierService');
 var StoreInfoService = require('../API/StoreInfoService');
+var StoreConfigService = require('../API/StoreConfigService');
 
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
@@ -49,8 +48,7 @@ var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-var Subscribable = require('Subscribable');
-var NSDModule = NativeModules.NSDModule
+
 var routeSetting = {
   title: 'Settings',
   data: '',
@@ -60,7 +58,7 @@ import Portal from 'react-native/Libraries/Portal/Portal';
 var tag = Portal.allocateTag();
 
 var Root = React.createClass({
-  mixins: [ListenerMixin, Subscribable.Mixin],
+  mixins: [ListenerMixin,],
   getInitialState: function() {
       return {
         ang: new Animated.Value(0),
@@ -103,8 +101,9 @@ var Root = React.createClass({
 
   bootStrapData: async function bootStrapData() {
     try {
-      SocketService.init();
+      await StoreConfigService.getConfig();
       await TableService.initFromCache();
+      SocketService.init();
       await AuthService.requestForToken();
       await this.delay(10);
       await GroupsItemsService.requestForGroupsItems();
@@ -148,24 +147,6 @@ var Root = React.createClass({
     }
   },
 
-  respondToDiscoveredEvent: function(e) {
-    if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
-      NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
-      ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
-    }
-  },
-
-  respondToResolvedEvent: function(e) {
-    console.log("resolved:" + e['data']);
-    ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
-    SystemActions.configInfoUpdate({
-      host: "http://" + e['data'],
-      guid: "abc",
-      username: "7737",
-      password: "7737"
-    });
-  },
-
   initData: function() {
     if (this.state.initializing) {
       return;
@@ -201,36 +182,13 @@ var Root = React.createClass({
     }
   },
 
-  componentWillMount: function() {
-    this.addListenerOn(DeviceEventEmitter,
-      NSDModule.SERVICE_RESOLVED,
-      this.respondToResolvedEvent);
-
-    this.addListenerOn(DeviceEventEmitter,
-      NSDModule.SERVICE_FOUND,
-      this.respondToDiscoveredEvent);
-  },
-
   componentDidMount: function() {
     this.listenTo(EnvStore, this.updateLoading);
     this.listenTo(EnvStore, this.startConfigFlow);
     // only now the _nav ref is available
     this.listenTo(EnvStore, this.reset);
-    this.listenTo(ConfigStore, this.initData);
-    if (ConfigStore.getState().host === "") {
-      this.showLoading();
-      setTimeout(()=>{
-        if (!this.state.initialized && !this.state.initializing) {
-          SystemActions.configInfoUpdate({
-            host: "http://104.155.205.124",
-            guid: "abc",
-            username: "7737",
-            password: "7737"
-          });
-        }
-      }, 10 * 1000);
-      NSDModule.discover();
-    }
+    this.showLoading();
+    this.initData();
   },
 
   _modalComponent: function() {

@@ -3,6 +3,7 @@ var SystemActions = require('../Actions/SystemActions')
 var TableActions = require('../Actions/TableActions')
 var store = require('react-native-simple-store');
 var TABLE = 'table';
+var CONFIG = 'config';
 
 /*
 store.save('coffee', {
@@ -63,6 +64,7 @@ class ConfigStore {
         this[item] = configInfo[item]
       }
     }
+    store.save(CONFIG, configInfo);
   }
 
   handleTableIdUpdate({name, id}) {
