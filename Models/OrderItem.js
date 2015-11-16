@@ -40,7 +40,40 @@ Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
       }
     });
 
+    return itemObj;
+  });
+}
 
+Model.makeUnsentItemsFromCache = function(itemsJson, GroupsItemsStore, modifierDict) {
+  return itemsJson.map(function(item){
+    var uuid = item.data.uuid;
+    var {quantity, comment} = item;
+    var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
+    itemObj.quantity = quantity;
+    itemObj.comment = comment;
+    item.radioMods.forEach(function(ansRadioMod){
+      if(ansRadioMod.isSelected) {
+        var foundRadioMod = itemObj.radioMods.find(function(radioMod){
+          return radioMod.data.uuid == ansRadioMod.data.uuid
+        });
+        if (foundRadioMod == undefined) {
+          throw new Error("cannot find radio modifier with uuid:" + ansRadioMod.data.uuid);
+        }
+        foundRadioMod.select(ansRadioMod.selectedRadioOptionName);
+      }
+    })
+
+    item.boolMods.forEach(function(ansBoolMod){
+      if (ansBoolMod.isSelected) {
+        var foundBoolMod = itemObj.boolMods.find(function(boolMod){
+          return boolMod.data.uuid == ansBoolMod.data.uuid
+        });
+        if (foundBoolMod == undefined) {
+          throw new Error("cannot find bool modifier with uuid:" + ansBoolMod.data.uuid);
+        }
+        foundBoolMod.select();
+      }
+    })
     return itemObj;
   });
 }

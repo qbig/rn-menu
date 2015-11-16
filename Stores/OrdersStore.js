@@ -8,7 +8,8 @@ var OrderActions = require('../Actions/OrderActions');
 var GroupsItemsStore = require('./GroupsItemsStore');
 var OrderItemModel = require('../Models/OrderItem');
 var ModifierStore = require('./ModifierStore');
-
+var store = require('react-native-simple-store');
+var ORDER = 'order';
 
 class OrdersStore {
   constructor() {
@@ -42,6 +43,12 @@ class OrdersStore {
     this.currentItem = '';
   }
 
+  persistCurrentItems() {
+    store.save(ORDER, {
+        currentItems: JSON.stringify(this.unsentItems)
+    })
+  }
+
   handleOrderDelete(data) {
     if (data['verb'] === 'destroyed' && data['id'] === this.details.uuid) {
       this.init();
@@ -52,6 +59,7 @@ class OrdersStore {
     this.currentItem.comment = comment;
     this.unsentItems[this.currentItem.index] = this.currentItem; // replacing original item
     this.currentItem = '';
+    this.persistCurrentItems();
   }
 
   handleUnsentItemStartedEdit(index) {
@@ -61,6 +69,7 @@ class OrdersStore {
 
   handleUnsentItemIncrement(index) {
     this.unsentItems[index].incre();
+    this.persistCurrentItems();
   }
 
   handleUnsentItemDecrement(index) {
@@ -69,17 +78,20 @@ class OrdersStore {
     } else {
       this.unsentItems.splice(index, 1)
     }
+    this.persistCurrentItems();
   }
 
   handleSendOrderSuccess(successInfo) {
     this.sentItems = this.sentItems.concat(this.unsentItems);
     this.unsentItems = [];
+    this.persistCurrentItems();
   }
 
   handleCurrentItemAdded(comment) {
     this.currentItem.comment = comment;
     this.unsentItems.push(this.currentItem);
     this.currentItem = '';
+    this.persistCurrentItems();
   }
 
   handleCurrentItemIncrement() {
@@ -105,28 +117,50 @@ class OrdersStore {
   }
 
   handleOrderCreate(data) {
-    // TODO: hanle 'order_items'!!!
-    // {
-    //   "order_items": [],
-    //   "uuid": "151104YCY0000292",
-    //   "staff_id": 29,
-    //   "pax": 1,
-    //   "type": "eat-in",
-    //   "state": "opened",
-    //   "subtotal_adj_amt": 0,
-    //   "subtotal_adj_type": "value",
-    //   "subtotal_adj_entry_type": "discount",
-    //   "notes": null,
-    //   "updatedAt": "2015-11-04T06:03:57.000Z",
-    //   "adjustments": null,
-    //   "queue_num": null,
-    //   "createdAt": "2015-11-04T06:03:57.000Z",
-    //   "table_id": null
-    // }
     this.details = data;
     if (data['order_items'].length > 0) {
       this.sentItems = OrderItemModel.makeItemsFromJson(data['order_items'], GroupsItemsStore,  ModifierStore.getState().modifiers )
     }
+    store.get(ORDER).then((currenOrderInfo)=>{
+      console.log('existing order !!!!!')
+      console.log(currenOrderInfo)
+      if (currenOrderInfo) {
+        var info = JSON.parse(currenOrderInfo['currentItems'])
+        console.log(info);
+        if (info.length > 0) {
+          console.log("start!!!")
+            this.unsentItems = OrderItemModel.makeUnsentItemsFromCache(info, GroupsItemsStore,  ModifierStore.getState().modifiers );
+            console.log("here!!!")
+            console.log(this.unsentItems)
+            console.log("Done!!!")
+        }
+
+      }
+    })
+    console.log("OrdersStore : handleOrderCreate");
+    console.log(this.details);
+  }
+
+  getOrderCount(){
+    return this.getState().unsentItems.reduce(function(prev, cur){
+      return prev + cur.quantity
+    }, 0);
+  }
+
+  getOrderSum() {
+    return (this.getState().sentItems.reduce(function(prev, cur){
+      return prev + cur.getCost();
+    },0) / 100.0).toFixed(2);
+  }
+
+  getUnsentOrderSum() {
+    return (this.getState().unsentItems.reduce(function(prev, cur){
+      return prev + cur.getCost();
+    },0) / 100.0).toFixed(2);
+  }
+}
+
+module.exports = alt.createStore(OrdersStore, 'OrdersStore');
 /*
 {
   "order_items": [
@@ -209,27 +243,3 @@ class OrdersStore {
   "table_id": 81
 }
  */
-    console.log("OrdersStore : handleOrderCreate");
-    console.log(this.details);
-  }
-
-  getOrderCount(){
-    return this.getState().unsentItems.reduce(function(prev, cur){
-      return prev + cur.quantity
-    }, 0);
-  }
-
-  getOrderSum() {
-    return (this.getState().sentItems.reduce(function(prev, cur){
-      return prev + cur.getCost();
-    },0) / 100.0).toFixed(2);
-  }
-
-  getUnsentOrderSum() {
-    return (this.getState().unsentItems.reduce(function(prev, cur){
-      return prev + cur.getCost();
-    },0) / 100.0).toFixed(2);
-  }
-}
-
-module.exports = alt.createStore(OrdersStore, 'OrdersStore');
