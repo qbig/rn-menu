@@ -65,7 +65,8 @@ var Root = React.createClass({
       return {
         ang: new Animated.Value(0),
         status: "  LOADING . . .",
-        initializing: false
+        initializing: false,
+        initialized: false
       };
   },
 
@@ -158,7 +159,10 @@ var Root = React.createClass({
     console.log("resolved:" + e['data']);
     ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
     SystemActions.configInfoUpdate({
-      host: "http://" + e['data']
+      host: "http://" + e['data'],
+      guid: "abc",
+      username: "7737",
+      password: "7737"
     });
   },
 
@@ -172,6 +176,10 @@ var Root = React.createClass({
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
+        this.setState({
+          initializing:false,
+          initialized:true
+        })
         if (ConfigStore.getState().tableId == -1) {
           this._nav.push(routeSetting);
         }
@@ -179,7 +187,8 @@ var Root = React.createClass({
       .catch((err)=>{
         console.log(err)
         this.setState({
-          status: "PLS TRY AGAIN..."
+          status: "PLS TRY AGAIN...",
+          initializing:false
         });
       }).then(()=>{
         return this.delay(2000)
@@ -209,13 +218,17 @@ var Root = React.createClass({
     this.listenTo(EnvStore, this.reset);
     this.listenTo(ConfigStore, this.initData);
     if (ConfigStore.getState().host === "") {
-      SystemActions.configInfoUpdate({
-        host: "http://104.155.205.124",
-        guid: "abc",
-        username: "7737",
-        password: "7737"
-      });
-
+      this.showLoading();
+      setTimeout(()=>{
+        if (!this.state.initialized && !this.state.initializing) {
+          SystemActions.configInfoUpdate({
+            host: "http://104.155.205.124",
+            guid: "abc",
+            username: "7737",
+            password: "7737"
+          });
+        }
+      }, 10 * 1000);
       NSDModule.discover();
     }
   },
