@@ -9,7 +9,11 @@ var Model = function(productInfo, modifierDict) {
 
 // static --> array of OrderItem s
 Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
-  return items.map(function(item){
+  return items
+  .filter(function(item){
+      return item['status'] != "voided"
+  })
+  .map(function(item){
     var uuid = item["product_uuid"];
     var quantity = item["qty"];
     var comment = item["notes"];
