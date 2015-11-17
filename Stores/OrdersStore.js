@@ -49,7 +49,7 @@ class OrdersStore {
     })
   }
 
-  handleOrderDelete(data) {
+  handleOrderDelete() {
     this.init();
   }
 

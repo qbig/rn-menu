@@ -3,21 +3,26 @@ var OrderActions = require('../Actions/OrderActions');
 var OrdersStore = require('../Stores/OrdersStore');
 var ConfigStore = require('../Stores/ConfigStore');
 var TablesStore = require('../Stores/TablesStore');
+var TableService = require('./TableService');
 var ORDER_URI = '/order/';
 var ITEM_URI = '/item';
 var OrderService = (function() {
   function requestForCurrentOrder () {
-    var currentOrderId = TablesStore.getCurrentOrderID();
-    console.log("about to fetch existing order : " + currentOrderId)
-    if (currentOrderId == undefined) {
-      return Promise.reject("Unaware of uuid of existing order");
-    }
-    return getRequest(ORDER_URI + currentOrderId)
+    return TableService.requestForTables()
+    .then(()=>{
+      var currentOrderId = TablesStore.getCurrentOrderID();
+      console.log("about to fetch existing order : " + currentOrderId)
+      if (currentOrderId == undefined) {
+        return Promise.reject("Unaware of uuid of existing order");
+      }
+      return getRequest(ORDER_URI + currentOrderId)
+    })
     .then(function(resJson) {
       OrderActions.orderCreated(resJson);
       console.log("OrderService: requestForCurrentOrder done !!!")
     }).catch(function(e){
       console.log(e);
+      throw e;
     });
   }
 

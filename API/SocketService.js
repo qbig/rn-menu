@@ -17,7 +17,7 @@ var SocketService = (function() {
 
       var configInfo = ConfigStore.getAll();
       socket = io.connect(configInfo.host, {
-        query: "posGuid=" +  "ghi" //configInfo.guid
+        query: "posGuid=" + configInfo.guid
       });
       socket.on('connect', function() {
         SystemActions.socketConnectionChanged(socket);
@@ -26,7 +26,8 @@ var SocketService = (function() {
           .then(()=>{
             updateNeed = false;
           })
-          .catch(()=>{
+          .catch((err)=>{
+            console.log('requestForCurrentOrder:' + err)
             updateNeed = false;
             OrderActions.orderClosed()
             SystemActions.orderCleared();
@@ -71,7 +72,7 @@ var SocketService = (function() {
 
       socket.on('order', function(data) {
         if (data['verb'] === 'destroyed' && OrdersStore.getState().details.uuid === data['id']) {
-          OrderActions.orderClosed(data)
+          OrderActions.orderClosed()
           SystemActions.orderCleared();
         }
         console.log("order event occurred: " + JSON.stringify(data));
