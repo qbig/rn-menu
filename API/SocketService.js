@@ -6,6 +6,7 @@ var SystemActions = require('../Actions/SystemActions');
 var OrderActions = require('../Actions/OrderActions');
 var OrdersStore = require('../Stores/OrdersStore');
 var ProdAttributeService = require('./ProdAttributeService');
+var OrderService = require('./OrderService');
 var SocketService = (function() {
   var socket;
   return {
@@ -63,7 +64,7 @@ var SocketService = (function() {
         console.log("order event occurred: " + JSON.stringify(data));
       });
       socket.on('orderitem', function(data) {
-        OrderActions.orderUpdated(data);
+        OrderService.requestForCurrentOrder();
         console.log("orderItem event occurred: " + JSON.stringify(data));
       });
 

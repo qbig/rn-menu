@@ -90,10 +90,17 @@ var OrderList = React.createClass({
   },
 
   _handleOrdersChange: function(){
-    this.setState({
-      orders: OrdersStore.getState(),
-      dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems)
-    });
+    if (this.state.viewOrder) {
+      this.setState({
+        orders: OrdersStore.getState(),
+        dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
+      });
+    } else {
+      this.setState({
+        orders: OrdersStore.getState(),
+        dataSource: ds.cloneWithRows(OrdersStore.getState().sentItems.concat({name:'total'})),
+      });
+    }
   },
 
   componentWillMount: function() {

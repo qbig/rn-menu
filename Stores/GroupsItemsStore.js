@@ -19,6 +19,15 @@ class GroupsItemsStore {
   }
 
   handleProdAttributeChanges(prodAttributeData) {
+    /*
+    { error: 'storeClosed',
+    msg: 'Store is currently closed. A manager needs to login and open the store.' }
+    */
+    if (!prodAttributeData || prodAttributeData['error'] || prodAttributeData.length == 0){
+      console.log(prodAttributeData)
+      return;
+    }
+    
     this.groupsItems.forEach(function(group){
       group.products.forEach(function(prod){
         prod.soldOut = false;
