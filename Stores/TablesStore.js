@@ -22,6 +22,8 @@ class TablesStore {
     var result = this.getState().tableStatus.find(function(status){
       return status.id == tableId
     });
+    console.log("getCurrentOrderID:")
+    console.log(this.getState().tableStatus)
     if (result == undefined) {
       return -1
     } else {

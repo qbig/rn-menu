@@ -118,6 +118,7 @@ class OrdersStore {
 
   handleOrderCreate(data) {
     this.details = data;
+    console.log(data)
     if (data['order_items'].length > 0) {
       this.sentItems = OrderItemModel.makeItemsFromJson(data['order_items'], GroupsItemsStore,  ModifierStore.getState().modifiers )
     }

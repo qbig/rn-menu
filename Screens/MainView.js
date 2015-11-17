@@ -42,7 +42,7 @@ var MainView = React.createClass({
   getInitialState: function() {
     return {
       groupsItems : GroupsItemsStore.getState().groupsItems,
-      isLoading: true
+      isLoading: false
     };
   },
 
@@ -110,7 +110,8 @@ var MainView = React.createClass({
                       this.state.groupsItems.map((group, groupIndex)=>{
                       return (
                         <View  style={styles.item} key={groupIndex}>
-                           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={()=>{this.menuItemClicked(groupIndex)}}>
+                           <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+                             onPress={()=>{this.menuItemClicked(groupIndex)}}>
                              <View>
                                <Image style={styles.thumb} source={{uri:group.images[0].url}} >
                                  <Image style={styles.thumb} source={require('image!overlay1')} >
