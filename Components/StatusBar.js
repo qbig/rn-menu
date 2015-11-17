@@ -41,7 +41,7 @@ var StatusBar = React.createClass({
   render: function() {
     return (
       <View style={styles.statusBar}>
-        <TouchableHighlight delayLongPress={5000} onLongPress={()=>{SystemActions.configStart()}}>
+        <TouchableHighlight style={{height:36,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}} delayLongPress={4000} onLongPress={()=>{SystemActions.configStart()}}>
           <Text style={styles.statusBarTextLeft}>{this.state.tableName} </Text>
         </TouchableHighlight>
         <Text style={styles.statusBarTextRight}>{this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
@@ -64,17 +64,16 @@ var styles = StyleSheet.create({
   },
 
   statusBarTextLeft: {
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
+    fontFamily: 'AvenirNext-Regular',
     fontSize: 14,
-    alignItems: 'center',
     color: 'white',
     paddingLeft: 15,
-    marginLeft: 25
+    marginLeft: 25,
+    height:24
   },
 
   statusBarTextRight: {
-    fontFamily: 'AvenirNextLTPro-Regular',
+    fontFamily: 'AvenirNext-Regular',
     flex: 1,
     fontSize: 14,
     alignItems: 'flex-end',
