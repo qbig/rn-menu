@@ -22,6 +22,9 @@ var StoreConfigService = {
 
   respondToResolvedEvent(e) {
     console.log("resolved:" + e['data']);
+    if (e['data'] && e['data'].indexOf(':') != -1){
+      return;
+    }
     this.ip = e['data'];
     ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
   },

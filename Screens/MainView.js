@@ -86,6 +86,8 @@ var MainView = React.createClass({
     }
   },
   render: function() {
+    console.log("!!!!!!!!!! is Loading")
+    console.log(this.state.isLoading)
     return (
        <View style={styles.container}>
            <StatusBar />
