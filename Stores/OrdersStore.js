@@ -50,9 +50,7 @@ class OrdersStore {
   }
 
   handleOrderDelete(data) {
-    if (data['verb'] === 'destroyed' && data['id'] === this.details.uuid) {
-      this.init();
-    }
+    this.init();
   }
 
   handleUnsentItemCompletedEdit(comment) {

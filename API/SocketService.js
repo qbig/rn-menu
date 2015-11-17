@@ -9,6 +9,7 @@ var ProdAttributeService = require('./ProdAttributeService');
 var OrderService = require('./OrderService');
 var SocketService = (function() {
   var socket;
+  var updateNeed = false;
   return {
     init: function() {
       //{host, guid, username, password, tableId}
@@ -20,9 +21,21 @@ var SocketService = (function() {
       });
       socket.on('connect', function() {
         SystemActions.socketConnectionChanged(socket);
+        if (updateNeed) {
+          OrderService.requestForCurrentOrder()
+          .then(()=>{
+            updateNeed = false;
+          })
+          .catch(()=>{
+            updateNeed = false;
+            OrderActions.orderClosed()
+            SystemActions.orderCleared();
+          });
+        }
         console.log("connected!");
       });
       socket.on('disconnect', function(data) {
+        updateNeed = true;
         SystemActions.socketConnectionChanged(data);
         console.log("disconnected:" + JSON.stringify(data));
       });
