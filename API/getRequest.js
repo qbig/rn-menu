@@ -23,13 +23,13 @@ function getRequest(uri, method, data) {
       'X-Last-Synced': envInfo.lastSync
     }
   };
-  
+
   if (method) {
     authInfo.method = method;
   }
   if (data) {
     authInfo.body = JSON.stringify(data)
-    console.log(authInfo.body);
+    console.log("getRequest->request body:" + authInfo.body);
   }
   return fetch(configInfo.host + uri, authInfo)
     .then(function(res) {

@@ -22,7 +22,10 @@ var SocketService = (function() {
       socket.on('connect', function() {
         SystemActions.socketConnectionChanged(socket);
         if (updateNeed) {
-          OrderService.requestForCurrentOrder()
+          OrderService.verifySentOrder()
+          .then(() => {
+            return OrderService.requestForCurrentOrder()
+          })
           .then(()=>{
             updateNeed = false;
           })

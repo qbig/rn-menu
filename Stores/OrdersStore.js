@@ -80,6 +80,11 @@ class OrdersStore {
   }
 
   handleSendOrderSuccess(successInfo) {
+    if (successInfo && successInfo['order_items']) {
+      this.unsentItems.forEach(function(item){
+        item.sent = true;
+      })
+    }
     this.sentItems = this.sentItems.concat(this.unsentItems);
     this.unsentItems = [];
     this.persistCurrentItems();
@@ -132,7 +137,6 @@ class OrdersStore {
             console.log(this.unsentItems)
             console.log("Done!!!")
         }
-
       }
     })
     console.log("OrdersStore : handleOrderCreate");

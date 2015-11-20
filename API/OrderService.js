@@ -42,8 +42,6 @@ var OrderService = (function() {
     });
   }
 
-
-
   function updateCurrentOrder() {
     var orderInfo = OrdersStore.getState();
     var orderJsonArr = orderInfo.unsentItems.map(function(item){
@@ -57,13 +55,39 @@ var OrderService = (function() {
     }).catch(function(e){
       console.log(e);
     });
+  }
+
+  function verifySentOrder() {
+    var orderInfo = OrdersStore.getState();
+    var orderJsonArr = orderInfo.sentItems
+    .filter(function(item){
+      return item.sent == false;
+    })
+    .map(function(item){
+      return item.getJSON();
+    });
+    if (orderJsonArr.length > 0) {
+      return getRequest(ORDER_URI + orderInfo.details.uuid + ITEM_URI, 'POST', orderJsonArr)
+      .then(function(resJson) {
+        orderJsonArr.forEach(function(item){
+          item.sent = true;
+        })
+        OrderActions.orderUpdated(resJson);
+        console.log("OrderService: updateCurrentOrder done !!!")
+      }).catch(function(e){
+        console.log(e);
+      });
+    } else {
+      return Promise.resolve();
+    }
 
   }
 
   return {
     requestForCurrentOrder : requestForCurrentOrder,
     createNewEmptyOrder : createNewEmptyOrder,
-    updateCurrentOrder : updateCurrentOrder
+    updateCurrentOrder : updateCurrentOrder,
+    verifySentOrder : verifySentOrder
   };
 
 })();

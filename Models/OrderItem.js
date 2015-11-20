@@ -21,6 +21,7 @@ Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
     var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
     itemObj.quantity = quantity;
     itemObj.comment = comment;
+    itemObj.sent = true;
 
     modifiers.filter(function(mod){
       return mod["selected_radio_option_name"]
@@ -55,7 +56,7 @@ Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
 Model.makeUnsentItemsFromCache = function(itemsJson, GroupsItemsStore, modifierDict) {
   return itemsJson.map(function(item){
     var uuid = item.data.uuid;
-    var {quantity, comment} = item;
+    var {quantity, comment, sent} = item;
     var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
     itemObj.quantity = quantity;
     itemObj.comment = comment;
@@ -105,6 +106,7 @@ Model.prototype.getClone = function() {
 Model.prototype.init = function(modifierDict) {
   this.quantity = 1;
   this.comment = "";
+  this.sent = false;
   console.log(this.data.availModifiers)
   var modifiersForItem = this.data.availModifiers.map(function(uuid){
     return modifierDict.find(function(elem, index ,array){

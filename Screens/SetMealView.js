@@ -396,33 +396,34 @@ var styles = StyleSheet.create({
   },
 
   thumb1: {
-    width: 80,
-    height: 80,
+    width: 150,
+    height: 150,
     resizeMode:Image.resizeMode.ratio,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   overlay: {
-    position: 'absolute',
-    width:80,
-    height:80,
+    width:120,
+    height:120,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
 
   },
   textPrice: {
-    fontFamily: 'AvenirNext-Regular',
+    fontFamily: 'AvenirNext-Medium',
     textAlign:'center',
-    fontSize:12,
-    width:60,
+    fontSize:16,
+    width:120,
   },
 
   textPriceWhite: {
-    fontFamily: 'AvenirNext-Regular',
+    fontFamily: 'AvenirNext-Medium',
     textAlign:'center',
-    fontSize:12,
-    width:60,
+    fontSize:16,
+    width:120,
     color: '#FEFAF0',
   },
 
@@ -727,13 +728,13 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingRight: 0,
-    marginLeft: 45,
-    marginRight: 45
+    marginLeft: 15,
+    marginRight: 10
   },
 
   option: {
-    marginLeft: 45,
-    marginRight: 45,
+    marginLeft: 20,
+    marginRight: 20,
     marginTop: 15,
     marginBottom: 15
   },
