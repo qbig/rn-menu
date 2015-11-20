@@ -73,20 +73,29 @@ var OrderList = React.createClass({
 
   alertNoPressed: function() {
     this.setState({
-      isAlertVisibale: !this.state.isAlertVisibale
+      isAlertVisibale: !this.state.isAlertVisibale,
+      clickClickedRemoveBtn:false,
     });
   },
 
   alertYesPressed: function() {
-    this.setState({
-      isAlertVisibale: !this.state.isAlertVisibale
-    });
-    OrderActions.orderItemStartedEdit(this.state.editRowIndex);
-    this.props.navigator.push({
-      title: 'SetMealView',
-      from: 'ORDER LIST',
-      data: this.state.orders.unsentItems[this.state.editRowIndex].data
-    });
+    if (this.state.clickClickedRemoveBtn) {
+      this.setState({
+        clickClickedRemoveBtn: false,
+        isAlertVisibale: !this.state.isAlertVisibale
+      })
+      OrderActions.unsentOrderItemDecrement(this.state.editRowIndex);
+    } else {
+      this.setState({
+        isAlertVisibale: !this.state.isAlertVisibale
+      });
+      OrderActions.orderItemStartedEdit(this.state.editRowIndex);
+      this.props.navigator.push({
+        title: 'SetMealView',
+        from: 'ORDER LIST',
+        data: this.state.orders.unsentItems[this.state.editRowIndex].data
+      });
+    }
   },
 
   _handleOrdersChange: function(){
@@ -136,9 +145,17 @@ var OrderList = React.createClass({
     }
   },
 
-  handleDecrement: function(rowID) {
-    if(this.state.viewOrder) {
+  handleDecrement: function(rowID, rowData) {
+    if(this.state.viewOrder && rowData.quantity > 1) {
       OrderActions.unsentOrderItemDecrement(rowID);
+    } else if (this.state.viewOrder && rowData.quantity == 1) {
+      if (!this.state.isAlertVisibale) {
+        this.setState({
+          isAlertVisibale: true,
+          clickClickedRemoveBtn:true,
+          editRowIndex : rowID
+        });
+      }
     }
   },
 
@@ -180,7 +197,7 @@ var OrderList = React.createClass({
               </View>
               <View style={styles.columnSep}/>
 
-              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID)}}>
+              <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID, rowData)}}>
                 <View style={styles.column2}>
                   <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
                 </View>
@@ -297,8 +314,7 @@ var OrderList = React.createClass({
   render: function() {
     var noBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
     var yesBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes</Text>: null;
-    var textMessage = this.state.isAlertVisibale ?
-    <Text style={styles.alertTextVisible}>Would you like to edit {this.state.editRowIndex === -1 ? 'meal' : this.state.orders.unsentItems[this.state.editRowIndex].data.name}?</Text>  : null ;
+    var textMessage = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Would you like to {this.state.clickClickedRemoveBtn ? 'remove' : 'edit'} {this.state.editRowIndex === -1 ? 'meal' : this.state.orders.unsentItems[this.state.editRowIndex].data.name}?</Text>:null;
 
       return (
         <View style={styles.container}>
