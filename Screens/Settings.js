@@ -201,7 +201,7 @@ var Settings = React.createClass({
         <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
           underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
             SystemActions.configInfoUpdate({
-              host: "http://104.155.205.124",
+              host: "http://192.168.0.119", //"http://104.155.205.124"
               guid: "abc",
               username: "7737",
               password: "7737"

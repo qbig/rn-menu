@@ -21,27 +21,31 @@ Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
     var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
     itemObj.quantity = quantity;
     itemObj.comment = comment;
-    modifiers.forEach(function(mod){
-      var modUuid = mod['uuid'];
-      if (mod["selected_radio_option_name"]) {
-        var foundRadioMod = itemObj.radioMods.find(function(radioMod){
-          return radioMod.data.uuid == modUuid
+
+    modifiers.filter(function(mod){
+      return mod["selected_radio_option_name"]
+    }).forEach(function(mod, index){
+        var modUuid = mod['uuid'];
+        var foundRadioMod = itemObj.radioMods.find(function(radioMod, indexFound){
+          return radioMod.data.uuid == modUuid && indexFound >= index
         });
         if (foundRadioMod == undefined) {
           throw new Error("cannot find radio modifier with uuid:" + modUuid);
         }
         foundRadioMod.select(mod["selected_radio_option_name"]);
-      }
+    });
 
-      if (mod["is_selected"]) {
-        var foundBoolMod = itemObj.boolMods.find(function(boolMod){
-          return boolMod.data.uuid == modUuid
-        });
-        if (foundBoolMod == undefined) {
-          throw new Error("cannot find bool modifier with uuid:" + modUuid);
-        }
-        foundBoolMod.select();
+    modifiers.filter(function(mod){
+      return mod["is_selected"]
+    }).forEach(function(mod, index){
+      var modUuid = mod['uuid'];
+      var foundBoolMod = itemObj.boolMods.find(function(boolMod, indexFound){
+        return boolMod.data.uuid == modUuid && indexFound >= index
+      });
+      if (foundBoolMod == undefined) {
+        throw new Error("cannot find bool modifier with uuid:" + modUuid);
       }
+      foundBoolMod.select();
     });
 
     return itemObj;
@@ -55,10 +59,10 @@ Model.makeUnsentItemsFromCache = function(itemsJson, GroupsItemsStore, modifierD
     var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
     itemObj.quantity = quantity;
     itemObj.comment = comment;
-    item.radioMods.forEach(function(ansRadioMod){
+    item.radioMods.forEach(function(ansRadioMod, index){
       if(ansRadioMod.isSelected) {
-        var foundRadioMod = itemObj.radioMods.find(function(radioMod){
-          return radioMod.data.uuid == ansRadioMod.data.uuid
+        var foundRadioMod = itemObj.radioMods.find(function(radioMod, indexFound){
+          return radioMod.data.uuid == ansRadioMod.data.uuid && indexFound >= index
         });
         if (foundRadioMod == undefined) {
           throw new Error("cannot find radio modifier with uuid:" + ansRadioMod.data.uuid);
@@ -67,10 +71,10 @@ Model.makeUnsentItemsFromCache = function(itemsJson, GroupsItemsStore, modifierD
       }
     })
 
-    item.boolMods.forEach(function(ansBoolMod){
+    item.boolMods.forEach(function(ansBoolMod, index){
       if (ansBoolMod.isSelected) {
-        var foundBoolMod = itemObj.boolMods.find(function(boolMod){
-          return boolMod.data.uuid == ansBoolMod.data.uuid
+        var foundBoolMod = itemObj.boolMods.find(function(boolMod, indexFound){
+          return boolMod.data.uuid == ansBoolMod.data.uuid && indexFound >= index
         });
         if (foundBoolMod == undefined) {
           throw new Error("cannot find bool modifier with uuid:" + ansBoolMod.data.uuid);
