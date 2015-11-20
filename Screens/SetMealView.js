@@ -42,6 +42,16 @@ var {
 
 var imgArr = [require('image!item_1'),require('image!item_2'),require('image!item_3'),require('image!item_4'),require('image!item_5'),require('image!item_6'),require('image!item_7'),require('image!item_8')];
 
+function insertLineBreak(str) {
+  var reg = new RegExp('[a-z0-9]', 'i');
+  var index = str.indexOf(reg.exec(str)[0]);
+  if (index != -1 && index != 0 && index != str.length - 1) {
+    return str.substring(0, index) + '\n' + str.substring(index)
+  } else {
+    return str
+  }
+}
+
 var ModifierSectionView = React.createClass({
   getInitialState: function() {
     return {
@@ -86,7 +96,7 @@ var ModifierSectionCell = React.createClass({
           <Image style={styles.thumb1} source={this.props.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
             <View style={styles.overlay}>
               <Text style={this.props.isSelected ? styles.textPriceWhite : styles.textPrice}>
-                {this.props.name}
+                {insertLineBreak(this.props.name)}
               </Text>
             </View>
           </Image>
