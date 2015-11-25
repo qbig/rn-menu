@@ -25,6 +25,7 @@ var screen = require('Dimensions').get('window');
 var SplashScreen = React.createClass({
   _onViewPress: function() {
     if (ConfigStore.getState().tableId == -1) {
+      SystemActions.configStart();
       return;
     }
     SystemActions.loadingStart();

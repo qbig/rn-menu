@@ -64,7 +64,14 @@ class ConfigStore {
         this[item] = configInfo[item]
       }
     }
+    this.tableId = -1
+    this.tableName = ''
+    this.storeInfo = ""
     store.save(CONFIG, configInfo);
+    store.save(TABLE, {
+        tableId: -1,
+        tableName: ''
+    })
   }
 
   handleTableIdUpdate({name, id}) {

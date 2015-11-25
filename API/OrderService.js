@@ -12,7 +12,7 @@ var OrderService = (function() {
     .then(()=>{
       var currentOrderId = TablesStore.getCurrentOrderID();
       console.log("about to fetch existing order : " + currentOrderId)
-      if (currentOrderId == undefined) {
+      if (currentOrderId == undefined || currentOrderId == -1) {
         return Promise.reject("Unaware of uuid of existing order");
       }
       return getRequest(ORDER_URI + currentOrderId)

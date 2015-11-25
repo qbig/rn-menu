@@ -66,22 +66,13 @@
       <sourceFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/src/androidTest/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/downloads" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/coverage-instrumented-classes" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/dex" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/dex-cache" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/incremental" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/jacoco" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/javaResources" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/libs" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/lint" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/manifests" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/ndk" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/pre-dexed" />
-      <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/proguard" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/../../../react-native/ReactAndroid/build/intermediates/symbols" />
