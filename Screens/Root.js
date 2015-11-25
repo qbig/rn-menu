@@ -100,6 +100,7 @@ var Root = React.createClass({
   },
 
   bootStrapData: async function bootStrapData() {
+    console.log('bootStrapData !')
     try {
       await StoreConfigService.getConfig();
       await TableService.initFromCache();
@@ -147,6 +148,7 @@ var Root = React.createClass({
   },
 
   initData: function() {
+    console.log('initData!')
     if (this.state.initializing) {
       return;
     }

@@ -123,7 +123,7 @@ var ItemList = React.createClass({
               </View>
               <View>
                 <View style = {{width: screen.width - 420}} >
-                  <Text style = {styles.textDesc} numberOfLines = {3} > {rowData.desc} </Text>
+                  <Text style = {styles.textDesc} numberOfLines = {7} > {rowData.description} </Text>
                 </View>
               </View>
              </View>
@@ -196,7 +196,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: '#891F02',
   },
-  
+
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
@@ -387,7 +387,7 @@ var styles = StyleSheet.create({
   textDesc: {
     fontFamily: 'AvenirNext-Regular',
     flex: 1,
-    fontSize: 17,
+    fontSize: 14,
     paddingLeft: 10,
     marginLeft: 10,
     marginTop: 5,

@@ -44,6 +44,10 @@ var Settings = React.createClass({
   mixins: [ListenerMixin],
   getInitialState: function() {
     var tbInfo = TablesStore.getState().tableInfo;
+
+    var tbItems = tbInfo.map(function(section, index){
+      return section.tables
+    });
     var sectionIDs = tbInfo.map(function(section, index){
       return index + '';
     });
@@ -51,10 +55,6 @@ var Settings = React.createClass({
       return section.tables.map(function(table, tbIndex){
         return tbIndex + ''
       });
-    });
-
-    var tbItems = tbInfo.map(function(section, index){
-      return section.tables
     });
 
     return {
@@ -67,7 +67,8 @@ var Settings = React.createClass({
     };
   },
   _handleTableSelectedChange: function() {
-    if (this.state.firstTime) {
+    console.log('Settings _handleTableSelectedChange!')
+    if (this.state.firstTime && ConfigStore.getState().tableId != -1) {
         this.props.navigator.pop();
     }
 
@@ -182,13 +183,13 @@ var Settings = React.createClass({
             StoreConfigService.discoverFromLocalWifi()
             .then((configInfo)=>{
               SystemActions.loadingFinish();
+              this.props.navigator.pop();
               SystemActions.configInfoUpdate({
                 host: configInfo['host'],
                 guid: configInfo['guid'],
                 username: configInfo['username'],
                 password: configInfo['password']
               })
-              this.props.navigator.pop()
             }).catch((e)=>{
               SystemActions.loadingFinish();
               if (e === "NotFound") {
@@ -200,13 +201,13 @@ var Settings = React.createClass({
         </TouchableHighlight>
         <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
           underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+            this.props.navigator.pop();
             SystemActions.configInfoUpdate({
               host: "http://104.155.205.124", //"http://192.168.0.119"
               guid: "abc",
               username: "7737",
               password: "7737"
             });
-            this.props.navigator.pop();
           }} >
           <Text style={styles.emptyText}>YCY TEST HOST</Text>
         </TouchableHighlight>
@@ -217,12 +218,16 @@ var Settings = React.createClass({
   render: function() {
     var content;
     if (!ConfigStore.getState().password) {
+      // no host set(therefore, no password)
       content = this._renderEmptyView(); // without table options
     } else if (this.state.setTableView || ConfigStore.getState().tableId == -1) {
+      // after 'change table selected, or no table set yet
       content = this._renderTableList();
     } else if (this.state.pin =='' || this.state.pin != ConfigStore.getState().password){
+      // has host&table set already, to change, show pin field
       content = this._renderPinField();
     }  else {
+      // has host&table set already, pin keyed in as well, show options
       content = this._renderEmptyView(); // with table options
     }
     return (

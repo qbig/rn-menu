@@ -30,6 +30,7 @@ var OrderActions = require('../Actions/OrderActions');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 
 var TITLE_LENGTH = 20;
+var BACK_TEXT_LENGTH = 10;
 function trimString(str, length) {
   return str.length > length ?
   str.substring(0, length - 3) + "..." :
@@ -333,7 +334,7 @@ var SetMealView = React.createClass({
             <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.btnBackPressed}>
               <View style={styles.backButtonContainer}>
                 <Image source={require('image!btn_back')}  />
-                <Text style={styles.backButton}>{this.props.from}</Text>
+                <Text style={styles.backButton}>{trimString(this.props.from, BACK_TEXT_LENGTH)}</Text>
               </View>
             </TouchableHighlight>
           </View>

@@ -56,7 +56,6 @@ var StoreConfigService = {
         } else {
           reject("NotFound");
         }
-
       }, 10*1000);
     });
   },
@@ -80,7 +79,7 @@ var StoreConfigService = {
       })
       .then((configInfo)=>{
         if (configInfo) {
-          SystemActions.configInfoUpdate({
+          SystemActions.configInfoLoaded({
             host: configInfo['host'],
             guid: configInfo['guid'],
             username: configInfo['username'],

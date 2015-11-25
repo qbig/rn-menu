@@ -1,6 +1,7 @@
 var alt = require('../alt')
 var SystemActions = require('../Actions/SystemActions')
 var TableActions = require('../Actions/TableActions')
+var EnvStore = require('./EnvStore');
 var store = require('react-native-simple-store');
 var TABLE = 'table';
 var CONFIG = 'config';
@@ -54,20 +55,32 @@ class ConfigStore {
     this.bindListeners({
       handleStoreInfoUpdate: SystemActions.storeInfoLoaded,
       handleTableIdUpdate: TableActions.tableIdUpdated,
+      handleConfigInfoLoaded: SystemActions.configInfoLoaded,
       handleConfigInfoUpdate: SystemActions.configInfoUpdate,
     });
   }
 
-  handleConfigInfoUpdate(configInfo/*{host, guid, username, password}*/) {
+  handleConfigInfoLoaded(configInfo/*{host, guid, username, password}*/) {
     for (var item in configInfo) {
       if (configInfo[item]) {
         this[item] = configInfo[item]
       }
     }
+  }
+
+  handleConfigInfoUpdate(configInfo/*{host, guid, username, password}*/) {
+    this.waitFor(EnvStore);
+    for (var item in configInfo) {
+      if (configInfo[item]) {
+        this[item] = configInfo[item]
+      }
+    }
+
+    this.storeInfo = ''
+    store.save(CONFIG, configInfo);
+
     this.tableId = -1
     this.tableName = ''
-    this.storeInfo = ""
-    store.save(CONFIG, configInfo);
     store.save(TABLE, {
         tableId: -1,
         tableName: ''

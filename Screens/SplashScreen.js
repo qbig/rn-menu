@@ -40,6 +40,9 @@ var SplashScreen = React.createClass({
         'from':'',
         'data':''
       });
+    }).catch((err) =>{
+      console.log('SplashScreen Error')
+      console.log(err)
     })
   },
 

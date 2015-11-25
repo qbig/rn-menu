@@ -14,14 +14,25 @@ class EnvStore {
       handleConfigStart : SystemActions.configStart,
       handleConfigDone: SystemActions.configDone,
       handleOrderCleared: SystemActions.orderCleared,
-      handleOrderResetComplete: SystemActions.orderResetComplete
+      handleOrderResetComplete: SystemActions.orderResetComplete,
+      handleConfigInfoUpdate: SystemActions.configInfoUpdate
     });
-    this.token = ""
-    this.lastSync = ""
-    this.socketStatus = "disconnected"
     this.exportPublicMethods({
       getAll: this.getAll
     });
+
+    this.token = ""
+    this.lastSync = ""
+    this.socketStatus = "disconnected"
+    this.isLoading = false;
+    this.configStart = false;
+    this.reset = false;
+  }
+
+  handleConfigInfoUpdate() {
+    this.token = ""
+    this.lastSync = ""
+    this.socketStatus = "disconnected"
     this.isLoading = false;
     this.configStart = false;
     this.reset = false;

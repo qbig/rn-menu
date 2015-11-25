@@ -37,6 +37,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   }
   return true;
 });
+var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
 
 var MainView = React.createClass({
   getInitialState: function() {
@@ -115,7 +116,8 @@ var MainView = React.createClass({
                            <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
                              onPress={()=>{this.menuItemClicked(groupIndex)}}>
                              <View>
-                               <Image style={styles.thumb} source={{uri:group.images[0].url}} >
+                               <Image style={styles.thumb}
+                                  source={group.images.length > 0 ? {uri:  group.images[0].url} : imgArr[0]} >
                                  <Image style={styles.thumb} source={require('image!overlay1')} >
                                  <View style={styles.overlay1}><Text style={styles.groupNameText}>{group.name}</Text></View>
                                  </Image>
