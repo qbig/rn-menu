@@ -80,7 +80,7 @@ var MainView = React.createClass({
       return (
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
            <View style={styles.footer}>
-                <Text style={styles.footerText}> VIEW ORDER - {count} ITEM (${sum}) </Text>
+                <Text style={styles.footerText}>查看订单 VIEW ORDER - {count} ITEM (${sum}) </Text>
            </View>
          </TouchableHighlight>
       );
@@ -93,9 +93,9 @@ var MainView = React.createClass({
        <View style={styles.container}>
            <StatusBar />
            <View style={styles.navBar}>
-              <Text style={styles.navBarText}> MENU </Text>
+              <Text style={styles.navBarText}>菜单 MENU </Text>
               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
-                <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
+                <Text style={styles.topGoToOrderText}>{'订单\nORDER LIST'}</Text>
               </TouchableHighlight>
            </View>
 
@@ -251,7 +251,8 @@ var styles = StyleSheet.create({
     fontFamily: 'AvenirNext-Medium',
     color:'#FFFAF0',
     fontWeight: 'bold',
-    width: 60,
+    textAlign: 'center',
+    width: 85,
     fontSize: 15,
   },
   container: {

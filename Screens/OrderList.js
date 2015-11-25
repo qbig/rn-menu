@@ -266,7 +266,7 @@ var OrderList = React.createClass({
 
           <View style={styles.payAtCounterInfoContainer}>
             <View style={styles.emptyInfo}>
-              <Text style={[styles.emptyText, {textAlign: 'center'}]}>PLEASE PAY YOUR BILL AT THE COUNTER THANK YOU.</Text>
+              <Text style={[styles.emptyText, {textAlign: 'center'}]}>{'请到柜台付款，谢谢\nPLEASE PAY YOUR BILL AT THE COUNTER THANK YOU.'}</Text>
             </View>
           </View>
         </View>
@@ -278,7 +278,7 @@ var OrderList = React.createClass({
       var message= '';
       if (this.state.viewOrder) {
         if (this.state.showSentOrder) {
-          message = "ORDER SENT! THANK YOU."
+          message = "订单收到\nORDER SENT! THANK YOU."
         } else {
           message = "YOUR ORDER LIST IS EMPTY."
         }
@@ -329,7 +329,7 @@ var OrderList = React.createClass({
               </TouchableHighlight>
             </View>
             <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
-              <Text style={styles.navBarText}>{this.state.viewOrder ? 'ORDER LIST' : 'BILL TOTAL'} </Text>
+              <Text style={styles.navBarText}>{this.state.viewOrder ? '订单 ORDER LIST' : '总计 TOTAL BILL'} </Text>
             </View>
             <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
@@ -370,7 +370,7 @@ var OrderList = React.createClass({
 
           {this.isEmpty() || !this.state.viewOrder ? null : <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.sendOrderPress}>
           <View style={styles.footer}>
-            <Text style={styles.footerText}>SEND ORDER</Text>
+            <Text style={styles.footerText}>确认送出 SEND ORDER</Text>
           </View>
         </TouchableHighlight>}
         <View style={styles.separator} />

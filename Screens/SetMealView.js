@@ -223,7 +223,7 @@ var SetMealView = React.createClass({
       return (
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleEditComplete}>
           <View style={styles.footer}>
-            <Text style={styles.footerText}> CHANGE ORDER ITEM </Text>
+            <Text style={styles.footerText}> 修改 EDIT ITEM </Text>
           </View>
         </TouchableHighlight>
       );
@@ -231,7 +231,7 @@ var SetMealView = React.createClass({
       return (
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleEditComplete}>
           <View style={styles.footer}>
-            <Text style={styles.footerText}>ADD TO ORDER</Text>
+            <Text style={styles.footerText}>加入订单 ADD TO ORDER</Text>
           </View>
         </TouchableHighlight>
       );

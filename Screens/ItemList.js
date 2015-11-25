@@ -98,7 +98,7 @@ var ItemList = React.createClass({
       return (
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
            <View style={styles.footer}>
-                <Text style={styles.footerText}> VIEW ORDER - {count} ITEM (${sum}) </Text>
+                <Text style={styles.footerText}>查看订单 VIEW ORDER - {count} ITEM (${sum}) </Text>
            </View>
          </TouchableHighlight>
       );
@@ -165,7 +165,7 @@ var ItemList = React.createClass({
           <View style = {{flexDirection: 'column', flex: 1, justifyContent: 'center', top: 10, alignItems: 'flex-start',}} >
           </View>
           <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
-            <Text style={styles.topGoToOrderText}>GO TO ORDER</Text>
+            <Text style={styles.topGoToOrderText}>{'订单\nORDER LIST'}</Text>
           </TouchableHighlight>
         </View>
         <View style = {styles.separator}/>
@@ -341,7 +341,8 @@ var styles = StyleSheet.create({
   topGoToOrderText: {
     color:'#FFFAF0',
     fontWeight: 'bold',
-    width: 60,
+    width: 85,
+    textAlign: 'center',
     fontSize: 15,
   },
 
