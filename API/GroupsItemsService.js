@@ -27,17 +27,15 @@ var GroupsItemsService = (function() {
           'X-Web-Token': envInfo.token
         }
       };
-      
+
       return fetch(configInfo.host + '/provisioning/product/groups', authInfo)
         .then(function(res) {
           AuthActions.lastSyncUpdated(res.headers.get("Last-Modified"));
           console.log(res)
-          GroupsItemsActions.groupsItemsUpdated(res);
           return res.json();
         })
         .then(function(resJson) {
           console.log("GroupsItemsService: resJson:!!!")
-          //console.log(resJson)
           GroupsItemsActions.groupsItemsUpdated(resJson);
           console.log("resJson: done !!!")
         }).catch(function(e){

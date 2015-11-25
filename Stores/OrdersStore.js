@@ -31,6 +31,7 @@ class OrdersStore {
     this.init();
     this.exportPublicMethods({
       getOrderCount: this.getOrderCount,
+      getUnsentOrderCount: this.getUnsentOrderCount,
       getOrderSum: this.getOrderSum,
       getUnsentOrderSum: this.getUnsentOrderSum
     });
@@ -144,8 +145,14 @@ class OrdersStore {
     console.log(this.details);
   }
 
-  getOrderCount(){
+  getUnsentOrderCount(){
     return this.getState().unsentItems.reduce(function(prev, cur){
+      return prev + cur.quantity
+    }, 0);
+  }
+
+  getOrderCount(){
+    return this.getState().sentItems.reduce(function(prev, cur){
       return prev + cur.quantity
     }, 0);
   }

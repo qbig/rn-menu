@@ -92,7 +92,7 @@ var ItemList = React.createClass({
   },
 
   _renderViewOrderButton : function () {
-    var count = OrdersStore.getOrderCount();
+    var count = OrdersStore.getUnsentOrderCount();
     var sum = OrdersStore.getUnsentOrderSum();
     if (count > 0) {
       return (

@@ -336,6 +336,11 @@ var OrderList = React.createClass({
                 style={styles.toggleBtn} onPress={this.togglePressed}>
                 <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
               </TouchableHighlight>
+              {(this.state.orders.sentItems.length > 0 && this.state.viewOrder) ?
+                <Image style={styles.badge} source={require('image!badge_bill')}>
+                  <Text style={{color: 'white'}}>{OrdersStore.getOrderCount()}</Text>
+                </Image> : null
+              }
             </View>
           </View>
           {this.isEmpty() ? this._renderEmptyView() : this._renderListView()}
@@ -373,6 +378,17 @@ var OrderList = React.createClass({
     }
 });
 var styles = StyleSheet.create({
+  badge: {
+    position: 'absolute',
+    width: 25,
+    height: 25,
+    top: 7,
+    right: 38,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
   toggleBtn: {
     margin: 10,
     marginRight:0,

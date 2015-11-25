@@ -27,7 +27,7 @@ class GroupsItemsStore {
       console.log(prodAttributeData)
       return;
     }
-    
+
     this.groupsItems.forEach(function(group){
       group.products.forEach(function(prod){
         prod.soldOut = false;
@@ -41,7 +41,9 @@ class GroupsItemsStore {
   }
 
   handleGroupsItems(data) {
-    this.groupsItems = data;
+    this.groupsItems = data.filter(function(group){
+      return group.name.indexOf('Staff') == -1;
+    });
     console.log('GroupsItemsStore : groupsItems updated !!!')
     console.log(this.groupsItems);
   }
