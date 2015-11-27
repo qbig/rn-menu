@@ -31,6 +31,7 @@ function getRequest(uri, method, data) {
     authInfo.body = JSON.stringify(data)
     console.log("getRequest->request body:" + authInfo.body);
   }
+  console.log('getRequest:' + configInfo.host + uri)
   return fetch(configInfo.host + uri, authInfo)
     .then(function(res) {
       return res.json();

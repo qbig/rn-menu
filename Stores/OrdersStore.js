@@ -52,6 +52,7 @@ class OrdersStore {
 
   handleOrderDelete() {
     this.init();
+    this.persistCurrentItems();
   }
 
   handleUnsentItemCompletedEdit(comment) {

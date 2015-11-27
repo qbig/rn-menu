@@ -77,12 +77,22 @@ var SocketService = (function() {
         if (data['verb'] === 'destroyed' && OrdersStore.getState().details.uuid === data['id']) {
           OrderActions.orderClosed()
           SystemActions.orderCleared();
+        } else if (data['verb'] === 'updated' && OrdersStore.getState().details.uuid === data['id']) {
+          if (data['table'] != ConfigStore.getState().tableId) {
+            OrderActions.orderClosed()
+            SystemActions.orderCleared();
+          }
         }
         console.log("order event occurred: " + JSON.stringify(data));
       });
       socket.on('orderitem', function(data) {
         OrderService.requestForCurrentOrder();
         console.log("orderItem event occurred: " + JSON.stringify(data));
+      });
+
+      socket.on('table', function(data) {
+        console.log('table update!!!!!')
+        console.log(data)
       });
 
       socket.on('productattribute', function(data) {

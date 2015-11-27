@@ -35,7 +35,7 @@ function trimString(str, length) {
                       str.substring(0, length);
 }
 
-var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
+var imgArr = [require('image!img_product_no_image')];
 var ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2
 });
@@ -165,7 +165,7 @@ var ItemList = React.createClass({
           <View style = {{flexDirection: 'column', flex: 1, justifyContent: 'center', top: 10, alignItems: 'flex-start',}} >
           </View>
           <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
-            <Text style={styles.topGoToOrderText}>{'订单\nORDER LIST'}</Text>
+            <Text style={styles.topGoToOrderText}>{'ORDER LIST'}</Text>
           </TouchableHighlight>
         </View>
         <View style = {styles.separator}/>

@@ -17,6 +17,8 @@ var StoreConfigService = {
     if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
       NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
       ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
+    } else if (e && e['data']) {
+      console.log(e['data'] + " FOUND");
     }
   },
 

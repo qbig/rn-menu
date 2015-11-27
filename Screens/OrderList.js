@@ -121,6 +121,10 @@ var OrderList = React.createClass({
   },
 
   sendOrderPress: function() {
+    if (this.state.isAlertVisibale) {
+      return;
+    }
+
     if(this.state.viewOrder) {
       var self = this;
       SystemActions.loadingStart();
@@ -278,12 +282,12 @@ var OrderList = React.createClass({
       var message= '';
       if (this.state.viewOrder) {
         if (this.state.showSentOrder) {
-          message = "订单收到\nORDER SENT! THANK YOU."
+          message = "订单收到。\nORDER SENT! THANK YOU."
         } else {
-          message = "YOUR ORDER LIST IS EMPTY."
+          message = "您的订单为空。\nYOUR ORDER LIST IS EMPTY."
         }
       } else {
-        message = "THERE ARE NO ITEMS IN YOUR BILL."
+        message = "您的账单为空。\nTHERE ARE NO ITEMS IN YOUR BILL."
       }
       return (
         <View style={styles.emptyViewContainer}>
@@ -291,10 +295,10 @@ var OrderList = React.createClass({
             <Text style={[styles.emptyText, {textAlign: 'center'}]}>{message}</Text>
           </View>
           <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.backToMain}>
-            <Text style={styles.emptyText}>RETURN TO MAIN MENU</Text>
+            <Text style={styles.emptyText}>回去菜单 RETURN TO MAIN MENU</Text>
           </TouchableHighlight>
           {this.state.viewOrder ? <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.togglePressed} >
-          <Text style={styles.emptyText}>VIEW BILL</Text>
+          <Text style={styles.emptyText}>查看总计 VIEW BILL</Text>
         </TouchableHighlight> : null}
       </View>
     );
@@ -435,7 +439,8 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50
+    marginTop: 50,
+    marginBottom: 50
   },
 
   emptyViewContainer: {
@@ -463,7 +468,7 @@ var styles = StyleSheet.create({
   emptyInfo: {
     height:60,
     width:310,
-    marginBottom: 30
+    marginBottom: 40
   },
 
   container: {

@@ -41,7 +41,7 @@ var {
   height: deviceHeight
 } = Dimensions.get('window');
 
-var imgArr = [require('image!item_1'),require('image!item_2'),require('image!item_3'),require('image!item_4'),require('image!item_5'),require('image!item_6'),require('image!item_7'),require('image!item_8')];
+var imgArr = [require('image!img_product_no_image')];
 
 function insertLineBreak(str) {
   var reg = new RegExp('[a-z0-9]', 'i');
@@ -142,10 +142,10 @@ var SetMealView = React.createClass({
   componentWillUnmount: function() {
     if (this.state.done) {
       if (this.state.isEditMode) {
-        console.log("item edited !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
+        console.log("SetMealView item edited !")
         OrderActions.orderItemCompletedEdit(this.state.comment);
       } else {
-        console.log("item created !!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!)!!!!!!!!")
+        console.log("SetMealView item created !")
         OrderActions.orderItemCreated(this.state.comment);
       }
     }
@@ -348,7 +348,7 @@ var SetMealView = React.createClass({
         <View style={styles.container}>
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
-              <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={this.props.data.images.length > 0 ? {uri:  this.props.data.images[0].url} : require('image!mainimg')} />
+              <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={this.props.data.images.length > 0 ? {uri:  this.props.data.images[0].url} : imgArr[0]} />
             </View>
             <View style={styles.separator1} />
             {this._renderQuantityWidget()}

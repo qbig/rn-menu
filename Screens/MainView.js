@@ -37,7 +37,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   }
   return true;
 });
-var imgArr = [require('image!item_1'), require('image!item_2'), require('image!item_3'), require('image!item_4'), require('image!item_5'), require('image!item_6'), require('image!item_7'), require('image!item_8')];
+var imgArr = [require('image!img_product_no_image')];
 
 var MainView = React.createClass({
   getInitialState: function() {
@@ -87,7 +87,7 @@ var MainView = React.createClass({
     }
   },
   render: function() {
-    console.log("!!!!!!!!!! is Loading")
+    console.log("MainView is Loading")
     console.log(this.state.isLoading)
     return (
        <View style={styles.container}>
@@ -95,7 +95,7 @@ var MainView = React.createClass({
            <View style={styles.navBar}>
               <Text style={styles.navBarText}>菜单 MENU </Text>
               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.topGoToOrderBtn} onPress={this._onViewOrderPress}>
-                <Text style={styles.topGoToOrderText}>{'订单\nORDER LIST'}</Text>
+                <Text style={styles.topGoToOrderText}>{'ORDER LIST'}</Text>
               </TouchableHighlight>
            </View>
 
