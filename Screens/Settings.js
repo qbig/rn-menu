@@ -14,8 +14,10 @@ var {
   Image,
   TouchableHighlight,
   ListView,
+  NativeModules,
   ToastAndroid
 } = React;
+var NSDModule = NativeModules.NSDModule
 var StatusBar = require('../Components/StatusBar');
 var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
@@ -96,6 +98,17 @@ var Settings = React.createClass({
   componentWillMount: function() {
     this.listenTo(ConfigStore, this._handleTableSelectedChange);
   },
+
+  componentDidMount: function() {
+    NSDModule.getDeviceID((err)=>{
+      console.log(err);
+    }, (id)=>{
+      this.setState({
+        deviceID: id
+      })
+    });
+  },
+
   _onBackToMainView: function() {
     if (!ConfigStore.getState().host) {
       ToastAndroid.show("Pls choose a host.", ToastAndroid.LONG);
@@ -210,6 +223,18 @@ var Settings = React.createClass({
             });
           }} >
           <Text style={styles.emptyText}>YCY TEST HOST</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
+          underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+            this.props.navigator.pop();
+            SystemActions.configInfoUpdate({
+              host: configInfo['host'],
+              guid: this.state.deviceID,
+              username: configInfo['username'],
+              password: configInfo['password']
+            })
+          }} >
+          <Text style={styles.emptyText}>{this.state.deviceID}</Text>
         </TouchableHighlight>
       </View>
     );

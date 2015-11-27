@@ -3,15 +3,18 @@ package com.rnmenu;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.uimanager.IllegalViewOperationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,6 +67,17 @@ public class NSDModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "resolving: " + serviceName );
         Log.d(TAG, mServicesFound.get(serviceName).getServiceName());
         mNsdManager.resolveService(mServicesFound.get(serviceName), mResolveListener);
+    }
+
+    @ReactMethod
+    public void getDeviceID(Callback errorCallback, Callback successCallback) {
+        try {
+            final String androidID = Settings.Secure.getString(mContext.getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+            successCallback.invoke(androidID);
+        } catch (IllegalViewOperationException e) {
+            errorCallback.invoke(e.getMessage());
+        }
     }
 
     private void sendEvent(ReactContext reactContext,
