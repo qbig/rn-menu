@@ -12,7 +12,14 @@ Model.prototype.setAttributes = function(options) {
   options = (options || {});
   var newOptionsArr = [];
   options.radio_options.forEach(function(opt) {
-    newOptionsArr.push({...opt})
+    var {name, price} = opt;
+    var nameWithPrice;
+    if(price != 0) {
+        nameWithPrice = name + '(+$'+Number(price/100.0).toFixed(1)+')';
+    } else {
+      nameWithPrice = name;
+    }
+    newOptionsArr.push({name, price, nameWithPrice})
   });
   assign(this.data, {
     uuid: options.uuid,
@@ -25,6 +32,15 @@ Model.prototype.setAttributes = function(options) {
   });
 };
 
+Model.prototype.getNameWithPrice = function() {
+  if (this.data.price != 0) {
+      return this.data.name + '(+$'+Number(this.data.price/100.0).toFixed(1)+')';
+  } else {
+    return this.data.name;
+  }
+
+}
+
 Model.prototype.init = function() {
   this.isSelected = false;
   this.selectedRadioOptionName = '';
@@ -32,9 +48,13 @@ Model.prototype.init = function() {
   if (this.data.type === BOOLEAN) {}
 
   if (this.data.type === RADIO) {
-    this.data.radioOptions.forEach(function(option){
-      option.isSelected = false;
-    });
+    if (this.data.radioOptions.length == 1) {
+      this.data.radioOptions[0].isSelected = true;
+    } else {
+      this.data.radioOptions.forEach(function(option){
+        option.isSelected = false;
+      });
+    }
   }
 }
 

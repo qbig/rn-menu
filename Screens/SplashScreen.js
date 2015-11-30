@@ -21,6 +21,7 @@ var AuthService = require('../API/AuthService');
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
 var screen = require('Dimensions').get('window');
+var StatusBar = require('../Components/StatusBar');
 
 var SplashScreen = React.createClass({
   _onViewPress: function() {
@@ -49,6 +50,7 @@ var SplashScreen = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
+        <StatusBar />
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.3)'} onPress={this._onViewPress}>
           <Image style={styles.cover} source={require('image!trans')} />
         </TouchableHighlight>

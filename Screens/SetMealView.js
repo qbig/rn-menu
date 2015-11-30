@@ -254,7 +254,7 @@ var SetMealView = React.createClass({
         <View style={styles.optionsContainer}>
           {mod.data.radioOptions.map(function(option){
             return (
-              <ModifierSectionCell name={option.name} index={index}
+              <ModifierSectionCell name={option.nameWithPrice} index={index}
                 isSelected={option.isSelected} onSelect={self._handleRadioSelect} />
             );
           })}
@@ -271,7 +271,7 @@ var SetMealView = React.createClass({
         <View style={styles.optionsContainer}>
           {boolMods.map(function(boolMod, index){
             return (
-              <ModifierSectionCell name={boolMod.data.name} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect} />
+              <ModifierSectionCell name={boolMod.getNameWithPrice()} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect} />
             );
           })}
         </View>

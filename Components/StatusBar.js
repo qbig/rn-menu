@@ -40,13 +40,14 @@ var StatusBar = React.createClass({
 
   render: function() {
     return (
+      this.state.tableName ?
       <View style={styles.statusBar}>
         <TouchableHighlight style={{height:36,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}} delayLongPress={4000} onLongPress={()=>{SystemActions.configStart()}}>
           <Text style={styles.statusBarTextLeft}>{this.state.tableName} </Text>
         </TouchableHighlight>
         <Text style={styles.statusBarTextRight}>{this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
         <Image style={[styles.icon, !this.state.connected&&{opacity:0}]} source={require('image!icn_connected')} />
-      </View>
+      </View> : null
     );
   }
 })
