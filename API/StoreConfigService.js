@@ -47,7 +47,7 @@ var StoreConfigService = {
     return new Promise(function(resolve, reject){
       setTimeout(function(){
         console.log("IP found:" + self.ip);
-        NSDModule.stop();
+        // NSDModule.stop(); --> Crash
         if (self.ip) {
           resolve({
               host: "http://" + self.ip,

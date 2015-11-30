@@ -56,10 +56,12 @@ public class NSDModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void discover() { discoverServices(); }
 
-    @ReactMethod
-    public void stop() {
-        stopDiscovery();
-    }
+//    Crash ! Because of Android 4.1 bug here:
+//    https://code.google.com/p/android/issues/detail?id=35585
+//    @ReactMethod
+//    public void stop() {
+//        stopDiscovery();
+//    }
 
     @ReactMethod
     public void resolve(String serviceName) {
@@ -130,13 +132,11 @@ public class NSDModule extends ReactContextBaseJavaModule {
             @Override
             public void onStartDiscoveryFailed(String serviceType, int errorCode) {
                 Log.e(TAG, "Discovery failed: Error code:" + errorCode);
-                mNsdManager.stopServiceDiscovery(this);
             }
 
             @Override
             public void onStopDiscoveryFailed(String serviceType, int errorCode) {
                 Log.e(TAG, "Discovery failed: Error code:" + errorCode);
-                mNsdManager.stopServiceDiscovery(this);
             }
         };
     }
@@ -166,8 +166,9 @@ public class NSDModule extends ReactContextBaseJavaModule {
         mNsdManager.discoverServices(
                 SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, mDiscoveryListener);
     }
-
-    public void stopDiscovery() {
-        mNsdManager.stopServiceDiscovery(mDiscoveryListener);
-    }
+//    Crash ! Because of Android 4.1 bug here:
+//    https://code.google.com/p/android/issues/detail?id=35585
+//    public void stopDiscovery() {
+//        mNsdManager.stopServiceDiscovery(mDiscoveryListener);
+//    }
 }
