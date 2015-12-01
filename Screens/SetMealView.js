@@ -280,10 +280,9 @@ var SetMealView = React.createClass({
       <View
         ref={(header)=>{
           if (!self._headers){
-            self._headers = [header]
-          } else {
-            self._headers.push(header)
+            self._headers = []
           }
+          self._headers[index] = header;
         }}
       >
         <ModifierSectionHeader name={mod.data.name} />
@@ -295,6 +294,10 @@ var SetMealView = React.createClass({
                 isSelected={option.isSelected}
                 onSelect={(sectionIndex, name)=>{
                   self._handleRadioSelect(sectionIndex, name);
+                  console.log(self._headers.length)
+                  console.log(self._headers)
+                  console.log(sectionIndex)
+                  console.log(radioMods)
                   if (sectionIndex + 1 < self._headers.length){
                       self._scrollView.scrollTo(self._headers[sectionIndex+1]._myPos);
                   }
@@ -313,10 +316,11 @@ var SetMealView = React.createClass({
       <View
         ref={(header)=>{
           if (!self._headers){
-            self._headers = [header]
+            self._headers = [header];
           } else {
-            self._headers.push(header)
+            self._headers[this.state.currentItem.radioMods.length] = header;
           }
+          console.log("rendering _renderBools")
         }}
       >
         <ModifierSectionHeader name={"Additional Options"} />
