@@ -51,6 +51,7 @@ Model.prototype.init = function() {
     if (this.data.radioOptions.length == 1) {
       this.data.radioOptions[0].isSelected = true;
       this.isSelected = true;
+      this.selectedRadioOptionName = this.data.name;
     } else {
       this.data.radioOptions.forEach(function(option){
         option.isSelected = false;

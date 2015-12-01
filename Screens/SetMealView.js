@@ -147,16 +147,18 @@ var SetMealView = React.createClass({
         handleSep,
         (e) => {console.error(e)},
         (x, yForSep, w, h) => {
-          this._headers.forEach((header, index)=>{
-            const handle = React.findNodeHandle(header);
-            RCTUIManager.measureLayoutRelativeToParent(
-              handle,
-              (e) => {console.error(e)},
-              (x, y, w, h) => {
-                header._myPos = yForSep + y
-                console.log('offset:' + header._myPos);
-              });
-          })
+          if (this._headers) {
+            this._headers.forEach((header, index)=>{
+              const handle = React.findNodeHandle(header);
+              RCTUIManager.measureLayoutRelativeToParent(
+                handle,
+                (e) => {console.error(e)},
+                (x, y, w, h) => {
+                  header._myPos = yForSep + y
+                  console.log('offset:' + header._myPos);
+                });
+            })
+          }
         }
       );
     }
