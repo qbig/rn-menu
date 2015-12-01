@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
@@ -18,6 +20,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         mReactRootView = new ReactRootView(this);
         mReactRootView.setBackground(getResources().getDrawable(R.drawable.splashscreen));
         mReactInstanceManager = ReactInstanceManager.builder()
