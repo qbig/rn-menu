@@ -28,6 +28,7 @@ var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
 var OrderActions = require('../Actions/OrderActions');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+var RCTUIManager = require('NativeModules').UIManager;
 
 var TITLE_LENGTH = 20;
 var BACK_TEXT_LENGTH = 10;
@@ -139,6 +140,28 @@ var SetMealView = React.createClass({
     });
   },
 
+  componentDidUpdate: function(prevProps, prevState){
+    if (prevState.isLoading == true && this.state.isLoading == false) {
+      const handleSep = React.findNodeHandle(this._sep);
+      RCTUIManager.measureLayoutRelativeToParent(
+        handleSep,
+        (e) => {console.error(e)},
+        (x, yForSep, w, h) => {
+          this._headers.forEach((header, index)=>{
+            const handle = React.findNodeHandle(header);
+            RCTUIManager.measureLayoutRelativeToParent(
+              handle,
+              (e) => {console.error(e)},
+              (x, y, w, h) => {
+                header._myPos = yForSep + y
+                console.log('offset:' + header._myPos);
+              });
+          })
+        }
+      );
+    }
+  },
+
   componentWillUnmount: function() {
     if (this.state.done) {
       if (this.state.isEditMode) {
@@ -221,7 +244,8 @@ var SetMealView = React.createClass({
   _renderActionButton: function() {
     if (this.state.isEditMode) {
       return (
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleEditComplete}>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+          onPress={this.handleEditComplete}>
           <View style={styles.footer}>
             <Text style={styles.footerText}> 修改 EDIT ITEM </Text>
           </View>
@@ -229,7 +253,8 @@ var SetMealView = React.createClass({
       );
     } else {
       return (
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.handleEditComplete}>
+        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
+          onPress={this.handleEditComplete}>
           <View style={styles.footer}>
             <Text style={styles.footerText}>加入订单 ADD TO ORDER</Text>
           </View>
@@ -249,13 +274,29 @@ var SetMealView = React.createClass({
   _renderRadios: function(radioMods) {
     var self = this;
     return radioMods.map(function(mod, index){
-      return ( <View>
+      return (
+      <View
+        ref={(header)=>{
+          if (!self._headers){
+            self._headers = [header]
+          } else {
+            self._headers.push(header)
+          }
+        }}
+      >
         <ModifierSectionHeader name={mod.data.name} />
         <View style={styles.optionsContainer}>
           {mod.data.radioOptions.map(function(option){
             return (
-              <ModifierSectionCell name={option.nameWithPrice} index={index}
-                isSelected={option.isSelected} onSelect={self._handleRadioSelect} />
+              <ModifierSectionCell
+                name={option.nameWithPrice} index={index}
+                isSelected={option.isSelected}
+                onSelect={(sectionIndex, name)=>{
+                  self._handleRadioSelect(sectionIndex, name);
+                  if (sectionIndex + 1 < self._headers.length){
+                      self._scrollView.scrollTo(self._headers[sectionIndex+1]._myPos);
+                  }
+                }} />
             );
           })}
         </View>
@@ -266,12 +307,26 @@ var SetMealView = React.createClass({
   _renderBools: function(boolMods) {
     var self = this;
     if (boolMods.length > 0) {
-      return (<View>
+      return (
+      <View
+        ref={(header)=>{
+          if (!self._headers){
+            self._headers = [header]
+          } else {
+            self._headers.push(header)
+          }
+        }}
+      >
         <ModifierSectionHeader name={"Additional Options"} />
         <View style={styles.optionsContainer}>
           {boolMods.map(function(boolMod, index){
             return (
-              <ModifierSectionCell name={boolMod.getNameWithPrice()} index={index} isSelected={boolMod.isSelected} onSelect={self._handleBoolSelect} />
+              <ModifierSectionCell name={boolMod.getNameWithPrice()} index={index} isSelected={boolMod.isSelected}
+                onSelect={(sectionIndex, name)=>{
+                  self._handleBoolSelect(sectionIndex, name);
+                  self._scrollView.scrollTo(self._headers[self._headers.length-1]._myPos);
+                }}
+              />
             );
           })}
         </View>
@@ -346,13 +401,14 @@ var SetMealView = React.createClass({
         <View style={styles.separator} />
 
         <View style={styles.container}>
-          <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
+          <ScrollView ref={(component) => { this._scrollView = component; }}
+            style={styles.scrollView} showsVerticalScrollIndicator={false} scrollEventThrottle={200} onScroll={this.handleScroll}>
             <View style={{backgroundColor:'#F2EDE4',justifyContent: 'center',alignItems: 'center',}}>
               <Image style={{flex:2, backgroundColor:'#F2EDE4',width:screen.width,height:screen.width/1.5 }} source={this.props.data.images.length > 0 ? {uri:  this.props.data.images[0].url} : imgArr[0]} />
             </View>
             <View style={styles.separator1} />
             {this._renderQuantityWidget()}
-            <View style={styles.separator} />
+            <View ref={(component) => { this._sep = component; }} style={styles.separator} />
             {this.state.isLoading ? <View style={styles.emptyViewContainer}>
               <Text style={styles.emptyText}>Loading ...</Text>
             </View> : this._renderSections()}
