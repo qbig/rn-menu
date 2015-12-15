@@ -218,8 +218,8 @@ var Settings = React.createClass({
             SystemActions.configInfoUpdate({
               host: "http://104.155.205.124", //"http://192.168.0.119"
               guid: "abc",
-              username: "7737",
-              password: "7737"
+              username: "4021",
+              password: "4021"
             });
           }} >
           <Text style={styles.emptyText}>YCY TEST HOST</Text>

@@ -52,8 +52,8 @@ var StoreConfigService = {
           resolve({
               host: "http://" + self.ip,
               guid: "abc",
-              username: "7737",
-              password: "7737"
+              username: "4021",
+              password: "4021"
             });
         } else {
           reject("NotFound");
@@ -100,8 +100,8 @@ setTimeout(()=>{
     SystemActions.configInfoUpdate({
       host: "http://104.155.205.124",
       guid: "abc",
-      username: "7737",
-      password: "7737"
+      username: "4021",
+      password: "4021"
     });
   }
 }, 10 * 1000);
@@ -130,8 +130,8 @@ NSDModule.discover();
     SystemActions.configInfoUpdate({
       host: "http://" + e['data'],
       guid: "abc",
-      username: "7737",
-      password: "7737"
+      username: "4021",
+      password: "4021"
     });
   },
 
@@ -141,7 +141,7 @@ DeviceEventEmitter.addListener('keyboardWillShow', function(e: Event) {
 {
   host: "http://104.155.205.124",
   guid: "abc",
-  username: "7737",
-  password: "7737"
+  username: "4021",
+  password: "4021"
 }
 */

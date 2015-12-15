@@ -26,7 +26,7 @@ var RNMenu = React.createClass({
     var url = 'http://104.155asdas.205.124/auth/login?posGuid=abc';
     var uri = '/auth/login?posGuid=abc';
 
-    var req = new digestAuthRequest('GET', url, uri, '7737', '7737');
+    var req = new digestAuthRequest('GET', url, uri, '4021', '4021');
     // make the request
     req.request(function(data) {
         console.log('Data retrieved successfully');

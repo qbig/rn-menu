@@ -63,7 +63,7 @@ class EnvStore {
     //     type: 'manager'
     //   }],
     //   id: 29,
-    //   pin: '7737',
+    //   pin: '4021',
     //   name: 'Store Admin',
     //   webToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NDY2NDkwMzE4OTQsInBvc0d1aWQiOiJnaGkifQ.Rx6HInGiFPv1nTMmyfotylczcfdk2I8t0kjF39PA0Pg',
     //   is_manager: true

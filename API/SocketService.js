@@ -13,7 +13,7 @@ var SocketService = (function() {
   return {
     init: function() {
       //{host, guid, username, password, tableId}
-      //"http://104.155.205.124", "abc", "7737", "7737", ""
+      //"http://104.155.205.124", "abc", "4021", "4021", ""
 
       var configInfo = ConfigStore.getAll();
       socket = io.connect(configInfo.host, {
