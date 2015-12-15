@@ -49,6 +49,8 @@ var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 
+var CodePush = require("react-native-code-push");
+
 var routeSetting = {
   title: 'Settings',
   data: '',
@@ -189,6 +191,7 @@ var Root = React.createClass({
   },
 
   componentDidMount: function() {
+    CodePush.sync();
     this.listenTo(EnvStore, this.updateLoading);
     this.listenTo(EnvStore, this.startConfigFlow);
     // only now the _nav ref is available
