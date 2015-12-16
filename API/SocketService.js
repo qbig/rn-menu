@@ -75,10 +75,14 @@ var SocketService = (function() {
 
       socket.on('order', function(data) {
         if (data['verb'] === 'destroyed' && OrdersStore.getState().details.uuid === data['id']) {
+          console.log("Event: Order destroyed")
           OrderActions.orderClosed()
           SystemActions.orderCleared();
         } else if (data['verb'] === 'updated' && OrdersStore.getState().details.uuid === data['id']) {
-          if (data['table'] != ConfigStore.getState().tableId) {
+          if (data['table'] != undefined && data['table'] != ConfigStore.getState().tableId) {
+            console.log("Event: Order updated, tableId changed")
+            console.log(data)
+            console.log("ConfigStore.getState().tableId:" + ConfigStore.getState().tableId)
             OrderActions.orderClosed()
             SystemActions.orderCleared();
           }

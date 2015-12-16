@@ -143,6 +143,7 @@ var Root = React.createClass({
   },
 
   reset: function() {
+    console.log('Root reset!')
     if (EnvStore.getState().reset) {
       this._nav.popToTop();
       SystemActions.orderResetComplete.defer();
