@@ -13,6 +13,8 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import io.fabric.sdk.android.Fabric;
+import io.fabric.sdk.android.services.common.Crash;
+
 import com.microsoft.codepush.react.CodePush;
 
 public class MainActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {

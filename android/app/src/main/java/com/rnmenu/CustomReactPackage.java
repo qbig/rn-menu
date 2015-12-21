@@ -21,6 +21,7 @@ class CustomReactPackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new NSDModule(reactContext));
+        modules.add(new FabricLogWrapper(reactContext));
         return modules;
     }
 
