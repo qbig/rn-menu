@@ -1,6 +1,6 @@
 var getRequest = require('./getRequest');
 var ModifierActions = require('../Actions/ModifierActions');
-
+var Log = require('../Lib/Log');
 var ModifierService = (function() {
     return {
       requestForModifiers : function() {
@@ -9,6 +9,7 @@ var ModifierService = (function() {
             ModifierActions.modifiersUpdated(resJson);
             console.log("ModifierService :requestForModifiers: done !!!")
           }).catch(function(e){
+            Log.logMessage(e);
             console.log(e);
           });
       }

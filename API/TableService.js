@@ -1,6 +1,7 @@
 var getRequest = require('./getRequest');
 var TableActions = require('../Actions/TableActions');
 var store = require('react-native-simple-store');
+var Log = require('../Lib/Log')
 var TABLE = 'table';
 
 var TableService = {
@@ -9,8 +10,10 @@ var TableService = {
     .then(function(resJson) {
       TableActions.tablesUpdated(resJson);
       console.log("TableService: done !!!")
+      return resJson;
     })
     .catch(function(e){
+      Log.logMessage(e);
       console.log(e);
     });
   },

@@ -1,6 +1,6 @@
 var getRequest = require('./getRequest');
 var ProdAttributeActions = require('../Actions/ProdAttributeActions');
-
+var Log = require('../Lib/Log')
 var ProdAttributeService = (function() {
   return {
     requestForProdAttribute : function() {
@@ -9,6 +9,7 @@ var ProdAttributeService = (function() {
           ProdAttributeActions.prodAttributeLoaded(resJson);
           console.log("ProdAttributeService: done !!!")
         }).catch(function(e){
+          Log.logMessage(e);
           console.log(e);
         });
     }

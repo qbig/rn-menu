@@ -1,6 +1,6 @@
 var ConfigStore = require('../Stores/ConfigStore');
 var EnvStore = require('../Stores/EnvStore');
-
+var Log = require('../Lib/Log');
 function getRequest(uri, method, data) {
   var configInfo = ConfigStore.getAll();
   if (!configInfo.guid || !configInfo.host) {
@@ -37,6 +37,7 @@ function getRequest(uri, method, data) {
       return res.json();
     })
     .catch(function(e){
+      Log.logMessage(e);
       console.log(e);
     });
 }

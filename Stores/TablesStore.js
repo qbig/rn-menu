@@ -3,6 +3,7 @@
 var alt = require('../alt')
 var TableActions = require('../Actions/TableActions');
 var ConfigStore = require('../Stores/ConfigStore');
+var Log = require('../Lib/Log');
 
 class TablesStore {
   constructor() {
@@ -36,6 +37,8 @@ class TablesStore {
     this.tableInfo = tableInfo;
     console.log("TablesStore: updated");
     console.log([tableStatus, tableInfo]);
+    Log.logStringValue('tableInfo', JSON.stringify(tableInfo))
+    Log.logStringValue('tableStatus', JSON.stringify(tableStatus))
   }
 }
 

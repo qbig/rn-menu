@@ -3,6 +3,7 @@ var OrderActions = require('../Actions/OrderActions');
 var OrdersStore = require('../Stores/OrdersStore');
 var ConfigStore = require('../Stores/ConfigStore');
 var TablesStore = require('../Stores/TablesStore');
+var Log = require('../Lib/Log');
 var TableService = require('./TableService');
 var ORDER_URI = '/order/';
 var ITEM_URI = '/item';
@@ -12,6 +13,7 @@ var OrderService = (function() {
     .then(()=>{
       var currentOrderId = TablesStore.getCurrentOrderID();
       console.log("about to fetch existing order : " + currentOrderId)
+      Log.logMessage("about to fetch existing order : " + currentOrderId)
       if (currentOrderId == undefined || currentOrderId == -1) {
         return Promise.reject("Unaware of uuid of existing order");
       }
@@ -22,6 +24,7 @@ var OrderService = (function() {
       console.log("OrderService: requestForCurrentOrder done !!!")
     }).catch(function(e){
       console.log(e);
+      Log.logMessage(e);
       throw e;
     });
   }
@@ -31,6 +34,7 @@ var OrderService = (function() {
     .then(function(resJson) {
       console.log(resJson)
       if (resJson['error']) {
+        Log.logStringValue("createNewEmptyOrder failed", resJson['error']);
         return requestForCurrentOrder();
       } else {
         OrderActions.orderCreated(resJson);
@@ -38,6 +42,7 @@ var OrderService = (function() {
         return Promise.resolve(resJson);
       }
     }).catch(function(e){
+      Log.logMessage(e);
       console.log(e);
     });
   }
@@ -53,6 +58,7 @@ var OrderService = (function() {
       OrderActions.orderUpdated(resJson);
       console.log("OrderService: updateCurrentOrder done !!!")
     }).catch(function(e){
+      Log.logMessage(e);
       console.log(e);
     });
   }
@@ -75,6 +81,7 @@ var OrderService = (function() {
         OrderActions.orderUpdated(resJson);
         console.log("OrderService: updateCurrentOrder done !!!")
       }).catch(function(e){
+        Log.logMessage(e);
         console.log(e);
       });
     } else {

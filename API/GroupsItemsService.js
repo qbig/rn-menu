@@ -2,7 +2,7 @@ var ConfigStore = require('../Stores/ConfigStore');
 var EnvStore = require('../Stores/EnvStore');
 var GroupsItemsActions = require('../Actions/GroupsItemsActions');
 var AuthActions = require('../Actions/AuthActions');
-
+var Log = require('../Lib/Log')
 var GroupsItemsService = (function() {
   return {
     requestForGroupsItems : function() {
@@ -39,6 +39,7 @@ var GroupsItemsService = (function() {
           GroupsItemsActions.groupsItemsUpdated(resJson);
           console.log("resJson: done !!!")
         }).catch(function(e){
+          Log.logMessage(e);
           console.log(e);
         });
     }
