@@ -52,7 +52,8 @@ var OrderService = (function() {
     var orderJsonArr = orderInfo.unsentItems.map(function(item){
       return item.getJSON();
     });
-
+    console.log("orderInfo:"+JSON.stringify(orderInfo))
+    console.log("orderInfo.details:"+JSON.stringify(orderInfo.details))
     return getRequest(ORDER_URI + orderInfo.details.uuid + ITEM_URI, 'POST', orderJsonArr)
     .then(function(resJson) {
       OrderActions.orderUpdated(resJson);
@@ -73,6 +74,7 @@ var OrderService = (function() {
       return item.getJSON();
     });
     if (orderJsonArr.length > 0) {
+      console.log("orderInfo:"+JSON.stringify(orderInfo))
       return getRequest(ORDER_URI + orderInfo.details.uuid + ITEM_URI, 'POST', orderJsonArr)
       .then(function(resJson) {
         orderJsonArr.forEach(function(item){

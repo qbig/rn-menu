@@ -20,6 +20,9 @@ class TablesStore {
 
   getCurrentOrderID() {
     var tableId = ConfigStore.getState().tableId;
+    console.log("getCurrentOrderID():")
+    console.log(this.getState())
+    console.log(this.getState().tableStatus)
     var result = this.getState().tableStatus.find(function(status){
       return status.id == tableId
     });

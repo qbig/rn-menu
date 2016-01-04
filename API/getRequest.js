@@ -31,13 +31,16 @@ function getRequest(uri, method, data) {
     authInfo.body = JSON.stringify(data)
     console.log("getRequest->request body:" + authInfo.body);
   }
+  console.log('configInfo:' + JSON.stringify(configInfo))
+  console.log('uri:' + uri)
+  console.log('configInfo.host:' + configInfo.host)
   console.log('getRequest:' + configInfo.host + uri)
   return fetch(configInfo.host + uri, authInfo)
     .then(function(res) {
       return res.json();
     })
     .catch(function(e){
-      Log.logMessage(e);
+      Log.logMessage(JSON.stringify(e));
       console.log(e);
     });
 }
