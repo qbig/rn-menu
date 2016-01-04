@@ -9,7 +9,7 @@ var ProdAttributeService = (function() {
           ProdAttributeActions.prodAttributeLoaded(resJson);
           console.log("ProdAttributeService: done !!!")
         }).catch(function(e){
-          Log.logMessage(e);
+          Log.logMessage(JSON.stringify(e));
           console.log(e);
         });
     }

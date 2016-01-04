@@ -39,7 +39,7 @@ var GroupsItemsService = (function() {
           GroupsItemsActions.groupsItemsUpdated(resJson);
           console.log("resJson: done !!!")
         }).catch(function(e){
-          Log.logMessage(e);
+          Log.logMessage(JSON.stringify(e));
           console.log(e);
         });
     }

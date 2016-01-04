@@ -9,7 +9,7 @@ var ModifierService = (function() {
             ModifierActions.modifiersUpdated(resJson);
             console.log("ModifierService :requestForModifiers: done !!!")
           }).catch(function(e){
-            Log.logMessage(e);
+            Log.logMessage(JSON.stringify(e));
             console.log(e);
           });
       }

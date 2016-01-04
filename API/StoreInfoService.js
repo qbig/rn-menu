@@ -9,7 +9,7 @@ var StoreInfoService = (function() {
             SystemActions.storeInfoLoaded(resJson);
             console.log("StoreInfoService :StoreInfoService: done !!!")
           }).catch(function(e){
-            Log.logMessage(e);
+            Log.logMessage(JSON.stringify(e));
             console.log(e);
           });
       }

@@ -24,7 +24,7 @@ var OrderService = (function() {
       console.log("OrderService: requestForCurrentOrder done !!!")
     }).catch(function(e){
       console.log(e);
-      Log.logMessage(e);
+      Log.logMessage(JSON.stringify(e));
       throw e;
     });
   }
@@ -42,7 +42,7 @@ var OrderService = (function() {
         return Promise.resolve(resJson);
       }
     }).catch(function(e){
-      Log.logMessage(e);
+      Log.logMessage(JSON.stringify(e));
       console.log(e);
     });
   }
@@ -58,7 +58,7 @@ var OrderService = (function() {
       OrderActions.orderUpdated(resJson);
       console.log("OrderService: updateCurrentOrder done !!!")
     }).catch(function(e){
-      Log.logMessage(e);
+      Log.logMessage(JSON.stringify(e));
       console.log(e);
     });
   }
@@ -81,7 +81,7 @@ var OrderService = (function() {
         OrderActions.orderUpdated(resJson);
         console.log("OrderService: updateCurrentOrder done !!!")
       }).catch(function(e){
-        Log.logMessage(e);
+        Log.logMessage(JSON.stringify(e));
         console.log(e);
       });
     } else {
