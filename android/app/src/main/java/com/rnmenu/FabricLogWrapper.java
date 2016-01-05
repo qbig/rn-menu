@@ -7,6 +7,8 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -42,11 +44,13 @@ public class FabricLogWrapper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void logStringValue(String key, String val) {
         Crashlytics.setString(key, val);
+        Answers.getInstance().logCustom(new CustomEvent("log").putCustomAttribute(key, val));
     }
 
     @ReactMethod
     public void logMessage(String msg) {
         Crashlytics.log(msg);
+        Answers.getInstance().logCustom(new CustomEvent("log").putCustomAttribute("msg", msg));
     }
 
     public FabricLogWrapper(ReactApplicationContext reactContext) {
