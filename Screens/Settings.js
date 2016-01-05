@@ -201,7 +201,8 @@ var Settings = React.createClass({
                 host: configInfo['host'],
                 guid: configInfo['guid'],
                 username: configInfo['username'],
-                password: configInfo['password']
+                password: configInfo['password'],
+                description: configInfo['description']
               })
             }).catch((e)=>{
               SystemActions.loadingFinish();
@@ -219,7 +220,8 @@ var Settings = React.createClass({
               host: "http://104.155.205.124", //"http://192.168.0.119"
               guid: "abc",
               username: "4021",
-              password: "4021"
+              password: "4021",
+              description: "TEST"
             });
           }} >
           <Text style={styles.emptyText}>YCY TEST HOST</Text>
@@ -228,10 +230,7 @@ var Settings = React.createClass({
           underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
             this.props.navigator.pop();
             SystemActions.configInfoUpdate({
-              host: configInfo['host'],
-              guid: this.state.deviceID,
-              username: configInfo['username'],
-              password: configInfo['password']
+              guid: this.state.deviceID
             })
           }} >
           <Text style={styles.emptyText}>{this.state.deviceID}</Text>

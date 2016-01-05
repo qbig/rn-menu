@@ -49,6 +49,7 @@ class ConfigStore {
     this.tableId = -1
     this.tableName = ''
     this.storeInfo = ""
+    this.description = ""
     this.exportPublicMethods({
       getAll: this.getAll
     });
@@ -108,7 +109,8 @@ class ConfigStore {
       guid: this.getState().guid,
       username: this.getState().username,
       password: this.getState().password,
-      tableId: this.getState().tableId
+      tableId: this.getState().tableId,
+      description: this.getState().description
     }
   }
 }

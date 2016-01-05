@@ -53,7 +53,8 @@ var StoreConfigService = {
               host: "http://" + self.ip,
               guid: "abc",
               username: "4021",
-              password: "4021"
+              password: "4021",
+              description: "LOCAL"
             });
         } else {
           reject("NotFound");
@@ -85,7 +86,8 @@ var StoreConfigService = {
             host: configInfo['host'],
             guid: configInfo['guid'],
             username: configInfo['username'],
-            password: configInfo['password']
+            password: configInfo['password'],
+            description: configInfo['description']
           })
         }
       });
