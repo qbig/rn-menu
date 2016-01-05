@@ -12,6 +12,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  ToastAndroid,
   ListView,
 } = React;
 
@@ -40,7 +41,6 @@ var OrderList = React.createClass({
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
       viewOrder: true,
       showSentOrder: false,
-      showSendOrderError:false,
       editRowIndex: -1
     };
   },
@@ -61,7 +61,6 @@ var OrderList = React.createClass({
         dataSource: ds.cloneWithRows(OrdersStore.getState().sentItems.concat({name:'total'})),
         viewOrder: false,
         showSentOrder: false,
-        showSendOrderError:false,
       });
     } else {
       this.setState({
@@ -70,7 +69,6 @@ var OrderList = React.createClass({
         dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
         viewOrder: true,
         showSentOrder: false,
-        showSendOrderError:false,
       });
     }
   },
@@ -144,7 +142,7 @@ var OrderList = React.createClass({
             self.setState({showSentOrder:true});
           })
         } else {
-          self.setState({showSendOrderError:true});
+          ToastAndroid.show("请重试。\nPLEASE TRY AGAIN.", ToastAndroid.LONG);
         }
       }).finally(function () {
         SystemActions.loadingFinish();
@@ -297,8 +295,6 @@ var OrderList = React.createClass({
       if (this.state.viewOrder) {
         if (this.state.showSentOrder) {
           message = "订单收到。\nORDER SENT! THANK YOU."
-        } else if (this.state.showSendOrderError) {
-          message = "请重试。\nPLEASE TRY AGAIN."
         } else {
           message = "您的订单为空。\nYOUR ORDER LIST IS EMPTY."
         }
