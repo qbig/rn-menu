@@ -134,7 +134,9 @@ var OrderList = React.createClass({
         self.setState({showSentOrder:true});
       }).catch(function(){
         SystemActions.loadingFinish();
-      })
+      }).finally(function () {
+        SystemActions.loadingFinish();
+      });
     }
   },
 

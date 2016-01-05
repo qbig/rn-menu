@@ -44,7 +44,10 @@ var SplashScreen = React.createClass({
     }).catch((err) =>{
       console.log('SplashScreen Error')
       console.log(err)
-    })
+      SystemActions.loadingFinish();
+    }).finally(function () {
+      SystemActions.loadingFinish();
+    });
   },
 
   render: function() {

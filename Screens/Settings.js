@@ -209,6 +209,8 @@ var Settings = React.createClass({
               if (e === "NotFound") {
                 ToastAndroid.show("No nearby host is found.", ToastAndroid.LONG);
               }
+            }).finally(function () {
+              SystemActions.loadingFinish();
             });
           }}>
           <Text style={styles.emptyText}>SEARCH NEARBY HOST</Text>
