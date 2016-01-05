@@ -1,6 +1,18 @@
 var ConfigStore = require('../Stores/ConfigStore');
 var EnvStore = require('../Stores/EnvStore');
 var Log = require('../Lib/Log');
+
+function checkStatus(response) {
+  if (! (response.status >= 200 && response.status < 300) ) {
+    response.failed = true;
+  }
+  return response
+}
+
+function parseJSON(response) {
+  return response.json()
+}
+
 function getRequest(uri, method, data) {
   var configInfo = ConfigStore.getAll();
   if (!configInfo.guid || !configInfo.host) {
@@ -36,12 +48,12 @@ function getRequest(uri, method, data) {
   console.log('configInfo.host:' + configInfo.host)
   console.log('getRequest:' + configInfo.host + uri)
   return fetch(configInfo.host + uri, authInfo)
-    .then(function(res) {
-      return res.json();
-    })
+    .then(checkStatus)
+    .then(parseJSON)
     .catch(function(e){
       Log.logMessage(JSON.stringify(e));
       console.log(e);
+      throw e;
     });
 }
 

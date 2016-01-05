@@ -19,6 +19,7 @@ var screen = require('Dimensions').get('window');
 var StatusBar = require('../Components/StatusBar');
 var OrdersStore = require('../Stores/OrdersStore');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+var TimerMixin = require('react-timer-mixin');
 var ConfigStore = require('../Stores/ConfigStore');
 var OrderService = require('../API/OrderService');
 var OrderActions = require('../Actions/OrderActions');
@@ -31,7 +32,7 @@ var ds = new ListView.DataSource({
 });
 
 var OrderList = React.createClass({
-  mixins: [ListenerMixin],
+  mixins: [ListenerMixin, TimerMixin],
   getInitialState: function() {
     return {
       isAlertVisibale: false,
@@ -39,6 +40,7 @@ var OrderList = React.createClass({
       dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
       viewOrder: true,
       showSentOrder: false,
+      showSendOrderError:false,
       editRowIndex: -1
     };
   },
@@ -58,7 +60,8 @@ var OrderList = React.createClass({
         orders: OrdersStore.getState(),
         dataSource: ds.cloneWithRows(OrdersStore.getState().sentItems.concat({name:'total'})),
         viewOrder: false,
-        showSentOrder: false
+        showSentOrder: false,
+        showSendOrderError:false,
       });
     } else {
       this.setState({
@@ -66,7 +69,8 @@ var OrderList = React.createClass({
         orders: OrdersStore.getState(),
         dataSource: ds.cloneWithRows(OrdersStore.getState().unsentItems),
         viewOrder: true,
-        showSentOrder: false
+        showSentOrder: false,
+        showSendOrderError:false,
       });
     }
   },
@@ -127,13 +131,21 @@ var OrderList = React.createClass({
 
     if(this.state.viewOrder) {
       var self = this;
+      self.setState({retried:false});
       SystemActions.loadingStart();
       OrderService.updateCurrentOrder()
       .then(function(){
         SystemActions.loadingFinish();
         self.setState({showSentOrder:true});
-      }).catch(function(){
-        SystemActions.loadingFinish();
+      }).catch(function(e){
+        if (!self.state.retried) {
+          self.setState({retried:true});
+          return OrderService.updateCurrentOrder().then(()=>{
+            self.setState({showSentOrder:true});
+          })
+        } else {
+          self.setState({showSendOrderError:true});
+        }
       }).finally(function () {
         SystemActions.loadingFinish();
       });
@@ -285,6 +297,8 @@ var OrderList = React.createClass({
       if (this.state.viewOrder) {
         if (this.state.showSentOrder) {
           message = "订单收到。\nORDER SENT! THANK YOU."
+        } else if (this.state.showSendOrderError) {
+          message = "请重试。\nPLEASE TRY AGAIN."
         } else {
           message = "您的订单为空。\nYOUR ORDER LIST IS EMPTY."
         }

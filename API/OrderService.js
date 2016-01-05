@@ -56,11 +56,17 @@ var OrderService = (function() {
     console.log("orderInfo.details:"+JSON.stringify(orderInfo.details))
     return getRequest(ORDER_URI + orderInfo.details.uuid + ITEM_URI, 'POST', orderJsonArr)
     .then(function(resJson) {
+      if (resJson.failed) {
+        var error = new Error("Request Failed");
+        error.reponse = resJson;
+        throw error;
+      }
       OrderActions.orderUpdated(resJson);
       console.log("OrderService: updateCurrentOrder done !!!")
     }).catch(function(e){
       Log.logMessage(JSON.stringify(e));
       console.log(e);
+      throw e;
     });
   }
 
