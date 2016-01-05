@@ -58,7 +58,7 @@ var StoreConfigService = {
         } else {
           reject("NotFound");
         }
-      }, 10*1000);
+      }, 30*1000);
     });
   },
 
