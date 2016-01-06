@@ -12,7 +12,6 @@ var {
   View,
   Image,
   TouchableHighlight,
-  ToastAndroid,
   ListView,
 } = React;
 
@@ -25,6 +24,7 @@ var ConfigStore = require('../Stores/ConfigStore');
 var OrderService = require('../API/OrderService');
 var OrderActions = require('../Actions/OrderActions');
 var SystemActions = require('../Actions/SystemActions');
+var Toast = require('../Lib/Toast');
 /*
 1. view margin padding adjustment
 */
@@ -142,7 +142,7 @@ var OrderList = React.createClass({
             self.setState({showSentOrder:true});
           })
         } else {
-          ToastAndroid.show("请重试。\nPLEASE TRY AGAIN.", ToastAndroid.LONG);
+          Toast.show("请重试。\nPLEASE TRY AGAIN.", Toast.LONG);
         }
       }).finally(function () {
         SystemActions.loadingFinish();
@@ -215,7 +215,7 @@ var OrderList = React.createClass({
 
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID, rowData)}}>
                 <View style={styles.column2}>
-                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
+                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_less.png')} />
                 </View>
               </TouchableHighlight>
               <View style={styles.columnSep}/>
@@ -225,7 +225,7 @@ var OrderList = React.createClass({
               <View style={styles.columnSep}/>
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleIncrement(rowID)}}>
                 <View style={styles.column2}>
-                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
+                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_more.png')} />
                 </View>
               </TouchableHighlight>
               <View style={styles.columnSep}/>
@@ -339,7 +339,7 @@ var OrderList = React.createClass({
             <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this._onBackToMainView}>
                 <View style={styles.backButtonContainer}>
-                  <Image source={require('image!btn_back')}  />
+                  <Image source={require('../img/btn_back.png')}  />
                   <Text style={styles.backButton}> {this.props.from} </Text>
                 </View>
               </TouchableHighlight>
@@ -353,7 +353,7 @@ var OrderList = React.createClass({
                 <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
               </TouchableHighlight>
               {(this.state.orders.sentItems.length > 0 && this.state.viewOrder) ?
-                <Image style={styles.badge} source={require('image!badge_bill')}>
+                <Image style={styles.badge} source={require('../img/badge_bill.png')}>
                   <Text style={{color: 'white'}}>{OrdersStore.getOrderCount()}</Text>
                 </Image> : null
               }

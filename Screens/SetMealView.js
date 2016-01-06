@@ -19,8 +19,8 @@ var
   Navigator,
   Animated,
   Dimensions,
-  ToastAndroid,
-  InteractionManager
+  InteractionManager,
+  Platform
 } = React;
 
 var StatusBar = require('../Components/StatusBar');
@@ -28,7 +28,10 @@ var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
 var OrderActions = require('../Actions/OrderActions');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-var RCTUIManager = require('NativeModules').UIManager;
+if (Platform.OS === 'android') {
+  var RCTUIManager = require('NativeModules').UIManager;
+}
+var Toast = require("../Lib/Toast");
 
 var TITLE_LENGTH = 20;
 var BACK_TEXT_LENGTH = 10;
@@ -42,7 +45,7 @@ var {
   height: deviceHeight
 } = Dimensions.get('window');
 
-var imgArr = [require('image!img_product_no_image')];
+var imgArr = [require('../img/img_product_no_image.png')];
 
 function insertLineBreak(str) {
   var reg = new RegExp('[a-z0-9]', 'i');
@@ -95,7 +98,7 @@ var ModifierSectionCell = React.createClass({
       <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
         onPress={()=>{this.props.onSelect(this.props.index, this.props.name)}}>
         <View style={styles.option}>
-          <Image style={styles.thumb1} source={this.props.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+          <Image style={styles.thumb1} source={this.props.isSelected ? require('../img/btn_option_selected.png') : require('../img/btn_option_unselected.png')} >
             <View style={styles.overlay}>
               <Text style={this.props.isSelected ? styles.textPriceWhite : styles.textPrice}>
                 {insertLineBreak(this.props.name)}
@@ -142,25 +145,27 @@ var SetMealView = React.createClass({
 
   componentDidUpdate: function(prevProps, prevState){
     if (prevState.isLoading == true && this.state.isLoading == false) {
-      const handleSep = React.findNodeHandle(this._sep);
-      RCTUIManager.measureLayoutRelativeToParent(
-        handleSep,
-        (e) => {console.error(e)},
-        (x, yForSep, w, h) => {
-          if (this._headers) {
-            this._headers.forEach((header, index)=>{
-              const handle = React.findNodeHandle(header);
-              RCTUIManager.measureLayoutRelativeToParent(
-                handle,
-                (e) => {console.error(e)},
-                (x, y, w, h) => {
-                  header._myPos = yForSep + y
-                  console.log('offset:' + header._myPos);
-                });
-            })
+      if (Platform.OS === 'android') {
+        const handleSep = React.findNodeHandle(this._sep);
+        RCTUIManager.measureLayoutRelativeToParent(
+          handleSep,
+          (e) => {console.error(e)},
+          (x, yForSep, w, h) => {
+            if (this._headers) {
+              this._headers.forEach((header, index)=>{
+                const handle = React.findNodeHandle(header);
+                RCTUIManager.measureLayoutRelativeToParent(
+                  handle,
+                  (e) => {console.error(e)},
+                  (x, y, w, h) => {
+                    header._myPos = yForSep + y
+                    console.log('offset:' + header._myPos);
+                  });
+              })
+            }
           }
-        }
-      );
+        );
+      }
     }
   },
 
@@ -183,7 +188,7 @@ var SetMealView = React.createClass({
         this.props.navigator.pop();
       }
     } else {
-      ToastAndroid.show("Pls choose your " + this.state.currentItem.getNextIncompleteModName(), ToastAndroid.LONG);
+      Toast.show("Pls choose your " + this.state.currentItem.getNextIncompleteModName(), Toast.LONG);
     }
   },
 
@@ -353,7 +358,7 @@ var SetMealView = React.createClass({
         <View style={styles.columnSep}/>
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemDecrement()}}>
           <View style={styles.column2}>
-            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
+            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_less.png')} />
           </View>
         </TouchableHighlight>
 
@@ -365,7 +370,7 @@ var SetMealView = React.createClass({
         <View style={styles.columnSep}/>
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemIncrement()}}>
           <View style={styles.column4}>
-            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
+            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_more.png')} />
           </View>
         </TouchableHighlight>
 
@@ -390,7 +395,7 @@ var SetMealView = React.createClass({
           <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
             <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.btnBackPressed}>
               <View style={styles.backButtonContainer}>
-                <Image source={require('image!btn_back')}  />
+                <Image source={require('../img/btn_back.png')}  />
                 <Text style={styles.backButton}>{trimString(this.props.from, BACK_TEXT_LENGTH)}</Text>
               </View>
             </TouchableHighlight>

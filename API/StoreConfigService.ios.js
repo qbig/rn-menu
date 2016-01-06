@@ -1,25 +1,18 @@
 var React = require('react-native');
 var {
-  NativeModules,
-  DeviceEventEmitter,
-  ToastAndroid
+  DeviceEventEmitter
 } = React;
 var getRequest = require('./getRequest');
 var SystemActions = require('../Actions/SystemActions');
 var store = require('react-native-simple-store');
-var NSDModule = NativeModules.NSDModule
 var CONFIG = 'config';
+var Toast = require('../Lib/Toast');
 
 var StoreConfigService = {
   ip : "",
 
   respondToDiscoveredEvent(e) {
-    if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
-      NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
-      ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
-    } else if (e && e['data']) {
-      console.log(e['data'] + " FOUND");
-    }
+
   },
 
   respondToResolvedEvent(e) {
@@ -28,39 +21,11 @@ var StoreConfigService = {
       return;
     }
     this.ip = e['data'];
-    ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
+    Toast.show("resolved IP:" + e['data'], Toast.SHORT);
   },
 
   discoverFromLocalWifi() {
-    DeviceEventEmitter.addListener(
-      NSDModule.SERVICE_RESOLVED,
-      this.respondToResolvedEvent.bind(this)
-    );
-
-    DeviceEventEmitter.addListener(
-      NSDModule.SERVICE_FOUND,
-      this.respondToDiscoveredEvent.bind(this)
-    );
-    this.ip = "";
-    var self = this;
-    NSDModule.discover();
-    return new Promise(function(resolve, reject){
-      setTimeout(function(){
-        console.log("IP found:" + self.ip);
-        // NSDModule.stop(); --> Crash
-        if (self.ip) {
-          resolve({
-              host: "http://" + self.ip,
-              guid: "abc",
-              username: "4021",
-              password: "4021",
-              description: "LOCAL"
-            });
-        } else {
-          reject("NotFound");
-        }
-      }, 30*1000);
-    });
+    return Promise.reject("NotFound");
   },
 
   initFromCache() {
@@ -72,6 +37,7 @@ var StoreConfigService = {
   },
 
   getConfig() {
+    console.log("getConfig")
     return this.initFromCache()
       .then((configInfo)=>{
         if (!configInfo) {
@@ -122,13 +88,13 @@ NSDModule.discover();
   respondToDiscoveredEvent: function(e) {
     if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
       NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
-      ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
+      Toast.show("BOX FOUND !!!!", Toast.LONG);
     }
   },
 
   respondToResolvedEvent: function(e) {
     console.log("resolved:" + e['data']);
-    ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
+    Toast.show("resolved IP:" + e['data'], Toast.SHORT);
     SystemActions.configInfoUpdate({
       host: "http://" + e['data'],
       guid: "abc",

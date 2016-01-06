@@ -6,6 +6,7 @@ var Log = require('../Lib/Log')
 var GroupsItemsService = (function() {
   return {
     requestForGroupsItems : function() {
+      console.log("GroupsItemsService.requestForGroupsItems")
       var configInfo = ConfigStore.getAll();
       if (!configInfo.guid || !configInfo.host) {
         console.log("!!!!! Insufficient information for authentication !!!!!");

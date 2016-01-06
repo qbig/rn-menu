@@ -12,7 +12,7 @@ var {
   View,
   Image,
   ListView,
-  TouchableHighlight,
+  TouchableHighlight
 } = React;
 
 var MainView = require('./MainView');
@@ -25,6 +25,7 @@ var StatusBar = require('../Components/StatusBar');
 
 var SplashScreen = React.createClass({
   _onViewPress: function() {
+    console.log(JSON.stringify(ConfigStore.getState()))
     if (ConfigStore.getState().tableId == -1) {
       SystemActions.configStart();
       return;
@@ -50,19 +51,29 @@ var SplashScreen = React.createClass({
     });
   },
 
+  componentDidMount:function() {
+    console.log("SplashScreen:componentDidMount")
+  },
+
   render: function() {
     return (
       <View style={styles.container}>
-        <StatusBar />
-        <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.3)'} onPress={this._onViewPress}>
-          <Image style={styles.cover} source={require('image!trans')} />
-        </TouchableHighlight>
+        <Image source={require('../img/splashscreen.png')} style={styles.backgroundImage}>
+          <StatusBar />
+          <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.3)'} onPress={this._onViewPress}>
+            <Image style={styles.cover} source={require('../img/trans.png')} />
+          </TouchableHighlight>
+        </Image>
       </View>
     );
   },
 });
 
 var styles = StyleSheet.create({
+  backgroundImage: {
+    width:screen.width,
+    height:screen.height
+  },
   container: {
     flex: 1,
     alignItems: 'stretch'

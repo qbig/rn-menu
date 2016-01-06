@@ -47,7 +47,7 @@ var StatusBar = React.createClass({
           <Text style={styles.statusBarTextLeft}>{this.state.tableName} </Text>
         </TouchableHighlight>
         <Text style={styles.statusBarTextRight}>{this.state.description} {this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
-        <Image style={[styles.icon, !this.state.connected&&{opacity:0}]} source={require('image!icn_connected')} />
+        <Image style={[styles.icon, !this.state.connected&&{opacity:0}]} source={require('../img/icn_connected.png')} />
       </View> : null
     );
   }

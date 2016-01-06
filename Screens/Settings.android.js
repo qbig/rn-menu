@@ -14,8 +14,7 @@ var {
   Image,
   TouchableHighlight,
   ListView,
-  NativeModules,
-  ToastAndroid
+  NativeModules
 } = React;
 var NSDModule = NativeModules.NSDModule
 var StatusBar = require('../Components/StatusBar');
@@ -28,7 +27,7 @@ var SystemActions = require('../Actions/SystemActions');
 var StoreConfigService = require('../API/StoreConfigService');
 var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-
+var Toast = require('../Lib/Toast');
 var TITLE_LENGTH = 20;
 
 function trimString(str, length) {
@@ -111,9 +110,9 @@ var Settings = React.createClass({
 
   _onBackToMainView: function() {
     if (!ConfigStore.getState().host) {
-      ToastAndroid.show("Pls choose a host.", ToastAndroid.LONG);
+      Toast.show("Pls choose a host.", Toast.LONG);
     } else if (this.state.selectedTableId == -1) {
-      ToastAndroid.show("Pls choose a Table for this device.", ToastAndroid.LONG);
+      Toast.show("Pls choose a Table for this device.", Toast.LONG);
       return;
     }
     this.props.navigator.pop();
@@ -142,7 +141,7 @@ var Settings = React.createClass({
         onPress = {() => this._pressRow(rowData)}>
         <View style = {[styles.column, selected&&{backgroundColor:'#891F02'}]} >
           <Text style = {[styles.text, selected&&{color:'white'} ]}> {rowData.name} </Text>
-          {selected ? <Image style={{width:60, height: 60, resizeMode: 'contain'}} source={require('image!icn_tick_white')}/> : null}
+          {selected ? <Image style={{width:60, height: 60, resizeMode: 'contain'}} source={require('../img/icn_tick_white.png')}/> : null}
           <View style = {styles.separator}/>
         </View>
       </TouchableHighlight>
@@ -207,7 +206,7 @@ var Settings = React.createClass({
             }).catch((e)=>{
               SystemActions.loadingFinish();
               if (e === "NotFound") {
-                ToastAndroid.show("No nearby host is found.", ToastAndroid.LONG);
+                Toast.show("No nearby host is found.", Toast.LONG);
               }
             }).finally(function () {
               SystemActions.loadingFinish();
@@ -265,7 +264,7 @@ var Settings = React.createClass({
               underlayColor = {'rgba(255,255,255,0.1)'}
               onPress = {this._onBackToMainView} >
               <View style = {styles.backButtonContainer}>
-                <Image source = {require('image!btn_back')}/>
+                <Image source = {require('../img/btn_back.png')}/>
                 <Text style = {styles.backButton}> Back </Text>
               </View>
             </TouchableHighlight>

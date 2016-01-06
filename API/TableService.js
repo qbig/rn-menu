@@ -6,6 +6,7 @@ var TABLE = 'table';
 
 var TableService = {
    requestForTables : function() {
+     console.log("TableService: START !!!")
     return Promise.all([getRequest('/table'), getRequest('/provisioning/sectors')])
     .then(function(resJson) {
       TableActions.tablesUpdated(resJson);

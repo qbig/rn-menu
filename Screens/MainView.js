@@ -14,8 +14,8 @@ var {
   ListView,
   TouchableHighlight,
   ScrollView,
-  BackAndroid,
-  InteractionManager
+  InteractionManager,
+  Platform
 } = React;
 import type {
   NavigationContext
@@ -29,15 +29,17 @@ var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var OrdersStore = require('../Stores/OrdersStore');
 
 var _navigator;
-BackAndroid.addEventListener('hardwareBackPress', function() {
-  // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
-  if (_navigator && _navigator.getCurrentRoutes().length > 2) {
-    _navigator.pop();
+if(Platform.OS === "android") {
+  React.BackAndroid.addEventListener('hardwareBackPress', function() {
+    // TODO : can check .length > 2, so that cannot go back to "FlashScreen"
+    if (_navigator && _navigator.getCurrentRoutes().length > 2) {
+      _navigator.pop();
+      return true;
+    }
     return true;
-  }
-  return true;
-});
-var imgArr = [require('image!img_product_no_image')];
+  });
+}
+var imgArr = [require('../img/img_product_no_image.png')];
 
 var MainView = React.createClass({
   getInitialState: function() {
@@ -118,7 +120,7 @@ var MainView = React.createClass({
                              <View>
                                <Image style={styles.thumb}
                                   source={group.images.length > 0 ? {uri:  group.images[0].url} : imgArr[0]} >
-                                 <Image style={styles.thumb} source={require('image!overlay1')} >
+                                 <Image style={styles.thumb} source={require('../img/overlay.png')} >
                                  <View style={styles.overlay1}><Text style={styles.groupNameText}>{group.name}</Text></View>
                                  </Image>
                                </Image>

@@ -24,7 +24,6 @@ var AuthService = (function() {
             console.log('Above is the retrieved');
             resolve(data);
         },function(errorCode) {
-            reject(errorCode);
             console.log('no dice: '+errorCode);
         }, {});
       });

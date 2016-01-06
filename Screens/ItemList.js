@@ -13,7 +13,6 @@ var {
   Image,
   TouchableHighlight,
   ListView,
-  ToastAndroid,
   InteractionManager
 } = React;
 var StatusBar = require('../Components/StatusBar');
@@ -26,6 +25,7 @@ var OrderActions = require('../Actions/OrderActions');
 var SystemActions = require('../Actions/SystemActions');
 var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+var Toast = require('../Lib/Toast');
 
 var TITLE_LENGTH = 20;
 
@@ -35,7 +35,7 @@ function trimString(str, length) {
                       str.substring(0, length);
 }
 
-var imgArr = [require('image!img_product_no_image')];
+var imgArr = [require('../img/img_product_no_image.png')];
 var ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2
 });
@@ -79,7 +79,7 @@ var ItemList = React.createClass({
         data: rowData
       });
     } else {
-      ToastAndroid.show("The item is sold out.", ToastAndroid.LONG);
+      Toast.show("The item is sold out.", Toast.LONG);
     }
   },
 
@@ -129,7 +129,7 @@ var ItemList = React.createClass({
              </View>
           <View>
             <Image style = {styles.thumb1}
-              source = { require('image!btn_option_unselected')}>
+              source = { require('../img/btn_option_unselected.png')}>
               <View style = {styles.overlay} >
                 <Text style = {styles.textPrice} >
                   {rowData.soldOut? 'SOLD \nOUT' : (rowData.price/ 100.0).toFixed(2)}
@@ -154,7 +154,7 @@ var ItemList = React.createClass({
               underlayColor = {'rgba(255,255,255,0.1)'}
               onPress = {this._onBackToMainView} >
               <View style = {styles.backButtonContainer}>
-                <Image source = {require('image!btn_back')}/>
+                <Image source = {require('../img/btn_back.png')}/>
                 <Text style = {styles.backButton}> {this.props.from} </Text>
               </View>
             </TouchableHighlight>

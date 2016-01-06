@@ -16,7 +16,7 @@ var {
   Navigator,
   Animated,
   Easing,
-  ToastAndroid
+  Platform
 } = React;
 
 var SplashScreen = require('./SplashScreen');
@@ -45,10 +45,9 @@ var ProdAttributeStore = require('../Stores/ProdAttributeStore');
 var TablesStore = require('../Stores/TablesStore');
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 
-var okayImage = require('image!icn_tick');
-var loadingImage = require('image!icn_sync');
+var okayImage = require('../img/icn_tick.png');
+var loadingImage = require('../img/icn_sync.png');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-
 var CodePush = require("react-native-code-push");
 
 var routeSetting = {
