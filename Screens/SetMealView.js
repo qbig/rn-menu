@@ -77,7 +77,7 @@ var ModifierSectionHeader = React.createClass({
           <View style={styles.separator} />
         </View>
         <View style={styles.columnContainer2}>
-          <Text style={styles.marronHeader}> {this.props.name} </Text>
+          <Text style={styles.marronHeader} numberOfLines={2} > {this.props.name} </Text>
         </View>
         <View style={styles.columnContainer1}>
           <View style={styles.separator} />
@@ -438,7 +438,7 @@ var styles = StyleSheet.create({
   },
   emptyText: {
     fontFamily: 'AvenirNext-Medium',
-    fontSize: 23,
+    fontSize: 15,
     alignItems: 'center',
     color: '#891F02',
   },
@@ -588,9 +588,9 @@ var styles = StyleSheet.create({
   },
 
   marronHeader: {
-
+    width:150,
     fontFamily: 'AvenirNext-Regular',
-    fontSize:16,
+    fontSize:10,
     textAlign:'center',
     color: '#891F02',
   },
