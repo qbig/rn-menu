@@ -426,19 +426,20 @@ var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:10,
-    height: 35,
+    paddingLeft: 0,
+    marginLeft:0,
+    height: 18,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 15,
-    paddingLeft: 2,
-    height: 20,
+    fontSize: 13,
+    paddingLeft: 0,
+    marginLeft:0,
+    height: 18,
     color: '#8D383D',
-    marginLeft:2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -566,41 +567,6 @@ var styles = StyleSheet.create({
     alignItems: 'flex-end',
     backgroundColor: 'black',
   },
-  statusBar: {
-    flex: 0,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-    flexDirection: 'row',
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-
-  statusBarTextLeft: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'center',
-    color: 'white',
-    paddingLeft: 15,
-  },
-
-  statusBarTextRight: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'flex-end',
-    color: 'white',
-    paddingRight: 4,
-    textAlign: 'right',
-  },
-  icon: {
-    width: 15,
-    height: 15,
-    marginRight: 10,
-  },
-
   navBar: {
     width:screen.width,
     height: 35,
@@ -614,7 +580,7 @@ var styles = StyleSheet.create({
 
   navBarText: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 16,
+    fontSize: 14,
     alignItems: 'center',
     color: '#891F02',
   },
@@ -709,13 +675,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  backbutton: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-
-  },
   rowSepView: {
     height: 35,
     flexDirection: 'row',

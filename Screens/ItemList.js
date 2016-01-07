@@ -27,7 +27,7 @@ var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 var Toast = require('../Lib/Toast');
 
-var TITLE_LENGTH = 20;
+var TITLE_LENGTH = 13;
 
 function trimString(str, length) {
   return str.length > length ?
@@ -208,19 +208,20 @@ var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:10,
-    height: 35,
+    marginLeft:0,
+    paddingLeft:0,
+    height: 18,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 15,
-    paddingLeft: 2,
-    height: 20,
+    fontSize: 13,
+    paddingLeft: 0,
+    marginLeft:0,
+    height: 18,
     color: '#8D383D',
-    marginLeft:2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -303,7 +304,7 @@ var styles = StyleSheet.create({
 
   navBarText: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 16,
+    fontSize: 14,
     alignItems: 'center',
     color: '#891F02',
   },

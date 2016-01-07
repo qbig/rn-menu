@@ -217,14 +217,14 @@ var Root = React.createClass({
 
   _modalComponent: function() {
     return (
-      <View activeOpacity={0.8} style={styles.modal}>
+      <View visible={this.state.modalVisible} activeOpacity={0.8} style={styles.modal}>
         <View style={styles.modalsContainer}>
           <Animated.Image
             activeOpacity={0.8}
             source={loadingImage}
             style={{
-              width:80,
-              height:80,
+              width:60,
+              height:60,
               resizeMode: 'contain',
               backgroundColor: 'transparent',
               transform: [

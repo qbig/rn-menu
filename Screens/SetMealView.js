@@ -33,7 +33,7 @@ if (Platform.OS === 'android') {
 }
 var Toast = require("../Lib/Toast");
 
-var TITLE_LENGTH = 20;
+var TITLE_LENGTH = 13;
 var BACK_TEXT_LENGTH = 10;
 function trimString(str, length) {
   return str.length > length ?
@@ -401,10 +401,10 @@ var SetMealView = React.createClass({
               </View>
             </TouchableHighlight>
           </View>
-          <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
+          <View style={{flexDirection: 'column',  flex:2, justifyContent: 'center', alignItems: 'center',}}>
             <Text style={styles.navBarText}> {trimString(this.props.data.name,TITLE_LENGTH)} </Text>
           </View>
-          <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'flex-start',}}></View>
+          <View style={{flexDirection: 'column',  flex:0.5, justifyContent: 'center', alignItems: 'flex-start',}}></View>
         </View>
         <View style={styles.separator} />
 
@@ -427,7 +427,7 @@ var SetMealView = React.createClass({
           </ScrollView>
           {this._renderModal()}
         </View>
-        
+
         {this._renderActionButton()}
       </View>
     );
@@ -458,19 +458,20 @@ var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:10,
-    height: 35,
+    marginLeft:0,
+    paddingLeft:0,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 15,
-    paddingLeft: 2,
+    fontSize: 13,
+    marginLeft:0,
+    paddingLeft:0,
     height: 20,
     color: '#8D383D',
-    marginLeft:2,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -538,41 +539,6 @@ var styles = StyleSheet.create({
     paddingBottom: 0,
     paddingLeft: 0,
     marginBottom:0
-  },
-
-  statusBar: {
-    flex : 0,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-    flexDirection: 'row',
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-
-  statusBarTextLeft: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'center',
-    color: 'white',
-    paddingLeft: 15,
-  },
-
-  statusBarTextRight: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'flex-end',
-    color: 'white',
-    paddingRight: 4,
-    textAlign: 'right',
-  },
-  icon: {
-    width: 15,
-    height: 15,
-    marginRight : 10,
   },
 
   navBar: {
