@@ -220,7 +220,7 @@ var SetMealView = React.createClass({
   _renderModal: function() {
     var okBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>No</Text>: null;
     var cancelBtn = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Yes, discard</Text>: null;
-    var textMessage = <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>//this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>  : null;
+    var textMessage = this.state.isAlertVisibale ? <Text style={styles.alertTextVisible}>Are you sure you want to discard? The item will not be saved to your order.</Text>:null;
       return (
         <View style={this.state.isAlertVisibale ? styles.overlayVisible : styles.overlayInVisible} >
           <View  style={this.state.isAlertVisibale ? styles.alertBodyVisible : styles.alertBodyInVisible}>
@@ -358,7 +358,7 @@ var SetMealView = React.createClass({
         <View style={styles.columnSep}/>
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemDecrement()}}>
           <View style={styles.column2}>
-            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_less.png')} />
+            <Image style={{ resizeMode:Image.resizeMode.contain, width:12, height:12}} source={require('../img/btn_qty_less.png')} />
           </View>
         </TouchableHighlight>
 
@@ -370,7 +370,7 @@ var SetMealView = React.createClass({
         <View style={styles.columnSep}/>
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemIncrement()}}>
           <View style={styles.column4}>
-            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_more.png')} />
+            <Image style={{ resizeMode:Image.resizeMode.contain, width:12, height:12}} source={require('../img/btn_qty_more.png')} />
           </View>
         </TouchableHighlight>
 
@@ -391,6 +391,7 @@ var SetMealView = React.createClass({
     return (
       <View style={styles.container}>
         <StatusBar />
+
         <View style={styles.navBar}>
           <View style={{flexDirection: 'column', flex:1, left:10, justifyContent: 'center', alignItems: 'flex-start',}}>
             <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={this.btnBackPressed}>
@@ -426,6 +427,7 @@ var SetMealView = React.createClass({
           </ScrollView>
           {this._renderModal()}
         </View>
+        
         {this._renderActionButton()}
       </View>
     );
@@ -474,8 +476,8 @@ var styles = StyleSheet.create({
   },
 
   thumb1: {
-    width: 150,
-    height: 150,
+    width: 85,
+    height: 85,
     resizeMode:Image.resizeMode.ratio,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -483,8 +485,8 @@ var styles = StyleSheet.create({
   },
 
   overlay: {
-    width:120,
-    height:120,
+    width:85,
+    height:85,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -493,20 +495,21 @@ var styles = StyleSheet.create({
   textPrice: {
     fontFamily: 'AvenirNext-Medium',
     textAlign:'center',
-    fontSize:16,
-    width:120,
+    fontSize:10,
+    width:80,
   },
 
   textPriceWhite: {
     fontFamily: 'AvenirNext-Medium',
     textAlign:'center',
-    fontSize:16,
-    width:120,
+    fontSize:10,
+    width:80,
     color: '#FEFAF0',
   },
 
   container: {
-    flex: 1,
+    width:screen.width,
+    height:screen.height-95,
     backgroundColor: '#FFFAF0',
   },
   scrollView: { height:(screen.height*69)/100, top:0},
@@ -527,13 +530,14 @@ var styles = StyleSheet.create({
   },
 
   footer: {
-    height: 60,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#891F02',
     flexDirection: 'row',
     paddingBottom: 0,
-    paddingLeft: 0
+    paddingLeft: 0,
+    marginBottom:0
   },
 
   statusBar: {
@@ -592,15 +596,14 @@ var styles = StyleSheet.create({
   blackText: {
 
     fontFamily: 'AvenirNext-Regular',
-    fontSize:16,
+    fontSize:12,
     textAlign:'center',
     color: 'black',
   },
 
   blackTextBold: {
-
     fontFamily: 'AvenirNext-Regular',
-    fontSize:20,
+    fontSize:15,
     textAlign:'center',
     color: 'black',
   },
@@ -741,7 +744,7 @@ var styles = StyleSheet.create({
   },
   columnSep:{
     flex:0.02,
-    height:60,
+    height:35,
     width:2,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -783,7 +786,7 @@ var styles = StyleSheet.create({
 
   quantityAndPriceRow: {
     flex:1,
-    height:60,
+    height:35,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -811,10 +814,10 @@ var styles = StyleSheet.create({
   },
 
   option: {
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 15,
-    marginBottom: 15
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 3,
+    marginBottom: 3
   },
 
   optionsHeader: {
@@ -854,7 +857,7 @@ var styles = StyleSheet.create({
   },
   footerText: {
     fontFamily: 'AvenirNext-DemiBold',
-    fontSize:23,
+    fontSize:15,
     alignItems: 'center',
     color: 'white',
     textAlign :'center',

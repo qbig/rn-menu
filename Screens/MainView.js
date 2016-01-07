@@ -100,10 +100,8 @@ var MainView = React.createClass({
                 <Text style={styles.topGoToOrderText}>{'ORDER LIST'}</Text>
               </TouchableHighlight>
            </View>
-
            <View style={styles.separator} />
 
-           <View style={styles.container}>
              {this.state.isLoading ?
                <View style={styles.emptyViewContainer}>
                  <Text style={styles.emptyText}>Loading ...</Text>
@@ -131,7 +129,7 @@ var MainView = React.createClass({
                     }
                   </View>
                </ScrollView>}
-            </View>
+
             {this._renderViewOrderButton()}
         </View>);
     },
@@ -151,7 +149,7 @@ var styles = StyleSheet.create({
   },
 
   scrollView: {
-    height: screen.height-50,
+    height: screen.height,
     top: 0,
   },
 
@@ -257,6 +255,7 @@ var styles = StyleSheet.create({
   },
   container: {
     width:screen.width,
+    height:screen.height,
     backgroundColor: '#FFFAF0',
   },
   itemsContainer : {
@@ -275,17 +274,20 @@ var styles = StyleSheet.create({
   },
 
   footer: {
-    height: 60,
+    height: 40,
+    width:screen.width,
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'flex-end',
     backgroundColor: '#891F02',
     flexDirection: 'row',
     paddingBottom: 0,
-    paddingLeft: 0
+    paddingLeft: 0,
+    marginBottom:0
   },
   footerText: {
     fontFamily: 'AvenirNext-DemiBold',
-    fontSize: 23,
+    fontSize: 15,
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',

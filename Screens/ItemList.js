@@ -92,13 +92,17 @@ var ItemList = React.createClass({
   },
 
   _renderViewOrderButton : function () {
+    console.log("ItemList:_renderViewOrderButton")
     var count = OrdersStore.getUnsentOrderCount();
     var sum = OrdersStore.getUnsentOrderSum();
+    console.log("count :" + count )
+    console.log("sum :" + sum )
     if (count > 0) {
+      console.log("render! ")
       return (
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}  onPress={this._onViewOrderPress}>
            <View style={styles.footer}>
-                <Text style={styles.footerText}>查看订单 VIEW ORDER - {count} ITEM (${sum}) </Text>
+              <Text style={styles.footerText}>查看订单 VIEW ORDER - {count} ITEM (${sum}) </Text>
            </View>
          </TouchableHighlight>
       );
@@ -148,6 +152,7 @@ var ItemList = React.createClass({
     return (
       <View style = {styles.container}>
         <StatusBar />
+
         <View style = {styles.navBar}>
           <View style = {{flexDirection: 'column', flex: 1, left: 10, justifyContent: 'center', alignItems: 'flex-start',}}>
             <TouchableHighlight activeOpacity = {0.8}
@@ -169,15 +174,19 @@ var ItemList = React.createClass({
           </TouchableHighlight>
         </View>
         <View style = {styles.separator}/>
+
         {this.state.dataSource ?
-        <View style = {styles.listview}>
-          <ListView
+          <View style = {styles.listview}>
+            <ListView
               dataSource = {this.state.dataSource}
               renderRow = {this._renderRow}
               showsVerticalScrollIndicator={false}/>
-          </View> : <View style={styles.emptyViewContainer}>
+          </View>
+          :
+          <View style={styles.emptyViewContainer}>
             <Text style={styles.emptyText}>Loading ...</Text>
           </View>}
+
         {this._renderViewOrderButton()}
       </View>
     );
@@ -186,8 +195,7 @@ var ItemList = React.createClass({
 
 var styles = StyleSheet.create({
   emptyViewContainer: {
-    width:screen.width,
-    height:screen.height,
+    flex:10,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -218,12 +226,15 @@ var styles = StyleSheet.create({
   },
 
   listview: {
+    top: 0,
     width:screen.width,
-    height: screen.height-50
+    height: screen.height-95,
   },
 
   container: {
+    top: 0,
     width:screen.width,
+    height:screen.height,
     backgroundColor: '#FFFAF0',
   },
 
@@ -251,13 +262,15 @@ var styles = StyleSheet.create({
   },
 
   footer: {
-    height: 60,
+    height: 40,
+    width:screen.width,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#891F02',
     flexDirection: 'row',
     paddingBottom: 0,
-    paddingLeft: 0
+    paddingLeft: 0,
+    marginBottom:0
   },
 
   column: {
@@ -406,7 +419,7 @@ var styles = StyleSheet.create({
 
   footerText: {
     fontFamily: 'AvenirNext-DemiBold',
-    fontSize: 23,
+    fontSize: 15,
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',
