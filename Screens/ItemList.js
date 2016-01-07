@@ -176,7 +176,7 @@ var ItemList = React.createClass({
         <View style = {styles.separator}/>
 
         {this.state.dataSource ?
-          <View style = {styles.listview}>
+          <View style = {[styles.listview, {height: screen.height-(OrdersStore.getUnsentOrderCount() > 0 ? 95: 45)}]}>
             <ListView
               dataSource = {this.state.dataSource}
               renderRow = {this._renderRow}
@@ -228,7 +228,6 @@ var styles = StyleSheet.create({
   listview: {
     top: 0,
     width:screen.width,
-    height: screen.height-95,
   },
 
   container: {
