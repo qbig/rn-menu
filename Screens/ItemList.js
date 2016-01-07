@@ -291,42 +291,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#8D383D'
   },
 
-  statusBar: {
-    flex: 0,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-    flexDirection: 'row',
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-
-  statusBarTextLeft: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'center',
-    color: 'white',
-    paddingLeft: 15,
-  },
-
-  statusBarTextRight: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'flex-end',
-    color: 'white',
-    paddingRight: 4,
-    textAlign: 'right',
-  },
-
-  icon: {
-    width: 15,
-    height: 15,
-    marginRight: 10,
-  },
-
   navBar: {
     width:screen.width,
     height: 35,
@@ -423,7 +387,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',
-
   },
 
 });

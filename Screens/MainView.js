@@ -191,31 +191,6 @@ var styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  statusBarTextLeft: {
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'center',
-    color: 'white',
-    paddingLeft: 15,
-  },
-
-  statusBarTextRight: {
-    fontFamily: 'AvenirNextLTPro-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'flex-end',
-    color: 'white',
-    paddingRight: 4,
-    textAlign: 'right',
-  },
-
-  icon: {
-    width: 15,
-    height: 15,
-    marginRight: 10,
-  },
-
   thumb: {
     width: screen.width / 2,
     height: screen.height / 4,

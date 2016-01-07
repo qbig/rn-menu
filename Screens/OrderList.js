@@ -215,7 +215,7 @@ var OrderList = React.createClass({
 
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleDecrement(rowID, rowData)}}>
                 <View style={styles.column2}>
-                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_less.png')} />
+                  <Image style={{ resizeMode:Image.resizeMode.contain, width:12, height:12}} source={require('../img/btn_qty_less.png')} />
                 </View>
               </TouchableHighlight>
               <View style={styles.columnSep}/>
@@ -225,7 +225,7 @@ var OrderList = React.createClass({
               <View style={styles.columnSep}/>
               <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={[styles.column2, !this.state.viewOrder&&{opacity: 0}]} onPress={()=>{this.handleIncrement(rowID)}}>
                 <View style={styles.column2}>
-                  <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('../img/btn_qty_more.png')} />
+                  <Image style={{ resizeMode:Image.resizeMode.contain, width:12, height:12}} source={require('../img/btn_qty_more.png')} />
                 </View>
               </TouchableHighlight>
               <View style={styles.columnSep}/>
@@ -344,17 +344,17 @@ var OrderList = React.createClass({
                 </View>
               </TouchableHighlight>
             </View>
-            <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}}>
+            <View style={{flex:1, justifyContent: 'center', alignItems: 'center',}}>
               <Text style={styles.navBarText}>{this.state.viewOrder ? '订单 ORDER LIST' : '总计 TOTAL BILL'} </Text>
             </View>
-            <View style={{flexDirection: 'column',  flex:1, justifyContent: 'center', alignItems: 'center',}} >
+            <View style={{flex:1, justifyContent: 'center', alignItems: 'center',}} >
               <TouchableHighlight  activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
                 style={styles.toggleBtn} onPress={this.togglePressed}>
                 <Text style={styles.toggleBtnText}>{this.state.viewOrder ? 'VIEW BILL' : 'VIEW ORDER'}</Text>
               </TouchableHighlight>
               {(this.state.orders.sentItems.length > 0 && this.state.viewOrder) ?
                 <Image style={styles.badge} source={require('../img/badge_bill.png')}>
-                  <Text style={{color: 'white'}}>{OrdersStore.getOrderCount()}</Text>
+                  <Text style={{color: 'white', backgroundColor:'transparent', fontSize:8}}>{OrdersStore.getOrderCount()}</Text>
                 </Image> : null
               }
             </View>
@@ -396,20 +396,19 @@ var OrderList = React.createClass({
 var styles = StyleSheet.create({
   badge: {
     position: 'absolute',
-    width: 25,
-    height: 25,
-    top: 7,
-    right: 38,
+    width: 15,
+    height: 15,
+    top: 0,
+    right: 19,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
   },
 
   toggleBtn: {
-    margin: 10,
     marginRight:0,
-    width:90,
-    height:45,
+    width:60,
+    height:30,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -420,23 +419,28 @@ var styles = StyleSheet.create({
   },
   toggleBtnText: {
     color: '#8D383D',
-    width: 50,
+    width: 40,
     textAlign: 'center',
+    fontSize:10
   },
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:20,
-    height: 60,
+    marginLeft:10,
+    height: 35,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    paddingLeft: 10,
-    height: 25,
+    fontSize: 15,
+    paddingLeft: 2,
+    height: 20,
     color: '#8D383D',
-    marginLeft:8
+    marginLeft:2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   listView: {
@@ -462,7 +466,7 @@ var styles = StyleSheet.create({
   },
   emptyText: {
     fontFamily: 'AvenirNext-Medium',
-    fontSize: 23,
+    fontSize: 18,
     alignItems: 'center',
     color: '#891F02',
   },
@@ -484,7 +488,8 @@ var styles = StyleSheet.create({
   },
 
   container: {
-    flex: 1,
+    width:screen.width,
+    height:screen.height,
     backgroundColor: '#FFFAF0',
   },
   thumb: {
@@ -494,7 +499,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    height: 60,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#891F02',
@@ -504,7 +509,7 @@ var styles = StyleSheet.create({
   },
   footerText: {
     fontFamily: 'AvenirNext-DemiBold',
-    fontSize: 23,
+    fontSize: 15,
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',
@@ -597,7 +602,8 @@ var styles = StyleSheet.create({
   },
 
   navBar: {
-    height: 60,
+    width:screen.width,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F2EDE4',
@@ -608,7 +614,7 @@ var styles = StyleSheet.create({
 
   navBarText: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 23,
+    fontSize: 16,
     alignItems: 'center',
     color: '#891F02',
   },
@@ -636,22 +642,22 @@ var styles = StyleSheet.create({
   },
   itemName: {
     flex: 1,
-    fontSize: 24,
+    fontSize: 15,
     paddingLeft: 10,
-    marginLeft: 40,
-    marginTop: 15,
+    marginLeft: 10,
+    marginTop: 10,
     alignItems: 'center',
     color: '#802628'
   },
   itemDesc: {
     fontFamily: 'AvenirNext-Regular',
     flex: 1,
-    fontSize: 16,
+    fontSize: 10,
     paddingLeft: 10,
-    marginLeft: 40,
-    marginTop: 15,
-    marginBottom: 25,
-    lineHeight: 25
+    marginLeft: 15,
+    marginTop: 5,
+    marginBottom: 15,
+    lineHeight: 15
   },
   textAmountTotal: {
     fontFamily: 'AvenirNext-Regular',
@@ -711,7 +717,7 @@ var styles = StyleSheet.create({
 
   },
   rowSepView: {
-    height: 60,
+    height: 35,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -721,7 +727,7 @@ var styles = StyleSheet.create({
 
   column1: {
     flex: 2.5,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -729,7 +735,7 @@ var styles = StyleSheet.create({
 
   column2: {
     flex: 1,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -737,7 +743,7 @@ var styles = StyleSheet.create({
 
   column3: {
     flex: 1,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -745,7 +751,7 @@ var styles = StyleSheet.create({
 
   column4: {
     flex: 1,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -753,7 +759,7 @@ var styles = StyleSheet.create({
 
   column5: {
     flex: 1.8,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -761,7 +767,7 @@ var styles = StyleSheet.create({
 
   column6: {
     flex: 2.5,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -770,21 +776,21 @@ var styles = StyleSheet.create({
 
   blackText: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 16,
+    fontSize: 12,
     textAlign: 'center',
     color: 'black',
   },
 
   blackTextBold: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 24,
+    fontSize: 15,
     textAlign: 'center',
     color: 'black',
   },
 
   columnSep: {
     flex: 0.02,
-    height: 60,
+    height: 35,
     width: 1,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -794,7 +800,7 @@ var styles = StyleSheet.create({
 
   totalColumn1: {
     flex: 3.0,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -803,7 +809,7 @@ var styles = StyleSheet.create({
 
   totalColumn2: {
     flex: 1,
-    height: 60,
+    height: 35,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -812,7 +818,7 @@ var styles = StyleSheet.create({
 
   redText: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 24,
+    fontSize: 17,
     textAlign: 'center',
     color: '#8D383D',
   },
