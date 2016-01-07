@@ -28,9 +28,7 @@ var screen = require('Dimensions').get('window');
 var OrdersStore = require('../Stores/OrdersStore');
 var OrderActions = require('../Actions/OrderActions');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-if (Platform.OS === 'android') {
-  var RCTUIManager = require('NativeModules').UIManager;
-}
+var RCTUIManager = require('NativeModules').UIManager;
 var Toast = require("../Lib/Toast");
 
 var TITLE_LENGTH = 13;
@@ -145,7 +143,6 @@ var SetMealView = React.createClass({
 
   componentDidUpdate: function(prevProps, prevState){
     if (prevState.isLoading == true && this.state.isLoading == false) {
-      if (Platform.OS === 'android') {
         const handleSep = React.findNodeHandle(this._sep);
         RCTUIManager.measureLayoutRelativeToParent(
           handleSep,
@@ -165,7 +162,6 @@ var SetMealView = React.createClass({
             }
           }
         );
-      }
     }
   },
 
