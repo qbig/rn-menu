@@ -151,7 +151,7 @@ var styles = StyleSheet.create({
   },
 
   scrollView: {
-    height: (screen.height * 69) / 100,
+    height: screen.height-50,
     top: 0,
   },
 
@@ -182,14 +182,14 @@ var styles = StyleSheet.create({
 
   overlay1: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
     width: screen.width / 2,
   },
 
   overlay1Text: {
     fontFamily: 'AvenirNextLTPro-Demi',
     fontSize: 16,
-    color: '#891F02',
+    color: '#89+1F02',
     fontWeight: '500',
   },
 
@@ -222,9 +222,9 @@ var styles = StyleSheet.create({
     width: screen.width / 2,
     height: screen.height / 4,
   },
-
   navBar: {
-    height: 60,
+    width:screen.width,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F2EDE4',
@@ -234,9 +234,8 @@ var styles = StyleSheet.create({
   },
 
   navBarText: {
-
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 23,
+    fontSize: 16,
     alignItems: 'center',
     color: '#891F02',
   },
@@ -244,7 +243,7 @@ var styles = StyleSheet.create({
     backgroundColor:'#891F02',
     right: 0,
     position: 'absolute',
-    height: 60,
+    height: 35,
     width: screen.width / 4,
     alignItems: 'center',
     justifyContent: 'center'
@@ -252,13 +251,12 @@ var styles = StyleSheet.create({
   topGoToOrderText: {
     fontFamily: 'AvenirNext-Medium',
     color:'#FFFAF0',
-    fontWeight: 'bold',
     textAlign: 'center',
-    width: 85,
-    fontSize: 15,
+    width: 50,
+    fontSize: 10,
   },
   container: {
-    flex: 1,
+    width:screen.width,
     backgroundColor: '#FFFAF0',
   },
   itemsContainer : {
@@ -294,7 +292,7 @@ var styles = StyleSheet.create({
   },
   groupNameText: {
     fontFamily: 'AvenirNext-Medium',
-    fontSize: 23,
+    fontSize: 16,
     alignItems: 'center',
     color: 'white',
     textAlign: 'center',

@@ -112,7 +112,7 @@ var Root = React.createClass({
       await StoreConfigService.getConfig();
       console.log("2")
       await TableService.initFromCache();
-      //SocketService.init();
+      SocketService.init();
       console.log("3")
       await AuthService.requestForToken();
       await this.delay(10);

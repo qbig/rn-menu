@@ -56,7 +56,7 @@ var StatusBar = React.createClass({
 var styles = StyleSheet.create({
   statusBar: {
     flex: 0,
-    height: 36,
+    height: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
@@ -67,17 +67,17 @@ var styles = StyleSheet.create({
 
   statusBarTextLeft: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 14,
+    fontSize: 10,
     color: 'white',
     paddingLeft: 15,
     marginLeft: 25,
-    height:24
+    height:15
   },
 
   statusBarTextRight: {
     fontFamily: 'AvenirNext-Regular',
     flex: 1,
-    fontSize: 14,
+    fontSize: 10,
     alignItems: 'flex-end',
     color: 'white',
     paddingRight: 4,
@@ -85,8 +85,8 @@ var styles = StyleSheet.create({
   },
 
   icon: {
-    width: 27,
-    height: 27,
+    width: 15,
+    height: 15,
     marginRight: 25,
   },
 

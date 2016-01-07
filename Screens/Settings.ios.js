@@ -1,7 +1,7 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+* Sample React Native App
+* https://github.com/facebook/react-native
+*/
 'use strict';
 
 var React = require('react-native');
@@ -32,8 +32,8 @@ var TITLE_LENGTH = 20;
 
 function trimString(str, length) {
   return str.length > length ?
-                      str.substring(0, length - 3) + "..." :
-                      str.substring(0, length);
+  str.substring(0, length - 3) + "..." :
+  str.substring(0, length);
 }
 
 var ds = new ListView.DataSource({
@@ -70,7 +70,7 @@ var Settings = React.createClass({
   _handleTableSelectedChange: function() {
     console.log('Settings _handleTableSelectedChange!')
     if (this.state.firstTime && ConfigStore.getState().tableId != -1) {
-        this.props.navigator.pop();
+      this.props.navigator.pop();
     }
 
     var tbInfo = TablesStore.getState().tableInfo;
@@ -126,7 +126,7 @@ var Settings = React.createClass({
       <View key={'section:' + sectionID} style={styles.section}>
         <Text style={styles.sectionText}>{this.state.table[sectionID].name}</Text>
       </View>
-      )
+    )
   },
 
   _renderRow: function(rowData: map, sectionID: number, rowID: number) {
@@ -149,10 +149,10 @@ var Settings = React.createClass({
     return (
       <View style = {styles.listview} >
         <ListView
-            dataSource = {this.state.dataSource}
-            renderRow = {this._renderRow}
-            renderSectionHeader = {this.renderSectionHeader}
-            showsVerticalScrollIndicator={false}/>
+          dataSource = {this.state.dataSource}
+          renderRow = {this._renderRow}
+          renderSectionHeader = {this.renderSectionHeader}
+          showsVerticalScrollIndicator={false}/>
       </View>
     );
   },
@@ -178,137 +178,105 @@ var Settings = React.createClass({
 
   _renderEmptyView() {
     console.log("Settings:_renderEmptyView")
-      return (
-        <View style={styles.emptyViewContainer}>
-          {ConfigStore.getState().password ? <TouchableHighlight style={styles.emptyBtn}
-            activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
-              this.setState({setTableView: true});
-            }}>
-            <Text style={styles.emptyText}>CHANGE TABLE</Text>
-          </TouchableHighlight> : null }
-          <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
-            underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
-              SystemActions.loadingStart();
-              StoreConfigService.discoverFromLocalWifi()
-              .then((configInfo)=>{
-                SystemActions.loadingFinish();
-                this.props.navigator.pop();
-                SystemActions.configInfoUpdate({
-                  host: configInfo['host'],
-                  guid: configInfo['guid'],
-                  username: configInfo['username'],
-                  password: configInfo['password'],
-                  description: configInfo['description']
-                })
-              }).catch((e)=>{
-                SystemActions.loadingFinish();
-                if (e === "NotFound") {
-                  Toast.show("No nearby host is found.", Toast.LONG);
-                }
-              }).finally(function () {
-                SystemActions.loadingFinish();
-              });
-            }}>
-            <Text style={styles.emptyText}>SEARCH NEARBY HOST</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
-            underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
-              this.props.navigator.pop();
-              SystemActions.configInfoUpdate({
-                host: "http://104.155.205.124", //"http://192.168.0.119"
-                guid: "abc",
-                username: "4021",
-                password: "4021",
-                description: "TEST"
-              });
-            }} >
-            <Text style={styles.emptyText}>YCY TEST HOST</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
-            underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
-              this.props.navigator.pop();
-              SystemActions.configInfoUpdate({
-                guid: this.state.deviceID
-              })
-            }} >
-            <Text style={styles.emptyText}>CONFIG</Text>
-          </TouchableHighlight>
-        </View>
-    );
-  },
-
-  render: function() {
-    var content;
-    if (!ConfigStore.getState().password) {
-      // no host set(therefore, no password)
-      content = this._renderEmptyView(); // without table options
-    } else if (this.state.setTableView || ConfigStore.getState().tableId == -1) {
-      // after 'change table selected, or no table set yet
-      content = this._renderTableList();
-    } else if (this.state.pin =='' || this.state.pin != ConfigStore.getState().password){
-      // has host&table set already, to change, show pin field
-      content = this._renderPinField();
-    }  else {
-      // has host&table set already, pin keyed in as well, show options
-      content = this._renderEmptyView(); // with table options
-    }
     return (
-      <View style = {{flex: 1,
-      backgroundColor: '#FFFAF0'
-    }}>
-        <StatusBar />
-        <View style = {{
-          width:screen.width,
-          height: 35,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#F2EDE4',
-          flexDirection: 'row',
-          paddingBottom: 0,
-          paddingLeft: 0
+      <View style={styles.emptyViewContainer}>
+        {ConfigStore.getState().password ? <TouchableHighlight style={styles.emptyBtn}
+        activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+          this.setState({setTableView: true});
         }}>
-          <View style = {{}}>
-            <TouchableHighlight activeOpacity = {0.8}
-              underlayColor = {'rgba(255,255,255,0.1)'}
-              onPress = {this._onBackToMainView} >
-              <View style = {{
-                flexDirection: 'row',
-                flex: 1,
-                marginLeft:10,
-                height: 35,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <Image source = {require('../img/btn_back.png')}/>
-                <Text style = {{
-                  fontFamily: 'AvenirNext-Regular',
-                  fontSize: 15,
-                  paddingLeft: 2,
-                  height: 20,
-                  color: '#8D383D',
-                  marginLeft:2,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}> Back </Text>
-              </View>
-            </TouchableHighlight>
-          </View>
-          <View style = {{flex: 2,justifyContent: 'center',alignItems: 'center',}} >
-            <Text style = {{
-              fontFamily: 'AvenirNext-Regular',
-              fontSize: 16,
-              alignItems: 'center',
-              color: '#891F02',
-            }} > Settings </Text>
-          </View>
-          <View style={{flex: 1, justifyContent: 'center', top: 10, alignItems: 'flex-start', }} >
-          </View>
-        </View>
-        <View style = {styles.separator}/>
-        {content}
-      </View>
-    );
+        <Text style={styles.emptyText}>CHANGE TABLE</Text>
+      </TouchableHighlight> : null }
+      <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
+        underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+          SystemActions.loadingStart();
+          StoreConfigService.discoverFromLocalWifi()
+          .then((configInfo)=>{
+            SystemActions.loadingFinish();
+            this.props.navigator.pop();
+            SystemActions.configInfoUpdate({
+              host: configInfo['host'],
+              guid: configInfo['guid'],
+              username: configInfo['username'],
+              password: configInfo['password'],
+              description: configInfo['description']
+            })
+          }).catch((e)=>{
+            SystemActions.loadingFinish();
+            if (e === "NotFound") {
+              Toast.show("No nearby host is found.", Toast.LONG);
+            }
+          }).finally(function () {
+            SystemActions.loadingFinish();
+          });
+        }}>
+        <Text style={styles.emptyText}>SEARCH NEARBY HOST</Text>
+      </TouchableHighlight>
+      <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
+        underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+          this.props.navigator.pop();
+          SystemActions.configInfoUpdate({
+            host: "http://104.155.205.124", //"http://192.168.0.119"
+            guid: "abc",
+            username: "4021",
+            password: "4021",
+            description: "TEST"
+          });
+        }} >
+        <Text style={styles.emptyText}>YCY TEST HOST</Text>
+      </TouchableHighlight>
+      <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
+        underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+          this.props.navigator.pop();
+          SystemActions.configInfoUpdate({
+            guid: this.state.deviceID
+          })
+        }} >
+        <Text style={styles.emptyText}>CONFIG</Text>
+      </TouchableHighlight>
+    </View>
+  );
+},
+
+render: function() {
+  var content;
+  if (!ConfigStore.getState().password) {
+    // no host set(therefore, no password)
+    content = this._renderEmptyView(); // without table options
+  } else if (this.state.setTableView || ConfigStore.getState().tableId == -1) {
+    // after 'change table selected, or no table set yet
+    content = this._renderTableList();
+  } else if (this.state.pin =='' || this.state.pin != ConfigStore.getState().password){
+    // has host&table set already, to change, show pin field
+    content = this._renderPinField();
+  }  else {
+    // has host&table set already, pin keyed in as well, show options
+    content = this._renderEmptyView(); // with table options
   }
+  return (
+    <View style = {styles.container}>
+      <StatusBar />
+      <View style = {styles.navBar}>
+        <View style = {{}}>
+          <TouchableHighlight activeOpacity = {0.8}
+            underlayColor = {'rgba(255,255,255,0.1)'}
+            onPress = {this._onBackToMainView} >
+            <View style = {styles.backButtonContainer}>
+              <Image source = {require('../img/btn_back.png')}/>
+              <Text style = {styles.backButton}> Back </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+        <View style = {{flex: 2,justifyContent: 'center',alignItems: 'center',}} >
+          <Text style = {styles.navBarText} > Settings </Text>
+        </View>
+        <View style={{flex: 1, justifyContent: 'center', top: 10, alignItems: 'flex-start', }} >
+        </View>
+      </View>
+      <View style = {styles.separator}/>
+      {content}
+    </View>
+  );
+}
 });
 
 var styles = StyleSheet.create({
@@ -344,17 +312,39 @@ var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:20,
-    height: 60,
+    marginLeft:10,
+    height: 35,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    paddingLeft: 10,
-    height: 25,
+    fontSize: 15,
+    paddingLeft: 2,
+    height: 20,
     color: '#8D383D',
-    marginLeft:8
+    marginLeft:2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  navBar: {
+    width:screen.width,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F2EDE4',
+    flexDirection: 'row',
+    paddingBottom: 0,
+    paddingLeft: 0
+  },
+
+  navBarText: {
+    fontFamily: 'AvenirNext-Regular',
+    fontSize: 16,
+    alignItems: 'center',
+    color: '#891F02',
   },
 
   overlay: {
@@ -374,43 +364,10 @@ var styles = StyleSheet.create({
     backgroundColor: '#FFFAF0',
   },
 
-  thumb1: {
-    top: 15,
-    right: 15,
-    width: 100,
-    height: 100,
-    alignItems: 'center',
-  },
-
-  thumb: {
-    width: 290,
-    height: 220,
-    paddingLeft: 10,
-    alignItems: 'center',
-  },
-
-  footer: {
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#891F02',
-    flexDirection: 'row',
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-
   column: {
     flex: 1,
     height: 55,
     flexDirection: 'row',
-  },
-
-  row: {
-    flex: 1,
-    height: 50,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingRight: 0,
   },
 
   separator: {
@@ -419,121 +376,21 @@ var styles = StyleSheet.create({
     backgroundColor: '#8D383D'
   },
 
-  statusBar: {
-    flex: 0,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-    flexDirection: 'row',
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-
-  statusBarTextLeft: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'center',
-    color: 'white',
-    paddingLeft: 15,
-  },
-
-  statusBarTextRight: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 14,
-    alignItems: 'flex-end',
-    color: 'white',
-    paddingRight: 4,
-    textAlign: 'right',
-  },
-
-section: {
-  width: screen.width,
-  height: 70,
-  backgroundColor: '#891F02',
-  borderTopWidth:1,
-  borderBottomWidth:1,
-  borderColor: 'white',
-  paddingLeft:20,
-  justifyContent: 'center'
-},
-
-sectionText: {
-  color: 'white',
-  fontFamily: 'AvenirNext-Medium',
-  fontSize: 26,
-},
-
-  icon: {
-    width: 15,
-    height: 15,
-    marginRight: 10,
-  },
-
-  navBar: {
-    height: 60,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F2EDE4',
-    flexDirection: 'row',
-    paddingBottom: 0,
-    paddingLeft: 0
-  },
-
-  navBarText: {
-    fontFamily: 'AvenirNext-Regular',
-    fontSize: 23,
-    alignItems: 'center',
-    color: '#891F02',
-  },
-
-  topGoToOrderBtn: {
-    backgroundColor:'#891F02',
-    right: 0,
-    position: 'absolute',
-    height: 60,
-    width: screen.width / 4,
-    alignItems: 'center',
+  section: {
+    width: screen.width,
+    height: 70,
+    backgroundColor: '#891F02',
+    borderTopWidth:1,
+    borderBottomWidth:1,
+    borderColor: 'white',
+    paddingLeft:20,
     justifyContent: 'center'
   },
 
-  topGoToOrderText: {
-    color:'#FFFAF0',
-    fontWeight: 'bold',
-    width: 60,
-    fontSize: 15,
-  },
-
-  blackText: {
-    fontSize: 16,
-    textAlign: 'center',
-    color: 'black',
-    fontWeight: '400',
-  },
-
-  menubutton: {
-    flex: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 0,
-    marginLeft: 0
-  },
-
-  headerImage: {
-    flex: 1,
-    alignSelf: 'auto',
-    alignItems: 'center',
-    flexDirection: 'column',
-    top: 30,
-  },
-
-  homebutton: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+  sectionText: {
+    color: 'white',
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 26,
   },
 
   text: {
@@ -546,32 +403,6 @@ sectionText: {
     color: '#802628',
     fontFamily: 'AvenirNext-Regular',
   },
-
-  textDesc: {
-    fontFamily: 'AvenirNext-Regular',
-    flex: 1,
-    fontSize: 17,
-    paddingLeft: 10,
-    marginLeft: 10,
-    marginTop: 5,
-    color: 'black',
-  },
-
-  textPrice: {
-    fontFamily: 'AvenirNext-Medium',
-    textAlign: 'center',
-    fontSize: 16,
-  },
-
-  footerText: {
-    fontFamily: 'AvenirNext-DemiBold',
-    fontSize: 23,
-    alignItems: 'center',
-    color: 'white',
-    textAlign: 'center',
-
-  },
-
 });
 
 module.exports = Settings;

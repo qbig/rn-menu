@@ -456,17 +456,21 @@ var styles = StyleSheet.create({
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:20,
-    height: 60,
+    marginLeft:10,
+    height: 35,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    paddingLeft: 10,
-    height: 25,
+    fontSize: 15,
+    paddingLeft: 2,
+    height: 20,
     color: '#8D383D',
-    marginLeft:8
+    marginLeft:2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   thumb1: {
@@ -568,7 +572,8 @@ var styles = StyleSheet.create({
   },
 
   navBar: {
-    height: 60,
+    width:screen.width,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F2EDE4',
@@ -578,9 +583,8 @@ var styles = StyleSheet.create({
   },
 
   navBarText: {
-
     fontFamily: 'AvenirNext-Regular',
-    fontSize:23,
+    fontSize: 16,
     alignItems: 'center',
     color: '#891F02',
   },

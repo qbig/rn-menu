@@ -113,34 +113,34 @@ var ItemList = React.createClass({
         onPress = {() => this._pressRow(rowData)}>
         <View style = {styles.column} >
           <View style = {styles.row}>
-            <View>
+            <View >
               <Image style ={styles.thumb}
-                  source = {rowData.images.length > 0 ? {uri:  rowData.images[0].url} : imgArr[0]}/>
+                source = {rowData.images.length > 0 ? {uri:  rowData.images[0].url} : imgArr[0]}/>
             </View>
-            <View style = {styles.column}>
-              <View style = {{width: screen.width - 420}} >
+            <View style = {styles.column} >
+              <View style = {{width: screen.width*1.3/4}} >
                 <Text style = {styles.text}> {rowData.name} </Text>
               </View>
               <View>
-                <View style = {{width: screen.width - 420}} >
+                <View style = {{width: screen.width/4}} >
                   <Text style = {styles.textDesc} numberOfLines = {7} > {rowData.description} </Text>
                 </View>
               </View>
-             </View>
-          <View>
-            <Image style = {styles.thumb1}
-              source = { require('../img/btn_option_unselected.png')}>
-              <View style = {styles.overlay} >
-                <Text style = {styles.textPrice} >
-                  {rowData.soldOut? 'SOLD \nOUT' : (rowData.price/ 100.0).toFixed(2)}
-                </Text>
-              </View>
-            </Image>
+            </View>
+            <View>
+              <Image style = {styles.thumb1}
+                source = { require('../img/btn_option_unselected.png')}>
+                <View style = {styles.overlay} >
+                  <Text style = {styles.textPrice} >
+                    {rowData.soldOut? 'SOLD \nOUT' : (rowData.price/ 100.0).toFixed(2)}
+                  </Text>
+                </View>
+              </Image>
+            </View>
           </View>
+          <View style = {styles.separator}/>
         </View>
-        <View style = {styles.separator}/>
-      </View>
-    </TouchableHighlight>
+      </TouchableHighlight>
     );
   },
 
@@ -186,7 +186,8 @@ var ItemList = React.createClass({
 
 var styles = StyleSheet.create({
   emptyViewContainer: {
-    flex:10,
+    width:screen.width,
+    height:screen.height,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -196,51 +197,55 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     color: '#891F02',
   },
-
   backButtonContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginLeft:20,
-    height: 60,
+    marginLeft:10,
+    height: 35,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 
   backButton: {
     fontFamily: 'AvenirNext-Regular',
-    paddingLeft: 10,
-    height: 25,
+    fontSize: 15,
+    paddingLeft: 2,
+    height: 20,
     color: '#8D383D',
-    marginLeft:8
+    marginLeft:2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  listview: {
+    width:screen.width,
+    height: screen.height-50
+  },
+
+  container: {
+    width:screen.width,
+    backgroundColor: '#FFFAF0',
   },
 
   overlay: {
     position: 'absolute',
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  listview: {
-    flex: 1,
-  },
-
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFAF0',
-  },
-
   thumb1: {
-    top: 15,
-    right: 15,
-    width: 100,
-    height: 100,
+    top: 10,
+    padding:2,
+    width: 50,
+    height: 50,
     alignItems: 'center',
   },
 
   thumb: {
-    width: 290,
-    height: 220,
+    width: screen.width / 2,
+    height: screen.height / 4,
     paddingLeft: 10,
     alignItems: 'center',
   },
@@ -256,14 +261,12 @@ var styles = StyleSheet.create({
   },
 
   column: {
-    flex: 1,
-    height: 220,
     flexDirection: 'column',
   },
 
   row: {
-    flex: 1,
-    height: 70,
+    width:screen.width,
+    height: screen.height / 4,
     flexDirection: 'row',
     alignItems: 'flex-start',
     paddingRight: 0,
@@ -312,7 +315,8 @@ var styles = StyleSheet.create({
   },
 
   navBar: {
-    height: 60,
+    width:screen.width,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F2EDE4',
@@ -323,27 +327,25 @@ var styles = StyleSheet.create({
 
   navBarText: {
     fontFamily: 'AvenirNext-Regular',
-    fontSize: 23,
+    fontSize: 16,
     alignItems: 'center',
     color: '#891F02',
   },
-
   topGoToOrderBtn: {
     backgroundColor:'#891F02',
     right: 0,
     position: 'absolute',
-    height: 60,
+    height: 35,
     width: screen.width / 4,
     alignItems: 'center',
     justifyContent: 'center'
   },
-
   topGoToOrderText: {
+    fontFamily: 'AvenirNext-Medium',
     color:'#FFFAF0',
-    fontWeight: 'bold',
-    width: 85,
     textAlign: 'center',
-    fontSize: 15,
+    width: 50,
+    fontSize: 10,
   },
 
   blackText: {
@@ -377,10 +379,10 @@ var styles = StyleSheet.create({
 
   text: {
     flex: 1,
-    fontSize: 24,
+    fontSize: 12,
     paddingLeft: 10,
-    marginLeft: 15,
-    marginTop: 20,
+    marginLeft: 5,
+    marginTop: 10,
     alignItems: 'center',
     color: '#802628'
   },
@@ -388,7 +390,7 @@ var styles = StyleSheet.create({
   textDesc: {
     fontFamily: 'AvenirNext-Regular',
     flex: 1,
-    fontSize: 14,
+    fontSize: 8,
     paddingLeft: 10,
     marginLeft: 10,
     marginTop: 5,
@@ -398,7 +400,8 @@ var styles = StyleSheet.create({
   textPrice: {
     fontFamily: 'AvenirNext-Medium',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 10,
+    color: 'darkgray'
   },
 
   footerText: {
