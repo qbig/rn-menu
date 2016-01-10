@@ -4,10 +4,10 @@ var Log = require('../Lib/Log')
 var StoreInfoService = (function() {
     return {
       requestForStoreInfo : function() {
-        getRequest('/storeinfo')
+        return getRequest('/storeinfo')
           .then(function(resJson) {
             SystemActions.storeInfoLoaded(resJson);
-            console.log("StoreInfoService :StoreInfoService: done !!!")
+            return resJson;
           }).catch(function(e){
             Log.logMessage(JSON.stringify(e));
             console.log(e);
