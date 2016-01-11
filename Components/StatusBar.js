@@ -29,7 +29,10 @@ var StatusBar = React.createClass({
   },
 
   _handleTableChange: function() {
-    this.setState({tableName: ConfigStore.getState().tableName})
+    this.setState({
+      tableName: ConfigStore.getState().tableName,
+      description: ConfigStore.getState().description
+    })
     console.log("_handleTableChange!!!!  : " + this.state.tableName);
     console.log(" ConfigStore.getState().tableId :" +  ConfigStore.getState().tableName)
   },
