@@ -20,7 +20,8 @@ var StatusBar = React.createClass({
     return {
       connected: EnvStore.getState().socketStatus === 'connected',
       tableName: ConfigStore.getState().tableName,
-      description: ConfigStore.getState().description
+      description: ConfigStore.getState().description,
+      release: ConfigStore.getState().release
     };
   },
 
@@ -49,7 +50,7 @@ var StatusBar = React.createClass({
         <TouchableHighlight style={{height:36,flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}} delayLongPress={4000} onLongPress={()=>{SystemActions.configStart()}}>
           <Text style={styles.statusBarTextLeft}>{this.state.tableName} </Text>
         </TouchableHighlight>
-        <Text style={styles.statusBarTextRight}>{this.state.description} {this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
+        <Text style={styles.statusBarTextRight}>{this.state.release} {this.state.description} {this.state.connected ? 'CONNECTED' : 'DISCONNECTED'}  </Text>
         <Image style={[styles.icon, !this.state.connected&&{opacity:0}]} source={require('image!icn_connected')} />
       </View> : null
     );

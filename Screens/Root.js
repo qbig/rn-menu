@@ -192,7 +192,8 @@ var Root = React.createClass({
   },
 
   componentDidMount: function() {
-    CodePush.sync();
+    CodePush.sync({ installMode: CodePush.InstallMode.ON_NEXT_RESUME })
+    
     this.listenTo(EnvStore, this.updateLoading);
     this.listenTo(EnvStore, this.startConfigFlow);
     // only now the _nav ref is available
