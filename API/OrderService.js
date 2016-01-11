@@ -34,7 +34,7 @@ var OrderService = (function() {
     .then(function(resJson) {
       console.log(resJson)
       if (resJson['error']) {
-        Log.logStringValue("createNewEmptyOrder failed", resJson['error']);
+        Log.logStringValue("createNewEmptyOrder failed", JSON.stringify(resJson['error']));
         return requestForCurrentOrder();
       } else {
         OrderActions.orderCreated(resJson);
