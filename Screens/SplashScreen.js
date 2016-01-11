@@ -31,11 +31,22 @@ var screen = require('Dimensions').get('window');
 var StatusBar = require('../Components/StatusBar');
 
 var SplashScreen = React.createClass({
+  getInitialState: function() {
+    return {loading: false}
+  },
+
   _onViewPress: function() {
     if (ConfigStore.getState().tableId == -1) {
       SystemActions.configStart();
       return;
     }
+
+    if (this.state.loading) {
+      return;
+    } else {
+      this.setState({loading:true});
+    }
+
     SystemActions.loadingStart();
     AuthService.requestForToken()
     .then(()=>{
@@ -60,6 +71,7 @@ var SplashScreen = React.createClass({
     })
     .then(()=>{
       SystemActions.loadingFinish();
+      this.setState({loading:false});
       this.props.navigator.push({
         'title': 'MainView',
         'from':'',
@@ -69,8 +81,10 @@ var SplashScreen = React.createClass({
       console.log('SplashScreen Error')
       console.log(err)
       SystemActions.loadingFinish();
+      this.setState({loading:false});
     }).finally(function () {
       SystemActions.loadingFinish();
+      this.setState({loading:false});
     });
   },
 

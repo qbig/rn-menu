@@ -48,6 +48,7 @@ var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var okayImage = require('image!icn_tick');
 var loadingImage = require('image!icn_sync');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+var TimerMixin = require('react-timer-mixin');
 
 var CodePush = require("react-native-code-push");
 
@@ -60,24 +61,27 @@ import Portal from 'react-native/Libraries/Portal/Portal';
 var tag = Portal.allocateTag();
 
 var Root = React.createClass({
-  mixins: [ListenerMixin,],
+  mixins: [ListenerMixin,TimerMixin],
   getInitialState: function() {
       return {
         ang: new Animated.Value(0),
         status: "  LOADING . . .",
-        initializing: false,
-        initialized: false
+        dataInitializing: false,
+        dataInitialized: false,
+        isAnimating: false
       };
   },
 
   showLoading : function () {
-    setTimeout(()=> {
+    this.setTimeout(()=> {
       Portal.showModal(tag, this._modalComponent());
       this._animate();
+      this.setState({isAnimating: true});
     }, 0);
   },
   closeLoading : function() {
     Portal.closeModal(tag);
+    this.setState({isAnimating: false});
   },
 
   _animate : function () {
@@ -97,7 +101,7 @@ var Root = React.createClass({
 
   delay : function(miliSec) {
     return new Promise(function(resolve, reject) {
-      setTimeout(resolve, miliSec);
+      this.setTimeout(resolve, miliSec);
     });
   },
 
@@ -127,7 +131,9 @@ var Root = React.createClass({
 
   updateLoading: function () {
     if (EnvStore.getState().isLoading) {
-      this.showLoading();
+      if (!this.state.isAnimating) {
+          this.showLoading();
+      }
     } else {
       this.closeLoading();
     }
@@ -152,19 +158,19 @@ var Root = React.createClass({
 
   initData: function() {
     console.log('initData!')
-    if (this.state.initializing) {
+    if (this.state.dataInitializing) {
       return;
     }
 
     if (EnvStore.getState().webToken == "" || EnvStore.getState().lastSync == ""){
-      this.setState({initializing:true})
+      this.setState({dataInitializing:true})
       this.showLoading();
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
         this.setState({
-          initializing:false,
-          initialized:true
+          dataInitializing:false,
+          dataInitialized:true
         })
         if (ConfigStore.getState().tableId == -1) {
           this._nav.push(routeSetting); // to choose a table
@@ -178,7 +184,7 @@ var Root = React.createClass({
         console.log(err)
         this.setState({
           status: "PLS TRY AGAIN...",
-          initializing:false
+          dataInitializing:false
         });
       }).then(()=>{
         return this.delay(2000)
@@ -193,7 +199,7 @@ var Root = React.createClass({
 
   componentDidMount: function() {
     CodePush.sync({ installMode: CodePush.InstallMode.ON_NEXT_RESUME })
-    
+
     this.listenTo(EnvStore, this.updateLoading);
     this.listenTo(EnvStore, this.startConfigFlow);
     // only now the _nav ref is available

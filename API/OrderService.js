@@ -12,8 +12,9 @@ var OrderService = (function() {
     return TableService.requestForTables()
     .then(()=>{
       var currentOrderId = TablesStore.getCurrentOrderID();
-      console.log("about to fetch existing order : " + currentOrderId)
-      Log.logMessage("about to fetch existing order : " + currentOrderId)
+      var log = "about to fetch existing order : " + currentOrderId;
+      console.log(log);
+      Log.logMessage(log);
       if (currentOrderId == undefined || currentOrderId == -1) {
         return Promise.reject("Unaware of uuid of existing order");
       }
@@ -30,6 +31,7 @@ var OrderService = (function() {
   }
 
   function createNewEmptyOrder () {
+    Log.logMessage("createNewEmptyOrder: tableName " + ConfigStore.getState().tableName);
     return getRequest(ORDER_URI, 'POST', {"pax":1, "type": "eat-in", "table_id":ConfigStore.getState().tableId})
     .then(function(resJson) {
       console.log(resJson)
@@ -38,7 +40,9 @@ var OrderService = (function() {
         return requestForCurrentOrder();
       } else {
         OrderActions.orderCreated(resJson);
-        console.log("OrderService: createNewOrder done !!!")
+        var log = "OrderService: createNewOrder done !!!";
+        console.log(log)
+        Log.logMessage(log);
         return Promise.resolve(resJson);
       }
     }).catch(function(e){
