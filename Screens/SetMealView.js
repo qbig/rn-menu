@@ -275,9 +275,6 @@ var SetMealView = React.createClass({
 
   _renderRadios: function(radioMods) {
     var self = this;
-    console.log("radioMods!!!!!!!!!!!!!!!!")
-    console.log(radioMods.length)
-    console.log(radioMods)
     return radioMods.map(function(mod, index){
       return (
       <View
@@ -299,13 +296,6 @@ var SetMealView = React.createClass({
                 onSelect={(sectionIndex, name)=>{
                   self._handleRadioSelect(sectionIndex, name);
                   if (sectionIndex + 1 < self._headers.length){
-                    console.log("self._headers.length:" )
-                    console.log(self._headers.length)
-                    console.log("sectionIndex + 1:" + (sectionIndex+1))
-                    for(var i = 0; i < self._headers.length;i ++){
-                      console.log(i, self._headers[i])
-                    }
-
                     self._scrollView.scrollTo(self._headers[sectionIndex+1]._myPos);
                   }
                 }} />
