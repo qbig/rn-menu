@@ -279,7 +279,7 @@ var SetMealView = React.createClass({
     return radioMods.map(function(mod, index){
       return (
       <View
-        key={mod.data.name}
+        key={mod.data.name + index}
         ref={(header)=>{
           if (!self._headers){
             self._headers = []
