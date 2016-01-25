@@ -243,9 +243,12 @@ var OrderList = React.createClass({
         </TouchableHighlight>
       );
     } else {
+      var serviceCharge = Number(storeInfo.service_charge * OrdersStore.getOrderSum()/100.0).toFixed(2);
+      var gst = Number(storeInfo.tax * (storeInfo.service_charge+100) * OrdersStore.getOrderSum()/10000.0).toFixed(2);
       var sumRaw = (storeInfo.tax+100) * (storeInfo.service_charge+100) * OrdersStore.getOrderSum();
       sumRaw = sumRaw - (sumRaw % 500); // round down to 5 cent
       var sum = Number(sumRaw/10000.0).toFixed(2)
+
       return (
         <View>
           <View style={styles.column}>
@@ -261,11 +264,11 @@ var OrderList = React.createClass({
                 </View>
                 <View  style={styles.rowWithOp}>
                   <Text style={styles.textTotalLabel}>SERVICE CHARGE:</Text>
-                  <Text style={styles.textTotalValue}>{Number(storeInfo.service_charge * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+                  <Text style={styles.textTotalValue}>{serviceCharge}</Text>
                 </View>
                 <View  style={styles.rowWithOp}>
                   <Text style={styles.textTotalLabel}>GST:</Text>
-                  <Text style={styles.textTotalValue}>{Number(storeInfo.tax * OrdersStore.getOrderSum()/100.0).toFixed(2)}</Text>
+                  <Text style={styles.textTotalValue}>{gst}</Text>
                 </View>
               </View>
             </View>
