@@ -8,6 +8,7 @@ class OrderActions {
       'orderClosed',
       'orderCreated',
       'orderUpdated',
+      'orderFailed',
       'orderItemTapped', // user 'select' in the menu list
       'orderItemStarted', // added to store, and start 'creating'
       'orderItemCreated', // done with editing--> 'created'

@@ -4,9 +4,11 @@ var Log = NativeModules.FabricLogWrapper;
 
 var LENGTH = 99;
 function trimString(str, length) {
+  if (typeof str === 'object') {
+    str = JSON.stringify(str);
+  }
   return str.length > length ?
-  str.substring(0, length - 3) + "..." :
-  str.substring(0, length);
+  str.substring(0, length - 3) + "..." : str;
 }
 
 function logMessage(msg) {

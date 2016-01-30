@@ -106,7 +106,7 @@ Model.prototype.getClone = function() {
 Model.prototype.init = function(modifierDict) {
   this.quantity = 1;
   this.comment = "";
-  this.sent = false;
+  this.sent = true;
   console.log(this.data.availModifiers)
   var modifiersForItem = this.data.availModifiers.map(function(uuid){
     return modifierDict.find(function(elem, index ,array){

@@ -68,6 +68,8 @@ var OrderService = (function() {
       OrderActions.orderUpdated(resJson);
       console.log("OrderService: updateCurrentOrder done !!!")
     }).catch(function(e){
+      console.log("failed here")
+      OrderActions.orderFailed()
       Log.logMessage(JSON.stringify(e));
       console.log(e);
       throw e;
@@ -76,7 +78,7 @@ var OrderService = (function() {
 
   function verifySentOrder() {
     var orderInfo = OrdersStore.getState();
-    var orderJsonArr = orderInfo.sentItems
+    var orderJsonArr = orderInfo.unsentItems
     .filter(function(item){
       return item.sent == false;
     })
@@ -84,7 +86,8 @@ var OrderService = (function() {
       return item.getJSON();
     });
     if (orderJsonArr.length > 0) {
-      console.log("orderInfo:"+JSON.stringify(orderInfo))
+      console.log("resend orderInfo:"+JSON.stringify(orderInfo))
+      Log.logMessage("resend unsent order:" + orderInfo.details.uuid);
       return getRequest(ORDER_URI + orderInfo.details.uuid + ITEM_URI, 'POST', orderJsonArr)
       .then(function(resJson) {
         orderJsonArr.forEach(function(item){

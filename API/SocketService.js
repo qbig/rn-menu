@@ -22,6 +22,7 @@ var SocketService = (function() {
       socket.on('connect', function() {
         SystemActions.socketConnectionChanged(socket);
         if (updateNeed) {
+          console.log("updateNeed")
           OrderService.verifySentOrder()
           .then(() => {
             return OrderService.requestForCurrentOrder()

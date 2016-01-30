@@ -9,6 +9,7 @@ var GroupsItemsStore = require('./GroupsItemsStore');
 var OrderItemModel = require('../Models/OrderItem');
 var ModifierStore = require('./ModifierStore');
 var store = require('react-native-simple-store');
+var Log = require('../Lib/Log');
 var ORDER = 'order';
 
 class OrdersStore {
@@ -23,6 +24,7 @@ class OrdersStore {
       handleCurrentItemDecrement: OrderActions.currentOrderItemDecrement,
       handleCurrentItemAdded: OrderActions.orderItemCreated,
       handleSendOrderSuccess: OrderActions.orderUpdated,
+      handleSendOrderFailure: OrderActions.orderFailed,
       handleUnsentItemIncrement: OrderActions.unsentOrderItemIncrement,
       handleUnsentItemDecrement: OrderActions.unsentOrderItemDecrement,
       handleUnsentItemStartedEdit: OrderActions.orderItemStartedEdit,
@@ -82,14 +84,16 @@ class OrdersStore {
   }
 
   handleSendOrderSuccess(successInfo) {
-    if (successInfo && successInfo['order_items']) {
-      this.unsentItems.forEach(function(item){
-        item.sent = true;
-      })
-    }
     this.sentItems = this.sentItems.concat(this.unsentItems);
     this.unsentItems = [];
     this.persistCurrentItems();
+  }
+
+  handleSendOrderFailure() {
+    Log.logMessage("handleSendOrderFailure:" + this.details.updatedAt)
+    this.unsentItems.forEach(function(item){
+      item.sent = false;
+    });
   }
 
   handleCurrentItemAdded(comment) {
