@@ -100,7 +100,7 @@ module.exports = StoreConfigService;
 setTimeout(()=>{
   if (!this.state.initialized && !this.state.initializing) {
     SystemActions.configInfoUpdate({
-      host: "http://104.155.205.124",
+      host: "https://bigspoon-test.sphere-pos.com",
       guid: "abc",
       username: "4021",
       password: "4021"

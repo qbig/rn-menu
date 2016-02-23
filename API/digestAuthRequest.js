@@ -52,6 +52,7 @@ function digestAuthRequest(method, url, uri, username, password) {
         }
     }
     this.makeUnauthenticatedRequest = function(data) {
+        self.log("makeUnauthenticatedRequest()");
         self.firstRequest = new XMLHttpRequest();
         self.firstRequest.open(method, url, true);
         self.firstRequest.timeout = self.timeout;
@@ -134,6 +135,7 @@ function digestAuthRequest(method, url, uri, username, password) {
                 } else {
                     var responseHeaders = self.firstRequest.getAllResponseHeaders();
                     if (!responseHeaders) {
+                      console.log(JSON.stringify(self.firstRequest));
                       console.log("getAllResponseHeaders is empty!! digestAuth failed")
                       return;
                     }
@@ -207,7 +209,7 @@ function digestAuthRequest(method, url, uri, username, password) {
 
     }
     this.makeAuthenticatedRequest= function() {
-
+        self.log("makeAuthenticatedRequest()")
         self.response = self.formulateResponse();
 
         self.authenticatedRequest = new XMLHttpRequest();

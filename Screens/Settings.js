@@ -219,10 +219,10 @@ var Settings = React.createClass({
           underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
             this.props.navigator.pop();
             SystemActions.configInfoUpdate({
-              host: "http://104.155.205.124", //"http://192.168.0.119"
+              host: "https://bigspoon-test.sphere-pos.com",
               guid: "abc",
-              username: "4021",
-              password: "4021",
+              username: "4321",
+              password: "4321",
               description: "TEST"
             });
           }} >
