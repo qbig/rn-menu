@@ -13,7 +13,7 @@ var SocketService = (function() {
   return {
     init: function() {
       //{host, guid, username, password, tableId}
-      //"https://bigspoon-test.sphere-pos.com", "abc", "4021", "4021", ""
+      //"https://bigspoon-test.sphere-pos.com", "abc", "4321", "4321", ""
 
       var configInfo = ConfigStore.getAll();
       socket = io.connect(configInfo.host, {

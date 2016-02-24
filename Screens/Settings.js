@@ -215,7 +215,7 @@ var Settings = React.createClass({
           <Text style={styles.emptyText}>SEARCH NEARBY HOST</Text>
         </TouchableHighlight>
         <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
-          underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
+          underlayColor={'rgba(255,255,255,0.1)'} delayLongPress={2000} onLongPress={()=>{
             this.props.navigator.pop();
             SystemActions.configInfoUpdate({
               host: "https://bigspoon-test.sphere-pos.com",
@@ -225,7 +225,7 @@ var Settings = React.createClass({
               description: "TEST"
             });
           }} >
-          <Text style={styles.emptyText}>YCY TEST HOST</Text>
+          <Text style={styles.emptyText}>YCY TEST HOST(Long Press to Activate)</Text>
         </TouchableHighlight>
         <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
           underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{
