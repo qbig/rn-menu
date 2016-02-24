@@ -225,7 +225,7 @@ var Settings = React.createClass({
               description: "TEST"
             });
           }} >
-          <Text style={styles.emptyText}>YCY TEST HOST(Long Press to Activate)</Text>
+          <Text style={styles.emptyText}>YCY TEST HOST</Text>
         </TouchableHighlight>
         <TouchableHighlight style={styles.emptyBtn} activeOpacity={0.8}
           underlayColor={'rgba(255,255,255,0.1)'} onPress={()=>{

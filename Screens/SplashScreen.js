@@ -14,17 +14,13 @@ var {
   ListView,
   TouchableHighlight,
 } = React;
-console.log("s1");
+
 var MainView = require('./MainView');
-console.log("s2");
 var OrderService = require('../API/OrderService');
-console.log("s3");
 var AuthService = require('../API/AuthService');
-console.log("s4");
 var GroupsItemsService = require('../API/GroupsItemsService');
-console.log("s5");
 var TableService = require('../API/TableService');
-console.log("s7");
+
 var ProdAttributeService = require('../API/ProdAttributeService');
 var ModifierService = require('../API/ModifierService');
 var StoreInfoService = require('../API/StoreInfoService');
