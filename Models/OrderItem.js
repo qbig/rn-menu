@@ -25,7 +25,7 @@ Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
     itemObj.quantity = quantity;
     itemObj.comment = comment;
     itemObj.sent = true;
-
+    itemObj.itemUUID = item["uuid"];
     modifiers.filter(function(mod){
       return mod["selected_radio_option_name"]
     }).forEach(function(mod, index){
@@ -59,10 +59,11 @@ Model.makeItemsFromJson = function(items, GroupsItemsStore, modifierDict) {
 Model.makeUnsentItemsFromCache = function(itemsJson, GroupsItemsStore, modifierDict) {
   return itemsJson.map(function(item){
     var uuid = item.data.uuid;
-    var {quantity, comment, sent} = item;
+    var {quantity, comment, sent, itemUUID} = item;
     var itemObj = new Model(GroupsItemsStore.getProd(uuid), modifierDict);
     itemObj.quantity = quantity;
     itemObj.comment = comment;
+    itemObj.itemUUID = itemUUID
     item.radioMods.forEach(function(ansRadioMod, index){
       if(ansRadioMod.isSelected) {
         var foundRadioMod = itemObj.radioMods.find(function(radioMod, indexFound){
