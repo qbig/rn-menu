@@ -106,7 +106,7 @@ var Root = React.createClass({
   },
 
   bootStrapData: async function bootStrapData() {
-    console.log('bootStrapData !')
+    console.log('bootStrapData() started !')
     try {
       await StoreConfigService.getConfig();
       await TableService.initFromCache();
@@ -123,7 +123,7 @@ var Root = React.createClass({
       await this.delay(10);
       await StoreInfoService.requestForStoreInfo();
     } catch(err) {
-      console.log("!!!!!!!!!")
+      console.log("bootStrapData() failed !!!!!!!!!")
       console.log(err);
       throw err;
     }

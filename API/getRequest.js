@@ -23,7 +23,7 @@ function getRequest(uri, method, data) {
   var envInfo = EnvStore.getAll();
   if (!configInfo.guid || !configInfo.host || !envInfo.token || !envInfo.lastSync) {
     console.log("!!!!! Insufficient information for authentication !!!!!");
-    console.log(JSON.stringify(configInfo));
+    console.log(JSON.stringify(envInfo));
   }
 
   var authInfo = {
@@ -43,10 +43,12 @@ function getRequest(uri, method, data) {
     authInfo.body = JSON.stringify(data)
     console.log("getRequest->request body:" + authInfo.body);
   }
-  console.log('configInfo:' + JSON.stringify(configInfo))
-  console.log('uri:' + uri)
-  console.log('configInfo.host:' + configInfo.host)
-  console.log('getRequest:' + configInfo.host + uri)
+  console.log('configInfo:' + JSON.stringify(configInfo));
+  console.log('uri:' + uri);
+  console.log('token:' + envInfo.token);
+  console.log('lastSync:' + envInfo.lastSync);
+  console.log('configInfo.host:' + configInfo.host);
+  console.log('getRequest:' + configInfo.host + uri);
   return fetch(configInfo.host + uri, authInfo)
     .then(checkStatus)
     .then(parseJSON)

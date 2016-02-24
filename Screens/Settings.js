@@ -181,7 +181,6 @@ var Settings = React.createClass({
   },
 
   _renderEmptyView() {
-
       return (
         <View style={styles.emptyViewContainer}>
         {ConfigStore.getState().password ? <TouchableHighlight style={styles.emptyBtn}
