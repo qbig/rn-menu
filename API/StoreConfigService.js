@@ -34,12 +34,12 @@ var StoreConfigService = {
   discoverFromLocalWifi() {
     DeviceEventEmitter.addListener(
       NSDModule.SERVICE_RESOLVED,
-      this.respondToResolvedEvent.bind(this)
+      this.respondToResolvedEvent
     );
 
     DeviceEventEmitter.addListener(
       NSDModule.SERVICE_FOUND,
-      this.respondToDiscoveredEvent.bind(this)
+      this.respondToDiscoveredEvent
     );
     this.ip = "";
     var self = this;

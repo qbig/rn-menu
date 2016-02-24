@@ -3,7 +3,7 @@
 * https://github.com/facebook/react-native
 */
 'use strict';
-console.log("root1")
+
 var React = require('react-native');
 var {
   AppRegistry,
@@ -18,30 +18,22 @@ var {
   Easing,
   ToastAndroid
 } = React;
-console.log("root100")
+
 var SplashScreen = require('./SplashScreen');
-console.log("root10")
 var MainView = require('./MainView');
-console.log("root19")
 var ItemList = require('./ItemList');
-console.log("root18")
 var SetMealView = require('./SetMealView')
-console.log("root17")
 var OrderList = require('./OrderList');
-console.log("root16")
 var Settings = require('./Settings');
-console.log("root12")
 var SocketService = require('../API/SocketService');
 var GroupsItemsService = require('../API/GroupsItemsService');
 var AuthService = require('../API/AuthService');
 var TableService = require('../API/TableService');
 var ProdAttributeService = require('../API/ProdAttributeService');
-console.log("root1222")
 var OrderService = require('../API/OrderService');
 var ModifierService = require('../API/ModifierService');
 var StoreInfoService = require('../API/StoreInfoService');
 var StoreConfigService = require('../API/StoreConfigService');
-console.log("root12")
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
 var EnvStore = require('../Stores/EnvStore');
@@ -57,7 +49,6 @@ var ListenerMixin = require('alt/mixins/ListenerMixin');
 var TimerMixin = require('react-timer-mixin');
 
 var CodePush = require("react-native-code-push");
-console.log("root2")
 var routeSetting = {
   title: 'Settings',
   data: '',
@@ -79,10 +70,11 @@ var Root = React.createClass({
   },
 
   showLoading : function () {
+    var self = this;
     this.setTimeout(()=> {
       Portal.showModal(tag, this._modalComponent());
-      this._animate();
-      this.setState({isAnimating: true});
+      self._animate();
+      self.setState({isAnimating: true});
     }, 0);
   },
   closeLoading : function() {
@@ -112,71 +104,23 @@ var Root = React.createClass({
     });
   },
 
-  bootStrapData: function bootStrapData() {
-    var self = this;
-    console.log('bootStrapData() started !')
-    return StoreConfigService.getConfig().then(function(){
-       console.log('bootStrapData() 1 !')
-      return TableService.initFromCache();
-    }).then(function(){
-       console.log('bootStrapData() 2 !')
+  bootStrapData: async function bootStrapData() {
+
+    try {
+      await StoreConfigService.getConfig();
+      await TableService.initFromCache();
       SocketService.init();
-    }).then(function(){
-       console.log('bootStrapData() 3 !')
-      return AuthService.requestForToken();
-    }).then(function(){
-       console.log('bootStrapData() 4 !')
-      return self.delay(500);
-    }).then(function(){
-       console.log('bootStrapData() 5 !')
-      return GroupsItemsService.requestForGroupsItems();
-    }).then(function(){
-       console.log('bootStrapData() 6 !')
-      return TableService.requestForTables();
-    }).then(function(){
-       console.log('bootStrapData() 7 !')
-      return ProdAttributeService.requestForProdAttribute();
-    }).then(function(){
-       console.log('bootStrapData() 8 !')
-      return ModifierService.requestForModifiers();
-    }).then(function(){
-       console.log('bootStrapData() 9 !')
-      return StoreInfoService.requestForStoreInfo();
-    }).catch(function(err) {
+      await AuthService.requestForToken();
+      await GroupsItemsService.requestForGroupsItems();
+      await TableService.requestForTables();
+      await ProdAttributeService.requestForProdAttribute();
+      await ModifierService.requestForModifiers();
+      await StoreInfoService.requestForStoreInfo();
+    } catch(err) {
       console.log("bootStrapData() failed !!!!!!!!!")
       console.log(err);
       throw err;
-    });
-//
-//     try {
-//       await StoreConfigService.getConfig();
-//       console.log('bootStrapData() 1 !')
-//       await TableService.initFromCache();
-//       console.log('bootStrapData() 2 !')
-//       SocketService.init();
-//       console.log('bootStrapData() 3 !')
-//       await AuthService.requestForToken();
-//       console.log('bootStrapData() 4 !')
-//     //  await this.delay(10);
-//       await GroupsItemsService.requestForGroupsItems();
-//       console.log('bootStrapData() 5 !')
-// //      await this.delay(10);
-//       await TableService.requestForTables();
-//       console.log('bootStrapData() 6 !')
-//   //    await this.delay(10);
-//       await ProdAttributeService.requestForProdAttribute();
-//       console.log('bootStrapData() 7 !')
-//     //  await this.delay(10);
-//       await ModifierService.requestForModifiers();
-//       console.log('bootStrapData() 8 !')
-//       //await this.delay(10);
-//       await StoreInfoService.requestForStoreInfo();
-//       console.log('bootStrapData() 9 !')
-//     } catch(err) {
-//       console.log("bootStrapData() failed !!!!!!!!!")
-//       console.log(err);
-//       throw err;
-//     }
+    }
   },
 
   updateLoading: function () {
@@ -207,6 +151,7 @@ var Root = React.createClass({
   },
 
   initData: function() {
+    var self = this;
     console.log('initData!')
     if (this.state.dataInitializing) {
       return;
@@ -218,7 +163,7 @@ var Root = React.createClass({
       this.bootStrapData()
       .then(()=>{
         this.closeLoading();
-        this.setState({
+        self.setState({
           dataInitializing:false,
           dataInitialized:true
         })
@@ -232,7 +177,7 @@ var Root = React.createClass({
           this._nav.push(routeSetting); // to choose a config(ip, etc)
         }
         console.log(err)
-        this.setState({
+        self.setState({
           status: "PLS TRY AGAIN...",
           dataInitializing:false
         });
@@ -240,7 +185,7 @@ var Root = React.createClass({
         return this.delay(2000)
       }).then(()=>{
         this.closeLoading();
-        this.setState({
+        self.setState({
           status: "LOADING..."
         });
       });
@@ -260,7 +205,7 @@ var Root = React.createClass({
 
   _modalComponent: function() {
     return (
-      <View activeOpacity={0.8} style={styles.modal}>
+      <View key={tag} activeOpacity={0.8} style={styles.modal}>
         <View style={styles.modalsContainer}>
           <Animated.Image
             activeOpacity={0.8}
@@ -371,4 +316,3 @@ var styles = StyleSheet.create({
 });
 
 module.exports = Root;
-console.log("root3")

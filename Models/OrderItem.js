@@ -1,10 +1,13 @@
 var assign = require('../Lib/assignDefined');
 var deepAssign = require('deep-assign');
 var Modifier = require('./Modifier');
+var uuid = require('../Lib/uuid');
 var Model = function(productInfo, modifierDict) {
   this.data = {};
   this.setAttributes(productInfo);
   this.init(modifierDict);
+  this.itemUUID = uuid.genV4().toString();
+  console.log(this.itemUUID)
 };
 
 // static --> array of OrderItem s
@@ -181,6 +184,7 @@ Model.prototype.getCostForSingleItem = function() {
 Model.prototype.getJSON = function() {
   return {
     product_uuid: this.data.uuid,
+    uuid: this.itemUUID,
     qty: this.quantity,
     modifiers: this.radioMods.concat(this.boolMods).map(function(elem){
       return elem.getAnswerJSON()

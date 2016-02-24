@@ -17,21 +17,13 @@ var {
   InteractionManager
 } = React;
 var StatusBar = require('../Components/StatusBar');
-console.log('il1')
 var SetMealView = require('./SetMealView');
-console.log('il2')
 var OrderList = require('./OrderList');
-console.log('il3')
 var OrdersStore = require('../Stores/OrdersStore');
-console.log('il4')
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
-console.log('il5')
 var EnvStore = require('../Stores/EnvStore');
-console.log('il6')
 var OrderActions = require('../Actions/OrderActions');
-console.log('il7')
 var SystemActions = require('../Actions/SystemActions');
-console.log('il8')
 var screen = require('Dimensions').get('window');
 var ListenerMixin = require('alt/mixins/ListenerMixin');
 

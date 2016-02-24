@@ -24,15 +24,10 @@ var
 } = React;
 
 var StatusBar = require('../Components/StatusBar');
-console.log("sm1")
 var screen = require('Dimensions').get('window');
-console.log("sm2")
 var OrdersStore = require('../Stores/OrdersStore');
-console.log("sm3")
 var OrderActions = require('../Actions/OrderActions');
-console.log("sm4")
 var ListenerMixin = require('alt/mixins/ListenerMixin');
-console.log("sm5")
 var RCTUIManager = require('NativeModules').UIManager;
 
 var TITLE_LENGTH = 20;
@@ -100,7 +95,7 @@ var ModifierSectionCell = React.createClass({
       <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'}
         onPress={()=>{this.props.onSelect(this.props.index, this.props.name)}}>
         <View style={styles.option}>
-          <Image style={styles.thumb1} source={this.props.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
+          <Image style={styles.thumb1} resizeMode={Image.resizeMode.ratio} source={this.props.isSelected ? require('image!btn_option_selected') : require('image!btn_option_unselected')} >
             <View style={styles.overlay}>
               <Text style={this.props.isSelected ? styles.textPriceWhite : styles.textPrice}>
                 {insertLineBreak(this.props.name)}
@@ -138,8 +133,9 @@ var SetMealView = React.createClass({
   },
 
   componentDidMount: function() {
+    var self = this;
     InteractionManager.runAfterInteractions(() => {
-      this.setState({
+      self.setState({
         isLoading: false
       });
     });
@@ -293,15 +289,20 @@ var SetMealView = React.createClass({
       >
         <ModifierSectionHeader name={mod.data.name} />
         <View style={styles.optionsContainer}>
-          {mod.data.radioOptions.map(function(option){
+          {mod.data.radioOptions.map(function(option, optIndex){
             return (
               <ModifierSectionCell
+                key={mod.data.name+index+iptIndex}
                 name={option.nameWithPrice} index={index}
                 isSelected={option.isSelected}
                 onSelect={(sectionIndex, name)=>{
                   self._handleRadioSelect(sectionIndex, name);
                   if (sectionIndex + 1 < self._headers.length){
-                    self._scrollView.scrollTo(self._headers[sectionIndex+1]._myPos);
+                    self._scrollView.scrollTo({
+                      y: self._headers[sectionIndex+1]._myPos,
+                      animated: true
+                    }
+                  ); //self._headers[sectionIndex+1]._myPos
                   }
                 }} />
             );
@@ -328,10 +329,17 @@ var SetMealView = React.createClass({
         <View style={styles.optionsContainer}>
           {boolMods.map(function(boolMod, index){
             return (
-              <ModifierSectionCell name={boolMod.getNameWithPrice()} index={index} isSelected={boolMod.isSelected}
+              <ModifierSectionCell
+                key={"add" + index}
+                name={boolMod.getNameWithPrice()} index={index} isSelected={boolMod.isSelected}
                 onSelect={(sectionIndex, name)=>{
                   self._handleBoolSelect(sectionIndex, name);
-                  self._scrollView.scrollTo(self._headers[self._headers.length-1]._myPos);
+                  self._scrollView.scrollTo(
+                    {
+                      y: self._headers[self._headers.length-1]._myPos, //self._headers[self._headers.length-1]._myPos
+                      animated: true
+                    }
+                  );
                 }}
               />
             );
@@ -358,7 +366,7 @@ var SetMealView = React.createClass({
         <View style={styles.columnSep}/>
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemDecrement()}}>
           <View style={styles.column2}>
-            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_less')} />
+            <Image resizeMode={Image.resizeMode.contain} source={require('image!btn_qty_less')} />
           </View>
         </TouchableHighlight>
 
@@ -370,7 +378,7 @@ var SetMealView = React.createClass({
         <View style={styles.columnSep}/>
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.1)'} style={styles.column2} onPress={()=>{OrderActions.currentOrderItemIncrement()}}>
           <View style={styles.column4}>
-            <Image style={{ resizeMode:Image.resizeMode.contain}} source={require('image!btn_qty_more')} />
+            <Image resizeMode={Image.resizeMode.contain} source={require('image!btn_qty_more')} />
           </View>
         </TouchableHighlight>
 
@@ -472,7 +480,6 @@ var styles = StyleSheet.create({
   thumb1: {
     width: 150,
     height: 150,
-    resizeMode:Image.resizeMode.ratio,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -517,7 +524,6 @@ var styles = StyleSheet.create({
     // 								flex: 1,
     width:85,
     height:85,
-    resizeMode:Image.resizeMode.ratio,
     justifyContent: 'center',
     alignItems: 'center',
   },

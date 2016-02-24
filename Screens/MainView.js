@@ -21,15 +21,10 @@ import type {
   NavigationContext
 }
 from 'NavigationContext';
-console.log("m1");
 var screen = require('Dimensions').get('window');
-console.log("m2");
 var StatusBar = require('../Components/StatusBar');
-console.log("m3");
 var ItemList = require('./ItemList');
-console.log("m4");
 var OrderList = require('./OrderList');
-console.log("m5");
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var OrdersStore = require('../Stores/OrdersStore');
 
@@ -54,8 +49,9 @@ var MainView = React.createClass({
 
   componentDidMount: function() {
     _navigator = this.props.navigator;
+    var self = this;
     InteractionManager.runAfterInteractions(()=>{
-      this.setState({
+      self.setState({
         isLoading: false
       })
     });
