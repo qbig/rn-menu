@@ -24,10 +24,15 @@ var
 } = React;
 
 var StatusBar = require('../Components/StatusBar');
+console.log("sm1")
 var screen = require('Dimensions').get('window');
+console.log("sm2")
 var OrdersStore = require('../Stores/OrdersStore');
+console.log("sm3")
 var OrderActions = require('../Actions/OrderActions');
+console.log("sm4")
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+console.log("sm5")
 var RCTUIManager = require('NativeModules').UIManager;
 
 var TITLE_LENGTH = 20;

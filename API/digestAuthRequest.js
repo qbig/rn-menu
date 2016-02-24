@@ -254,7 +254,8 @@ function digestAuthRequest(method, url, uri, username, password) {
             // failure
             else {
                 self.nonce = null;
-                self.errorFn(self.authenticatedRequest.status);
+                self.log("authenticatedRequest failed");
+                //self.errorFn(self.authenticatedRequest.status);
             }
         }
         // handle errors

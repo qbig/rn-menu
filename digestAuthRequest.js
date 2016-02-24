@@ -25,7 +25,7 @@ function digestAuthRequest(method, url, uri, username, password) {
 
     // settings
     this.timeout = 10000; // timeout
-    this.loggingOn = true; // toggle console logging
+    this.loggingOn = false; // toggle console logging
 
     // determine if a post, so that request will send data
     this.post = false;

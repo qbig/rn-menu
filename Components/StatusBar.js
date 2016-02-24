@@ -9,10 +9,15 @@ var {
   TouchableHighlight
 } = React;
 
+console.log("sb1");
 var EnvStore = require('../Stores/EnvStore');
+console.log("sb2");
 var ConfigStore = require('../Stores/ConfigStore');
+console.log("sb3");
 var ListenerMixin = require('alt/mixins/ListenerMixin');
+console.log("sb4");
 var SystemActions = require('../Actions/SystemActions');
+console.log("sb5");
 var StatusBar = React.createClass({
   mixins: [ListenerMixin],
 

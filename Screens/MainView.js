@@ -21,10 +21,15 @@ import type {
   NavigationContext
 }
 from 'NavigationContext';
+console.log("m1");
 var screen = require('Dimensions').get('window');
+console.log("m2");
 var StatusBar = require('../Components/StatusBar');
+console.log("m3");
 var ItemList = require('./ItemList');
+console.log("m4");
 var OrderList = require('./OrderList');
+console.log("m5");
 var GroupsItemsStore = require('../Stores/GroupsItemsStore');
 var OrdersStore = require('../Stores/OrdersStore');
 
@@ -118,7 +123,7 @@ var MainView = React.createClass({
                              <View>
                                <Image style={styles.thumb}
                                   source={group.images.length > 0 ? {uri:  group.images[0].url} : imgArr[0]} >
-                                 <Image style={styles.thumb} source={require('image!overlay1')} >
+                                 <Image style={styles.thumb} source={require('image!overlay')} >
                                  <View style={styles.overlay1}><Text style={styles.groupNameText}>{group.name}</Text></View>
                                  </Image>
                                </Image>

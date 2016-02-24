@@ -37,7 +37,7 @@ var RNMenu = React.createClass({
         console.log('no dice: '+errorCode);
     }, {});
     //
-    // var socket = io.connect('http://104.155.205.124', {query: "posGuid=ghi"});
+    // var socket = io.connect('https://bigspoon-test.sphere-pos.com', {query: "posGuid=ghi"});
     // socket.on('connect', function(){ console.log("connected!");});
     // socket.on('connect_error', function(data){ console.log("connect error:", JSON.stringify(data));});
     // socket.on('permission', function(data){console.log ("permission event occurred: " + JSON.stringify(data))});

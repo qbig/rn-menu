@@ -3,7 +3,7 @@
 * https://github.com/facebook/react-native
 */
 'use strict';
-
+console.log("root1")
 var React = require('react-native');
 var {
   AppRegistry,
@@ -18,24 +18,30 @@ var {
   Easing,
   ToastAndroid
 } = React;
-
+console.log("root100")
 var SplashScreen = require('./SplashScreen');
+console.log("root10")
 var MainView = require('./MainView');
+console.log("root19")
 var ItemList = require('./ItemList');
+console.log("root18")
 var SetMealView = require('./SetMealView')
+console.log("root17")
 var OrderList = require('./OrderList');
+console.log("root16")
 var Settings = require('./Settings');
-
+console.log("root12")
 var SocketService = require('../API/SocketService');
 var GroupsItemsService = require('../API/GroupsItemsService');
 var AuthService = require('../API/AuthService');
 var TableService = require('../API/TableService');
 var ProdAttributeService = require('../API/ProdAttributeService');
+console.log("root1222")
 var OrderService = require('../API/OrderService');
 var ModifierService = require('../API/ModifierService');
 var StoreInfoService = require('../API/StoreInfoService');
 var StoreConfigService = require('../API/StoreConfigService');
-
+console.log("root12")
 var SystemActions = require('../Actions/SystemActions');
 var ConfigStore = require('../Stores/ConfigStore');
 var EnvStore = require('../Stores/EnvStore');
@@ -51,7 +57,7 @@ var ListenerMixin = require('alt/mixins/ListenerMixin');
 var TimerMixin = require('react-timer-mixin');
 
 var CodePush = require("react-native-code-push");
-
+console.log("root2")
 var routeSetting = {
   title: 'Settings',
   data: '',
@@ -100,33 +106,77 @@ var Root = React.createClass({
   },
 
   delay : function(miliSec) {
+    var self = this;
     return new Promise(function(resolve, reject) {
-      this.setTimeout(resolve, miliSec);
+      self.setTimeout(resolve, miliSec);
     });
   },
 
-  bootStrapData: async function bootStrapData() {
+  bootStrapData: function bootStrapData() {
+    var self = this;
     console.log('bootStrapData() started !')
-    try {
-      await StoreConfigService.getConfig();
-      await TableService.initFromCache();
+    return StoreConfigService.getConfig().then(function(){
+       console.log('bootStrapData() 1 !')
+      return TableService.initFromCache();
+    }).then(function(){
+       console.log('bootStrapData() 2 !')
       SocketService.init();
-      await AuthService.requestForToken();
-      await this.delay(10);
-      await GroupsItemsService.requestForGroupsItems();
-      await this.delay(10);
-      await TableService.requestForTables();
-      await this.delay(10);
-      await ProdAttributeService.requestForProdAttribute();
-      await this.delay(10);
-      await ModifierService.requestForModifiers();
-      await this.delay(10);
-      await StoreInfoService.requestForStoreInfo();
-    } catch(err) {
+    }).then(function(){
+       console.log('bootStrapData() 3 !')
+      return AuthService.requestForToken();
+    }).then(function(){
+       console.log('bootStrapData() 4 !')
+      return self.delay(500);
+    }).then(function(){
+       console.log('bootStrapData() 5 !')
+      return GroupsItemsService.requestForGroupsItems();
+    }).then(function(){
+       console.log('bootStrapData() 6 !')
+      return TableService.requestForTables();
+    }).then(function(){
+       console.log('bootStrapData() 7 !')
+      return ProdAttributeService.requestForProdAttribute();
+    }).then(function(){
+       console.log('bootStrapData() 8 !')
+      return ModifierService.requestForModifiers();
+    }).then(function(){
+       console.log('bootStrapData() 9 !')
+      return StoreInfoService.requestForStoreInfo();
+    }).catch(function(err) {
       console.log("bootStrapData() failed !!!!!!!!!")
       console.log(err);
       throw err;
-    }
+    });
+//
+//     try {
+//       await StoreConfigService.getConfig();
+//       console.log('bootStrapData() 1 !')
+//       await TableService.initFromCache();
+//       console.log('bootStrapData() 2 !')
+//       SocketService.init();
+//       console.log('bootStrapData() 3 !')
+//       await AuthService.requestForToken();
+//       console.log('bootStrapData() 4 !')
+//     //  await this.delay(10);
+//       await GroupsItemsService.requestForGroupsItems();
+//       console.log('bootStrapData() 5 !')
+// //      await this.delay(10);
+//       await TableService.requestForTables();
+//       console.log('bootStrapData() 6 !')
+//   //    await this.delay(10);
+//       await ProdAttributeService.requestForProdAttribute();
+//       console.log('bootStrapData() 7 !')
+//     //  await this.delay(10);
+//       await ModifierService.requestForModifiers();
+//       console.log('bootStrapData() 8 !')
+//       //await this.delay(10);
+//       await StoreInfoService.requestForStoreInfo();
+//       console.log('bootStrapData() 9 !')
+//     } catch(err) {
+//       console.log("bootStrapData() failed !!!!!!!!!")
+//       console.log(err);
+//       throw err;
+//     }
   },
 
   updateLoading: function () {
@@ -238,9 +288,6 @@ var Root = React.createClass({
           ref={(nav) => this._nav = nav}
           initialRoute={{data: '', from:'', title: 'SplashScreen'}} //
           configureScene={(route) => {
-            if (route.title === "Settings") {
-              return Navigator.SceneConfigs.FloatFromBottom;
-            }
             return Navigator.SceneConfigs.FloatFromRight;
           }}
           renderScene={(route, navigator) => {
@@ -324,3 +371,4 @@ var styles = StyleSheet.create({
 });
 
 module.exports = Root;
+console.log("root3")

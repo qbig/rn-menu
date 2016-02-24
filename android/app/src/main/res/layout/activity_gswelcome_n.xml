@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:id="@+id/splashimage"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -6,7 +6,4 @@
     android:layout_height="match_parent"
     android:background="@drawable/splashscreen"
     >
-
-
 </RelativeLayout>
-

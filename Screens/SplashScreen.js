@@ -14,12 +14,17 @@ var {
   ListView,
   TouchableHighlight,
 } = React;
-
+console.log("s1");
 var MainView = require('./MainView');
+console.log("s2");
 var OrderService = require('../API/OrderService');
+console.log("s3");
 var AuthService = require('../API/AuthService');
+console.log("s4");
 var GroupsItemsService = require('../API/GroupsItemsService');
+console.log("s5");
 var TableService = require('../API/TableService');
+console.log("s7");
 var ProdAttributeService = require('../API/ProdAttributeService');
 var ModifierService = require('../API/ModifierService');
 var StoreInfoService = require('../API/StoreInfoService');
@@ -93,7 +98,7 @@ var SplashScreen = React.createClass({
       <View style={styles.container}>
         <StatusBar />
         <TouchableHighlight activeOpacity={0.8} underlayColor={'rgba(255,255,255,0.3)'} onPress={this._onViewPress}>
-          <Image style={styles.cover} source={require('image!trans')} />
+          <Image style={styles.cover} source={require('image!splashscreen')} />
         </TouchableHighlight>
       </View>
     );
@@ -107,7 +112,9 @@ var styles = StyleSheet.create({
   },
   cover: {
     flex: 1,
-    width: screen.width
+    width: screen.width,
+    height: screen.height,
+    resizeMode: 'stretch', // or 'cover'
   }
 });
 

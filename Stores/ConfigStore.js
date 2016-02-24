@@ -42,7 +42,7 @@ store.save('coffee', {
 
 class ConfigStore {
   constructor() {
-    this.release = "1.14"
+    this.release = "1.15"
     this.host = ""
     this.guid = ""
     this.username =""

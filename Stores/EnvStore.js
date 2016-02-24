@@ -1,8 +1,12 @@
 // Token, Last-Sync
 // Network Status (socketed connected?)
+console.log("es1");
 var alt = require('../alt')
+console.log("es2");
 var AuthActions = require('../Actions/AuthActions');
+console.log("es3");
 var SystemActions = require('../Actions/SystemActions');
+console.log("es4");
 class EnvStore {
   constructor() {
     this.bindListeners({

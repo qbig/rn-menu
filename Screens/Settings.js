@@ -243,16 +243,20 @@ var Settings = React.createClass({
   render: function() {
     var content;
     if (!ConfigStore.getState().password) {
+      console.log("1")
       // no host set(therefore, no password)
       content = this._renderEmptyView(); // without table options
     } else if (this.state.setTableView || ConfigStore.getState().tableId == -1) {
+      console.log("2")
       // after 'change table selected, or no table set yet
       content = this._renderTableList();
     } else if (this.state.pin =='' || (this.state.pin != '4021' && //ConfigStore.getState().password
       this.state.pin != '4321' )){
+        console.log("3")
       // has host&table set already, to change, show pin field
       content = this._renderPinField();
     }  else {
+      console.log("4")
       // has host&table set already, pin keyed in as well, show options
       content = this._renderEmptyView(); // with table options
     }

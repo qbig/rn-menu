@@ -28,4 +28,4 @@ class OrderActions {
   }
 }
 
-export default alt.createActions(OrderActions);
+module.exports = alt.createActions(OrderActions);
