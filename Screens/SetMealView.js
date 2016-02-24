@@ -133,9 +133,8 @@ var SetMealView = React.createClass({
   },
 
   componentDidMount: function() {
-    var self = this;
     InteractionManager.runAfterInteractions(() => {
-      self.setState({
+      this.setState({
         isLoading: false
       });
     });
@@ -292,7 +291,7 @@ var SetMealView = React.createClass({
           {mod.data.radioOptions.map(function(option, optIndex){
             return (
               <ModifierSectionCell
-                key={mod.data.name+index+iptIndex}
+                key={mod.data.name+index+optIndex}
                 name={option.nameWithPrice} index={index}
                 isSelected={option.isSelected}
                 onSelect={(sectionIndex, name)=>{
