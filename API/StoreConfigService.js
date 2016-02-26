@@ -14,6 +14,7 @@ var StoreConfigService = {
   ip : "",
 
   respondToDiscoveredEvent(e) {
+     StoreConfigService.ip = 'fk'
     if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
       NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
       ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
@@ -24,33 +25,34 @@ var StoreConfigService = {
 
   respondToResolvedEvent(e) {
     console.log("resolved:" + e['data']);
-    if (e['data'] && e['data'].indexOf(':') != -1){
+    if ((e['data'] && e['data'].indexOf(':') != -1) || !e['data']){
       return;
     }
-    this.ip = e['data'];
+
+    StoreConfigService.ip = e['data'];
     ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
   },
 
   discoverFromLocalWifi() {
     DeviceEventEmitter.addListener(
       NSDModule.SERVICE_RESOLVED,
-      this.respondToResolvedEvent
+      this.respondToResolvedEvent.bind(this)
     );
 
     DeviceEventEmitter.addListener(
       NSDModule.SERVICE_FOUND,
-      this.respondToDiscoveredEvent
+      this.respondToDiscoveredEvent.bind(this)
     );
     this.ip = "";
-    var self = this;
     NSDModule.discover();
     return new Promise(function(resolve, reject){
       setTimeout(function(){
-        console.log("IP found:" + self.ip);
+        console.log("IP found:" + StoreConfigService.ip);
+        ToastAndroid.show("StoreConfigService.ip is " + StoreConfigService.ip, ToastAndroid.SHORT);
         // NSDModule.stop(); --> Crash
-        if (self.ip) {
+        if (StoreConfigService.ip) {
           resolve({
-              host: "http://" + self.ip,
+              host: "http://" + StoreConfigService.ip,
               guid: "abc",
               username: "4021",
               password: "4021",

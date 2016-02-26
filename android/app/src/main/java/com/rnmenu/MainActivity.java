@@ -52,7 +52,7 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
             this._codePush.getReactPackage(),
-                new CustomReactPackage()
+            new CustomReactPackage()
         );
     }
 }

@@ -5,7 +5,9 @@ import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -18,6 +20,8 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.fabric.sdk.android.services.common.Crash;
 
 /**
  * Created by qiaoliang89 on 13/11/15.
@@ -67,6 +71,7 @@ public class NSDModule extends ReactContextBaseJavaModule {
     public void resolve(String serviceName) {
         this.mServiceName = serviceName;
         Log.d(TAG, "resolving: " + serviceName );
+        Crashlytics.log("resolving: " + serviceName);
         Log.d(TAG, mServicesFound.get(serviceName).getServiceName());
         mNsdManager.resolveService(mServicesFound.get(serviceName), mResolveListener);
     }
@@ -106,6 +111,7 @@ public class NSDModule extends ReactContextBaseJavaModule {
             @Override
             public void onDiscoveryStarted(String regType) {
                 Log.d(TAG, "Service discovery started");
+                Crashlytics.log("Service discovery started");
             }
 
             @Override
@@ -114,6 +120,8 @@ public class NSDModule extends ReactContextBaseJavaModule {
                 WritableMap params = Arguments.createMap();
                 params.putString("data", service.getServiceName());
                 sendEvent(mContext, SERVICE_FOUND, params);
+                Crashlytics.log("Service discovery success, name :" + service.getServiceName());
+                Toast.makeText(mContext, "Found:" + service.getServiceName(), Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Service discovery success, name :" + service.getServiceName());
                 Log.d(TAG, "Service type" + service.getServiceType());
             }
@@ -131,6 +139,7 @@ public class NSDModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onStartDiscoveryFailed(String serviceType, int errorCode) {
+                Crashlytics.log("Discovery failed: Error code:" + errorCode);
                 Log.e(TAG, "Discovery failed: Error code:" + errorCode);
             }
 
@@ -163,6 +172,7 @@ public class NSDModule extends ReactContextBaseJavaModule {
     }
 
     public void discoverServices() {
+        Log.d(TAG, "discoverServices()");
         mNsdManager.discoverServices(
                 SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, mDiscoveryListener);
     }
