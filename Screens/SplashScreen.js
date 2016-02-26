@@ -13,6 +13,7 @@ var {
   Image,
   ListView,
   TouchableHighlight,
+  ToastAndroid
 } = React;
 
 var MainView = require('./MainView');
@@ -54,6 +55,10 @@ var SplashScreen = React.createClass({
         return StoreInfoService.requestForStoreInfo();
     })
     .then((storeInfo)=>{
+      if (storeInfo['state'] == "closed") {
+        ToastAndroid.show('Store appears to be closed.', ToastAndroid.LONG);
+        throw new Error("Store is closed");
+      }
       if (storeInfo.last_synced !== EnvStore.getState().lastSync) {
         console.log("update Last-Sync from:"+EnvStore.getState().lastSync +" to "+ storeInfo.last_synced)
           AuthActions.lastSyncUpdated(storeInfo.last_synced);
