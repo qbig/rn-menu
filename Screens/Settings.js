@@ -23,6 +23,7 @@ var SetMealView = require('./SetMealView');
 var OrderList = require('./OrderList');
 var TablesStore = require('../Stores/TablesStore');
 var ConfigStore = require('../Stores/ConfigStore');
+var EnvStore = require('../Stores/EnvStore');
 var TableActions = require('../Actions/TableActions');
 var SystemActions = require('../Actions/SystemActions');
 var StoreConfigService = require('../API/StoreConfigService');
@@ -246,7 +247,8 @@ var Settings = React.createClass({
       console.log("1")
       // no host set(therefore, no password)
       content = this._renderEmptyView(); // without table options
-    } else if (this.state.setTableView || ConfigStore.getState().tableId == -1) {
+    } else if (this.state.setTableView || (ConfigStore.getState().tableId == -1 &&
+      EnvStore.getState().webToken)) {
       console.log("2")
       // after 'change table selected, or no table set yet
       content = this._renderTableList();

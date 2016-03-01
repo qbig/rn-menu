@@ -12,9 +12,7 @@ var CONFIG = 'config';
 
 var StoreConfigService = {
   ip : "",
-
   respondToDiscoveredEvent(e) {
-     StoreConfigService.ip = 'fk'
     if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
       NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
       ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
@@ -51,6 +49,8 @@ var StoreConfigService = {
         ToastAndroid.show("StoreConfigService.ip is " + StoreConfigService.ip, ToastAndroid.SHORT);
         // NSDModule.stop(); --> Crash
         if (StoreConfigService.ip) {
+          ToastAndroid.show("resolve(): " + StoreConfigService.ip, ToastAndroid.SHORT);
+          console.log("resolve(): " + StoreConfigService.ip);
           resolve({
               host: "http://" + StoreConfigService.ip,
               guid: "abc",
@@ -97,55 +97,3 @@ var StoreConfigService = {
 }
 
 module.exports = StoreConfigService;
-
-/*
-setTimeout(()=>{
-  if (!this.state.initialized && !this.state.initializing) {
-    SystemActions.configInfoUpdate({
-      host: "https://bigspoon-test.sphere-pos.com",
-      guid: "abc",
-      username: "4021",
-      password: "4021"
-    });
-  }
-}, 10 * 1000);
-NSDModule.discover();
-
-  componentWillMount: function() {
-    this.addListenerOn(DeviceEventEmitter,
-      NSDModule.SERVICE_RESOLVED,
-      this.respondToResolvedEvent);
-
-    this.addListenerOn(DeviceEventEmitter,
-      NSDModule.SERVICE_FOUND,
-      this.respondToDiscoveredEvent);
-  },
-
-  respondToDiscoveredEvent: function(e) {
-    if (e['data'] == NSDModule.SPHERE_SERIVE_NAME) {
-      NSDModule.resolve(NSDModule.SPHERE_SERIVE_NAME);
-      ToastAndroid.show("BOX FOUND !!!!", ToastAndroid.LONG);
-    }
-  },
-
-  respondToResolvedEvent: function(e) {
-    console.log("resolved:" + e['data']);
-    ToastAndroid.show("resolved IP:" + e['data'], ToastAndroid.SHORT);
-    SystemActions.configInfoUpdate({
-      host: "http://" + e['data'],
-      guid: "abc",
-      username: "4021",
-      password: "4021"
-    });
-  },
-
-DeviceEventEmitter.addListener('keyboardWillShow', function(e: Event) {
-  // handle event.
-});
-{
-  host: "http://104.155.205.124",
-  guid: "abc",
-  username: "4021",
-  password: "4021"
-}
-*/
